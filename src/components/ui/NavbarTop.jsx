@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export const NavbarTop = () => {
@@ -29,7 +29,7 @@ export const NavbarTop = () => {
         </Nav>
         <Nav>
           <Nav.Link href="#deets">Pedro</Nav.Link>
-          <Button variant="link">Logout</Button>
+          <button className="btn btn-btn-outline-dark btn-sm">Logout</button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

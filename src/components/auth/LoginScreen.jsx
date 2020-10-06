@@ -1,9 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-
-import './login.css';
 
 export const LoginScreen = ({ history }) => {
   // document.title = 'Login';
@@ -17,7 +13,7 @@ export const LoginScreen = ({ history }) => {
     <div className="bodylogin">
       <form className="form-signin" onSubmit={handleSubmit}>
         <div className="text-center mb-4">
-          <FontAwesomeIcon icon={faLock} size="5x" />
+          <i class="fas fa-lock fa-5x"></i>
           <h3 className="mt-2">Inciar Sesion</h3>
         </div>
 
@@ -49,8 +45,9 @@ export const LoginScreen = ({ history }) => {
           </label>
         </div>
         <button className="btn btn-lg btn-primary btn-block" type="submit">
-          Iniciar <FontAwesomeIcon className="ml-2" icon={faSignInAlt} />
+          Iniciar <i class="fas fa-sign-in-alt"></i>
         </button>
+        {/* <FontAwesomeIcon className="ml-2" icon={faSignInAlt} /> */}
         <div className="d-flex justify-content-around my-4">
           <Link to="/auth/recovery">Olvido su password</Link>
           <Link to="/auth/register">Registro de usuario</Link>

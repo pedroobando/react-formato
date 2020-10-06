@@ -1,16 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
-
-import './login.css';
 
 export const RegisterScreen = () => {
   return (
     <div className="bodylogin">
       <form className="form-signin">
         <div className="text-center mb-4">
-          <FontAwesomeIcon icon={faUserFriends} size="5x" />
+          <i class="fas fa-5x fa-user-friends"></i>
           <h3 className="mt-2">Por favor, registrese</h3>
           <p>
             <small>

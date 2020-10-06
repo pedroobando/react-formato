@@ -4,6 +4,8 @@ import { LoginScreen } from '../components/auth/LoginScreen';
 import { RecoveryScreen } from '../components/auth/RecoveryScreen';
 import { RegisterScreen } from '../components/auth/RegisterScreen';
 
+import '../styles/auth.css';
+
 export const AuthRouter = () => {
   return (
     <div>
