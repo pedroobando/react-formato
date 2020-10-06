@@ -16,9 +16,9 @@ const Row = ({ index, style }) => (
       Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus -{' '}
       <span className="font-italic">varius blandit.</span>
     </p>
-    <span class="text-muted font-italic font-weight-bold">
-      Donec id elit non mi porta.
-    </span>
+    <span class="text-muted font-italic font-weight-bold">Persona</span>
+    {' - '}
+    <span class="text-muted font-italic font-weight-bold">Placa</span>
   </div>
 );
 
