@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export const NavbarTop = () => {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Navbar.Brand as={Link} to="/">
         Formato
       </Navbar.Brand>
