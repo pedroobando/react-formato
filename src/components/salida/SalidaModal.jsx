@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import { useForm } from '../../hooks/useForm';
+
 import '../../styles/modal.css';
 
 const customStyles = {
@@ -13,10 +15,34 @@ const customStyles = {
   },
 };
 
+const initialForm = {
+  fechaemision: Date.now(),
+  material: '',
+  motivo: '',
+  retornara: true,
+  destino: '',
+  solicitante: '',
+  transporte: '',
+  aprobadorAdm: '',
+  aprobadorSeg: '',
+  creador: '',
+};
+
 Modal.setAppElement('#root');
 
 export const SalidaModal = () => {
+  const [formValues, handleInputChange] = useForm(initialForm);
   const [tabSelect, setTabSelect] = useState(1);
+  const {
+    material,
+    motivo,
+    retornara,
+    destino,
+    solicitante,
+    transporte,
+    aprobadorAdm,
+    aprobadorSeg,
+  } = formValues;
   // const [modalIsOpen, setModalIsOpen] = useState(true);
 
   const handleModalClose = () => {
@@ -25,6 +51,11 @@ export const SalidaModal = () => {
 
   const handleTabPeople = (tabs) => {
     setTabSelect(tabs);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formValues);
   };
 
   const tabMaterial = () => (
@@ -36,9 +67,12 @@ export const SalidaModal = () => {
           className="form-control"
           placeholder="Material o Equipo"
           autoComplete="off"
+          name="material"
+          value={material}
+          onChange={handleInputChange}
           required
         />
-        <label for="inputMaterial">Material o Equipo</label>
+        <label htmlFor="inputMaterial">Material o Equipo</label>
       </div>
 
       <div className="form-label-group">
@@ -48,9 +82,12 @@ export const SalidaModal = () => {
           className="form-control"
           placeholder="Motivo de Salida"
           autoComplete="off"
+          name="motivo"
+          value={motivo}
+          onChange={handleInputChange}
           required
         />
-        <label for="inputMotivo">Motivo de Salida</label>
+        <label htmlFor="inputMotivo">Motivo de Salida</label>
       </div>
 
       <div className="form-label-group">
@@ -60,14 +97,23 @@ export const SalidaModal = () => {
           className="form-control"
           placeholder="Destino del equipo / material"
           autoComplete="off"
+          name="destino"
+          value={destino}
+          onChange={handleInputChange}
           required
         />
-        <label for="inputDestino">Destino del equipo / material</label>
+        <label htmlFor="inputDestino">Destino del equipo / material</label>
       </div>
 
       <div className="checkbox mb-3">
         <label>
-          <input type="checkbox" value="checkRetornara" /> Retornara
+          <input
+            type="checkbox"
+            name="retornara"
+            value={retornara}
+            onChange={handleInputChange}
+          />{' '}
+          Retornara
         </label>
       </div>
     </section>
@@ -81,23 +127,27 @@ export const SalidaModal = () => {
           id="inputPersona"
           className="form-control"
           placeholder="CI o RIF - Persona Solicitante"
+          name="solicitante"
+          value={solicitante}
+          onChange={handleInputChange}
           required
         />
-        <label for="inputPersona">CI o RIF - Persona Solicitante</label>
+        <label htmlFor="inputPersona">CI o RIF - Persona Solicitante</label>
       </div>
-      <label for="inputPersonaNombre">Juan Martinez</label>
 
       <div className="form-label-group">
         <input
           type="text"
           id="inputTransporte"
           className="form-control"
-          placeholder="Transporte - Placa"
+          placeholder="Placa del Transporte"
+          name="transporte"
+          value={transporte}
+          onChange={handleInputChange}
           required
         />
-        <label for="inputMotivo">Transporte - Placa</label>
+        <label htmlFor="inputMotivo">Placa del Transporte</label>
       </div>
-      <label for="inputPersonaNombre">Datos del Vehiculo</label>
     </section>
   );
 
@@ -109,11 +159,13 @@ export const SalidaModal = () => {
           id="inputAprobadorAdm"
           className="form-control"
           placeholder="CI. Aprobador Supervisor"
+          name="aprobadorAdm"
+          value={aprobadorAdm}
+          onChange={handleInputChange}
           required
         />
-        <label for="inputAprobadorAdm">CI. Aprobador Supervisor</label>
+        <label htmlFor="inputAprobadorAdm">CI. Aprobador Supervisor</label>
       </div>
-      <label for="inputPersonaNombre">Juan Martinez</label>
 
       <div className="form-label-group">
         <input
@@ -121,11 +173,13 @@ export const SalidaModal = () => {
           id="inputAprobadorSeg"
           className="form-control"
           placeholder="CI. Aprobador Proct y Bienes"
+          name="aprobadorSeg"
+          value={aprobadorSeg}
+          onChange={handleInputChange}
           required
         />
-        <label for="inputAprobadorSeg">CI. Aprobador Proct y Bienes</label>
+        <label htmlFor="inputAprobadorSeg">CI. Aprobador Proct y Bienes</label>
       </div>
-      <label for="inputPersonaNombre">Datos del Vehiculo</label>
     </section>
   );
 
@@ -138,7 +192,7 @@ export const SalidaModal = () => {
         closeTimeoutMS={200}
         className="modal"
         overlayClassName="modal-fondo">
-        <form className="p-2">
+        <form className="p-2" onSubmit={handleSubmit}>
           <ul className="nav nav-tabs">
             <li onClick={(event) => handleTabPeople(1)} className="nav-item">
               <button
@@ -167,15 +221,9 @@ export const SalidaModal = () => {
           {tabSelect === 2 && tabSolicitante()}
           {tabSelect === 3 && tabAprobadores()}
 
-          <div className="d-flex justify-content-around">
-            <button className="btn btn-outline-secondary" type="button">
-              Verificar
-            </button>
-
-            <button className="btn btn-primary" type="submit">
-              Aceptar
-            </button>
-          </div>
+          <button className="btn btn-primary btn-block" type="submit">
+            Aceptar
+          </button>
         </form>
       </Modal>
     </div>

@@ -6,7 +6,7 @@ export const RegisterScreen = () => {
     <div className="bodylogin">
       <form className="form-signin">
         <div className="text-center mb-4">
-          <i class="fas fa-5x fa-user-friends"></i>
+          <i className="fas fa-5x fa-user-friends"></i>
           <h3 className="mt-2">Por favor, registrese</h3>
           <p>
             <small>
@@ -21,9 +21,8 @@ export const RegisterScreen = () => {
             className="form-control"
             placeholder="nombre usuario"
             required
-            autofocus
           />
-          <label for="inputName">Nombre</label>
+          <label htmlFor="inputName">Nombre</label>
         </div>
 
         <div className="form-label-group">
@@ -34,7 +33,7 @@ export const RegisterScreen = () => {
             placeholder="Email address"
             required
           />
-          <label for="inputEmail">Direccion de correo</label>
+          <label htmlFor="inputEmail">Direccion de correo</label>
         </div>
 
         <div className="form-label-group">
@@ -45,7 +44,7 @@ export const RegisterScreen = () => {
             placeholder="Password"
             required
           />
-          <label for="inputPassword">Password</label>
+          <label htmlFor="inputPassword">Password</label>
         </div>
         <button className="btn btn-lg btn-primary btn-block" type="submit">
           Registrar usuario

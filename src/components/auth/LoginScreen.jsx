@@ -13,7 +13,7 @@ export const LoginScreen = ({ history }) => {
     <div className="bodylogin">
       <form className="form-signin" onSubmit={handleSubmit}>
         <div className="text-center mb-4">
-          <i class="fas fa-lock fa-5x"></i>
+          <i className="fas fa-lock fa-5x"></i>
           <h3 className="mt-2">Inciar Sesion</h3>
         </div>
 
@@ -25,7 +25,7 @@ export const LoginScreen = ({ history }) => {
             placeholder="Email address"
             required
           />
-          <label for="inputEmail">Direccion de correo</label>
+          <label htmlFor="inputEmail">Direccion de correo</label>
         </div>
 
         <div className="form-label-group">
@@ -36,7 +36,7 @@ export const LoginScreen = ({ history }) => {
             placeholder="Password"
             required
           />
-          <label for="inputPassword">Password</label>
+          <label htmlFor="inputPassword">Password</label>
         </div>
 
         <div className="checkbox mb-3">
@@ -45,7 +45,7 @@ export const LoginScreen = ({ history }) => {
           </label>
         </div>
         <button className="btn btn-lg btn-primary btn-block" type="submit">
-          Iniciar <i class="fas fa-sign-in-alt"></i>
+          Iniciar <i className="fas fa-sign-in-alt"></i>
         </button>
         {/* <FontAwesomeIcon className="ml-2" icon={faSignInAlt} /> */}
         <div className="d-flex justify-content-around my-4">

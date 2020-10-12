@@ -6,7 +6,7 @@ export const RecoveryScreen = () => {
     <div className="bodylogin">
       <form className="form-signin">
         <div className="text-center mb-4">
-          <i class="fas fa-5x fa-unlock-alt"></i>
+          <i className="fas fa-5x fa-unlock-alt"></i>
           <h3 className="mt-2">Recuperar</h3>
           <p>Ingrese los datos para recuperar su password.</p>
         </div>
@@ -19,11 +19,11 @@ export const RecoveryScreen = () => {
             placeholder="Email address"
             required
           />
-          <label for="inputEmail">Direccion de correo</label>
+          <label htmlFor="inputEmail">Direccion de correo</label>
         </div>
 
         <button className="btn btn-lg btn-primary btn-block" type="submit">
-          Enviar <i class="fas fa-paper-plane"></i>
+          Enviar <i className="fas fa-paper-plane"></i>
         </button>
         <div className="my-4">
           <Link to="/auth/login">Iniciar Sesion</Link>
