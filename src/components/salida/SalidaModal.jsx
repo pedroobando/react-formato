@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
+import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import { useForm } from '../../hooks/useForm';
 
 import '../../styles/modal.css';
@@ -28,10 +30,20 @@ const initialForm = {
   creador: '',
 };
 
+const initialValid = {
+  material: true,
+  solicitante: true,
+  transporte: true,
+  aprobadorAdm: true,
+  aprobadorSeg: true,
+};
+
 Modal.setAppElement('#root');
 
 export const SalidaModal = () => {
+  const [openModal, setOpenModal] = useState(true);
   const [formValues, handleInputChange] = useForm(initialForm);
+  const [validState, setValidState] = useState(initialValid);
   const [tabSelect, setTabSelect] = useState(1);
   const {
     material,
@@ -46,6 +58,7 @@ export const SalidaModal = () => {
   // const [modalIsOpen, setModalIsOpen] = useState(true);
 
   const handleModalClose = () => {
+    setOpenModal(false);
     // setModalIsOpen(!modalIsOpen);
   };
 
@@ -53,9 +66,66 @@ export const SalidaModal = () => {
     setTabSelect(tabs);
   };
 
+  const isFormValid = () => {
+    let alertForm = [];
+
+    setValidState((estate) => ({ ...estate, material: true }));
+    if (material === undefined || material.trim().length <= 4) {
+      setValidState((estate) => ({ ...estate, material: false }));
+      alertForm = [...alertForm, `Material o equipo ${material} mas de 4 caracteres`];
+    }
+
+    setValidState((estate) => ({ ...estate, solicitante: true }));
+    if (solicitante === undefined || solicitante.trim().length <= 4) {
+      setValidState((estate) => ({ ...estate, solicitante: false }));
+      alertForm = [
+        ...alertForm,
+        `La CI / RIF del solicitante ${solicitante} no es valido.`,
+      ];
+    }
+
+    setValidState((estate) => ({ ...estate, transporte: true }));
+    if (transporte === undefined || transporte.trim().length <= 4) {
+      setValidState((estate) => ({ ...estate, transporte: false }));
+      alertForm = [...alertForm, `Placa del transporte ${transporte} no es valido.`];
+    }
+
+    setValidState((estate) => ({ ...estate, aprobadorAdm: true }));
+    if (aprobadorAdm === undefined || aprobadorAdm.trim().length <= 4) {
+      setValidState((estate) => ({ ...estate, aprobadorAdm: false }));
+      alertForm = [
+        ...alertForm,
+        `CI del aprobador supervisor ${aprobadorAdm} no es valido.`,
+      ];
+    }
+
+    setValidState((estate) => ({ ...estate, aprobadorSeg: true }));
+    if (aprobadorSeg === undefined || aprobadorSeg.trim().length <= 4) {
+      setValidState((estate) => ({ ...estate, aprobadorSeg: false }));
+      alertForm = [
+        ...alertForm,
+        `CI del aprobador seguridad ${aprobadorSeg} no es valido.`,
+      ];
+    }
+
+    return alertForm;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    const isValidData = isFormValid();
+
+    console.log(isValidData);
+    if (isValidData.length >= 1) {
+      Swal.fire({
+        title: 'Verificar',
+        html: htmlAlertMessage(isValidData),
+        icon: 'error',
+      });
+      return;
+    }
+
+    setOpenModal(false);
   };
 
   const tabMaterial = () => (
@@ -125,7 +195,7 @@ export const SalidaModal = () => {
         <input
           type="text"
           id="inputPersona"
-          className="form-control"
+          className={`form-control ${!validState.solicitante && 'is-invalid'}`}
           placeholder="CI o RIF - Persona Solicitante"
           name="solicitante"
           value={solicitante}
@@ -139,7 +209,7 @@ export const SalidaModal = () => {
         <input
           type="text"
           id="inputTransporte"
-          className="form-control"
+          className={`form-control ${!validState.transporte && 'is-invalid'}`}
           placeholder="Placa del Transporte"
           name="transporte"
           value={transporte}
@@ -157,7 +227,7 @@ export const SalidaModal = () => {
         <input
           type="text"
           id="inputAprobadorAdm"
-          className="form-control"
+          className={`form-control ${!validState.aprobadorAdm && 'is-invalid'}`}
           placeholder="CI. Aprobador Supervisor"
           name="aprobadorAdm"
           value={aprobadorAdm}
@@ -171,7 +241,7 @@ export const SalidaModal = () => {
         <input
           type="text"
           id="inputAprobadorSeg"
-          className="form-control"
+          className={`form-control ${!validState.aprobadorSeg && 'is-invalid'}`}
           placeholder="CI. Aprobador Proct y Bienes"
           name="aprobadorSeg"
           value={aprobadorSeg}
@@ -186,7 +256,7 @@ export const SalidaModal = () => {
   return (
     <div>
       <Modal
-        isOpen={true}
+        isOpen={openModal}
         onRequestClose={handleModalClose}
         style={customStyles}
         closeTimeoutMS={200}
