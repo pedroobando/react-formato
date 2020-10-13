@@ -42,14 +42,17 @@ export const VehiculoModal = () => {
       alertForm = [...alertForm, `Placa ${placa} menos de 5 caracteres`];
     }
 
-    if (marca === undefined) {
+    if (marca === undefined || marca.trim().length <= 2) {
       alertForm = [...alertForm, `La marca del vehiculo es requerida.`];
     }
 
-    if (modelo === undefined) {
+    if (modelo === undefined || modelo.trim().length <= 2) {
       alertForm = [...alertForm, `El modelo del vehiculo es solicitado.`];
     }
 
+    if (color === undefined || color.trim().length <= 2) {
+      alertForm = [...alertForm, `El color del vehiculo es solicitado.`];
+    }
     return alertForm;
   };
 

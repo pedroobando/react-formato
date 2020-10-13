@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+// import { history } from 'react-router-dom';
 import { SalidaItem } from './SalidaItem';
 import { SalidaModal } from './SalidaModal';
 import { AddNewItem } from '../ui/AddNewItem';
-
-// import './styles.css';
 
 const lstSalida = [
   {
@@ -94,11 +93,14 @@ const lstSalida = [
   },
 ];
 
-export const SalidaScreen = () => {
+export const SalidaScreen = ({ history }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectItem, setSelectItem] = useState();
 
   const handleOpenModal = () => {
+    history.push('/salida/nuevo');
+    // console.log(history);
+
     setModalOpen(true);
     // console.log(modalOpen);
   };

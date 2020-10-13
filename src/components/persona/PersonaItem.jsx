@@ -12,13 +12,13 @@ export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent }) => {
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1 text-uppercase font-weight-bolder">{nombre}</h5>
         <div className="text-mute">
-          <small>
+          <small className="d-inline-block">
             <i className="fas fa-id-card fa-1x" />
             &nbsp;
             {dni}
           </small>
           &nbsp;
-          <small>
+          <small className="d-inline-block">
             <i className="fas fa-phone fa-1x" />
             &nbsp;{telefono}
           </small>
