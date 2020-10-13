@@ -18,6 +18,34 @@ const lstVehiculos = [
     modelo: 'COROLLA',
     color: 'BLANCO',
   },
+  {
+    rowId: '002',
+    placa: 'DER-3982-3',
+    marca: 'Ford',
+    modelo: 'Fiesta',
+    color: 'AZUL',
+  },
+  {
+    rowId: '004',
+    placa: 'ABC-1245',
+    marca: 'SUBARU',
+    modelo: 'C-5',
+    color: 'BLANCO / ROJO',
+  },
+  {
+    rowId: '005',
+    placa: 'ROD-9446',
+    marca: 'TOYOTA',
+    modelo: 'COROLLA',
+    color: 'NEGRO',
+  },
+  {
+    rowId: '006',
+    placa: 'PEW-23D',
+    marca: 'NISAN',
+    modelo: 'J3',
+    color: 'GRIS',
+  },
 ];
 
 export const VehiculoScreen = () => {
