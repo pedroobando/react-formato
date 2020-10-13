@@ -32,9 +32,9 @@ const lstPersonas = [
 
 export const PersonaScreen = () => {
   const [modalOpen, setModalOpen] = useState(false);
+
   const handleOpenModal = () => {
     setModalOpen(true);
-    // console.log(modalOpen);
   };
 
   const handleClickEvent = (event) => {
@@ -45,14 +45,6 @@ export const PersonaScreen = () => {
     console.log(event.currentTarget.id, 'pressdblclick');
   };
 
-  // const selectStyle = (rowId) => {
-  //   let predStyle = 'list-group-item list-group-item-action';
-  //   if (rowId === selectItem) {
-  //     predStyle += ' active';
-  //   }
-  //   return predStyle;
-  // };
-
   return (
     <div>
       <div className="row mt-1">
@@ -62,7 +54,6 @@ export const PersonaScreen = () => {
             persona={item}
             onClickEvent={handleClickEvent}
             onDblClickEvent={handleDobleClick}
-            style="list-group-item list-group-item-action"
           />
         ))}
       </div>

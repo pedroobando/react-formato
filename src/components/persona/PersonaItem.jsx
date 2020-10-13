@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent, style }) => {
+export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent }) => {
   const { rowId, nombre, dni, telefono, comentario } = persona;
 
   return (
     <div
       id={rowId}
-      className={style}
+      className="list-group-item list-group-item-action"
       onClick={onClickEvent}
       onDoubleClick={onDblClickEvent}>
       <div className="d-flex w-100 justify-content-between">
