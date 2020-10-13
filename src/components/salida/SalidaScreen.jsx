@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SalidaItem } from './SalidaItem';
 import { SalidaModal } from './SalidaModal';
-import { AddNewTicket } from '../ui/AddNewTicket';
+import { AddNewItem } from '../ui/AddNewItem';
 
 // import './styles.css';
 
@@ -132,7 +132,7 @@ export const SalidaScreen = () => {
           />
         ))}
       </div>
-      <AddNewTicket handleOpenModal={handleOpenModal} />
+      <AddNewItem handleOpenModal={handleOpenModal} />
       <SalidaModal xstate={modalOpen} />
     </div>
   );

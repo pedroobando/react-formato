@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PersonaItem } from './PersonaItem';
-import { AddNewTicket } from '../ui/AddNewTicket';
+import { AddNewItem } from '../ui/AddNewItem';
 import { PersonaModal } from './PersonaModal';
 
 const lstPersonas = [
@@ -66,7 +66,7 @@ export const PersonaScreen = () => {
           />
         ))}
       </div>
-      <AddNewTicket handleOpenModal={handleOpenModal} />
+      <AddNewItem handleOpenModal={handleOpenModal} />
       <PersonaModal xstate={modalOpen} />
     </div>
   );

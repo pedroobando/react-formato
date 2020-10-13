@@ -5,8 +5,8 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import { SalidaScreen } from '../components/salida/SalidaScreen';
 
 import { PersonaScreen } from '../components/persona/PersonaScreen';
-import { VehiculoScreen } from '../components/datos/VehiculoScreen';
-import { UsuarioScreen } from '../components/datos/UsuarioScreen';
+import { VehiculoScreen } from '../components/vehiculo/VehiculoScreen';
+import { UsuarioScreen } from '../components/usuario/UsuarioScreen';
 
 export const MainRouter = () => {
   return (
@@ -16,7 +16,7 @@ export const MainRouter = () => {
         <Switch>
           <Route exact path="/salida" component={SalidaScreen} />
           <Route exact path="/datos/persona" component={PersonaScreen} />
-          <Route exact path="/datos/persona" component={VehiculoScreen} />
+          <Route exact path="/datos/vehiculo" component={VehiculoScreen} />
           <Route exact path="/datos/usuario" component={UsuarioScreen} />
           <Redirect to="/salida" />
         </Switch>
