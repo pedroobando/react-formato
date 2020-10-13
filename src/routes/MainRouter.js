@@ -4,7 +4,7 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 
 import { SalidaScreen } from '../components/salida/SalidaScreen';
 
-import { PersonaScreen } from '../components/datos/PersonaScreen';
+import { PersonaScreen } from '../components/persona/PersonaScreen';
 import { VehiculoScreen } from '../components/datos/VehiculoScreen';
 import { UsuarioScreen } from '../components/datos/UsuarioScreen';
 

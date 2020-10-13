@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-// import { VariableSizeList as List } from 'react-window';
-// import AutoSizer from 'react-virtualized-auto-sizer';
-
 import { SalidaItem } from './SalidaItem';
 import { SalidaModal } from './SalidaModal';
 import { AddNewTicket } from '../ui/AddNewTicket';
