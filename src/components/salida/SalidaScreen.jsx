@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import { history } from 'react-router-dom';
 import { SalidaItem } from './SalidaItem';
-import { SalidaModal } from './SalidaModal';
+// import { SalidaModal } from './SalidaModal';
 import { AddNewItem } from '../ui/AddNewItem';
 
 const lstSalida = [
@@ -94,15 +94,11 @@ const lstSalida = [
 ];
 
 export const SalidaScreen = ({ history }) => {
-  const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen, setModalOpen] = useState(false);
   const [selectItem, setSelectItem] = useState();
 
   const handleOpenModal = () => {
     history.push('/salida/nuevo');
-    // console.log(history);
-
-    setModalOpen(true);
-    // console.log(modalOpen);
   };
 
   const handleClickEvent = (event) => {
@@ -123,7 +119,7 @@ export const SalidaScreen = ({ history }) => {
 
   return (
     <div>
-      <div className="row">
+      <div className="row my-1">
         {lstSalida.map((itmSalida) => (
           <SalidaItem
             key={itmSalida.rowId}
@@ -135,7 +131,7 @@ export const SalidaScreen = ({ history }) => {
         ))}
       </div>
       <AddNewItem handleOpenModal={handleOpenModal} />
-      <SalidaModal xstate={modalOpen} />
+      {/* <SalidaModal xstate={modalOpen} /> */}
     </div>
   );
 };
