@@ -2,6 +2,8 @@ import React from 'react';
 import { PersonaItem } from './PersonaItem';
 import { AddNewItem } from '../ui/AddNewItem';
 import { PersonaModal } from './PersonaModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiOpenModal } from '../../redux/actions/ui';
 
 const lstPersonas = [
   {
@@ -31,10 +33,11 @@ const lstPersonas = [
 ];
 
 export const PersonaScreen = () => {
+  const dispatch = useDispatch();
   // const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
-    console.log('openmodal');
+    dispatch(uiOpenModal());
   };
 
   const handleClickEvent = (event) => {
@@ -43,7 +46,8 @@ export const PersonaScreen = () => {
   };
 
   const handleDobleClick = (event) => {
-    console.log(event.currentTarget.id, 'pressdblclick');
+    dispatch(uiOpenModal());
+    // console.log(event.currentTarget.id, 'pressdblclick');
   };
 
   return (

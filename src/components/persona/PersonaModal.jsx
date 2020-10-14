@@ -1,6 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { uiCloseModal } from '../../redux/actions/ui';
+
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import { useForm } from '../../hooks/useForm';
 
@@ -29,13 +33,14 @@ const initialForm = {
 Modal.setAppElement('#root');
 
 export const PersonaModal = () => {
-  // const [openModal, setOpenModal] = useState(true);
+  const { modalOpen } = useSelector((state) => state.ui);
+  const dispatch = useDispatch();
+
   const [formValues, handleInputChange] = useForm(initialForm);
   const { nombre, dni, telefono, comentario, activo } = formValues;
 
   const handleModalClose = () => {
-    // setOpenModal(false);
-    console.log('cerrar modal');
+    dispatch(uiCloseModal());
   };
 
   const isFormValid = () => {
@@ -72,7 +77,7 @@ export const PersonaModal = () => {
   return (
     <div>
       <Modal
-        isOpen={true}
+        isOpen={modalOpen}
         onRequestClose={handleModalClose}
         style={customStyles}
         closeTimeoutMS={200}
