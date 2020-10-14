@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
@@ -26,13 +26,16 @@ const initialForm = {
   activo: false,
 };
 
+Modal.setAppElement('#root');
+
 export const PersonaModal = () => {
-  const [openModal, setOpenModal] = useState(true);
+  // const [openModal, setOpenModal] = useState(true);
   const [formValues, handleInputChange] = useForm(initialForm);
   const { nombre, dni, telefono, comentario, activo } = formValues;
 
   const handleModalClose = () => {
-    setOpenModal(false);
+    // setOpenModal(false);
+    console.log('cerrar modal');
   };
 
   const isFormValid = () => {
@@ -63,13 +66,13 @@ export const PersonaModal = () => {
       return;
     }
 
-    setOpenModal(false);
+    handleModalClose();
   };
 
   return (
     <div>
       <Modal
-        isOpen={openModal}
+        isOpen={true}
         onRequestClose={handleModalClose}
         style={customStyles}
         closeTimeoutMS={200}

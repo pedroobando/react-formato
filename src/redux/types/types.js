@@ -8,6 +8,6 @@ export const typesAuth = {
 };
 
 export const typeModal = {
-  uiOpenModal: '[ui] Open Modal',
-  uiCloseModal: '[ui] Close Modal',
+  uiOpenModal: '[ui] Open modal',
+  uiCloseModal: '[ui] Close modal',
 };

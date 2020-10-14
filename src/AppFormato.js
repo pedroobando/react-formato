@@ -1,10 +1,13 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+
+import { store } from './redux/stores/store';
 import { AppRouter } from './routes/AppRouter';
 
 export const AppFormato = () => {
   return (
-    <React.Fragment>
+    <Provider store={store}>
       <AppRouter />
-    </React.Fragment>
+    </Provider>
   );
 };

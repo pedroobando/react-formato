@@ -15,7 +15,7 @@ export const VehiculoItem = ({ vehiculo, onClickEvent, onDblClickEvent }) => {
           <i className="fas fa-shuttle-van fa-1x" />
         </h5>
         <div className="text-muted d-flex justify-content-between">
-          <spam className="mr-2">{marca}</spam>
+          <span className="mr-2">{marca}</span>
           <span className="mr-2">{modelo}</span>
           <span>{color}</span>
         </div>

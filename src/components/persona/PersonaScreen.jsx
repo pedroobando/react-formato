@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PersonaItem } from './PersonaItem';
 import { AddNewItem } from '../ui/AddNewItem';
 import { PersonaModal } from './PersonaModal';
@@ -31,14 +31,15 @@ const lstPersonas = [
 ];
 
 export const PersonaScreen = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
-    setModalOpen(true);
+    console.log('openmodal');
   };
 
   const handleClickEvent = (event) => {
     // setSelectItem(event.currentTarget.id);
+    console.log('click');
   };
 
   const handleDobleClick = (event) => {
@@ -58,7 +59,7 @@ export const PersonaScreen = () => {
         ))}
       </div>
       <AddNewItem handleOpenModal={handleOpenModal} />
-      <PersonaModal xstate={modalOpen} />
+      <PersonaModal />
     </div>
   );
 };

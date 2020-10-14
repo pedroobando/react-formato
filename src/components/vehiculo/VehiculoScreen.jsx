@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { VehiculoItem } from './VehiculoItem';
 import { VehiculoModal } from './VehiculoModal';
 import { AddNewItem } from '../ui/AddNewItem';
@@ -49,10 +49,10 @@ const lstVehiculos = [
 ];
 
 export const VehiculoScreen = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
-    setModalOpen(true);
+    console.log('Abrir');
   };
 
   const handleClickEvent = (event) => {
@@ -76,7 +76,7 @@ export const VehiculoScreen = () => {
         ))}
       </div>
       <AddNewItem handleOpenModal={handleOpenModal} />
-      <VehiculoModal xstate={modalOpen} />
+      <VehiculoModal />
     </div>
   );
 };

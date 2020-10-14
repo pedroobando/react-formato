@@ -26,6 +26,8 @@ const initialForm = {
   activo: false,
 };
 
+Modal.setAppElement('#root');
+
 export const VehiculoModal = () => {
   const [openModal, setOpenModal] = useState(true);
   const [formValues, handleInputChange] = useForm(initialForm);
