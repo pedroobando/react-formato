@@ -11,3 +11,8 @@ export const typeModal = {
   uiOpenModal: '[ui] Open modal',
   uiCloseModal: '[ui] Close modal',
 };
+
+export const typePersona = {
+  setActive: '[persona] Set Active',
+  addNew: '[persona] Add New',
+};

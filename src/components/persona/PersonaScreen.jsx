@@ -4,36 +4,11 @@ import { AddNewItem } from '../ui/AddNewItem';
 import { PersonaModal } from './PersonaModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiOpenModal } from '../../redux/actions/ui';
-
-const lstPersonas = [
-  {
-    rowId: '001',
-    nombre: 'pedro obando',
-    dni: '38728787',
-    telefono: '3232323',
-    comentario:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure fugiat dolores dolorem? Quidem eius a recusandae rerum voluptatibus ipsa, similique, veritatis itaque architecto quos maiores est adipisci repudiandae! Rerum, commodi?',
-  },
-  {
-    rowId: '002',
-    nombre: 'Maria Carmona',
-    dni: '323244545',
-    telefono: '3232222323',
-    comentario:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure fugiat dolores dolorem? Quidem eius a recusandae rerum voluptatibus ipsa, similique, veritatis itaque architecto quos maiores est adipisci repudiandae! Rerum, commodi?',
-  },
-  {
-    rowId: '003',
-    nombre: 'Felipe Guerra',
-    dni: 'v10248564',
-    telefono: '3232323 - 594858985 -4344434',
-    comentario:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure fugiat dolores dolorem? Quidem eius a recusandae rerum voluptatibus ipsa, similique, veritatis itaque architecto quos maiores est adipisci repudiandae! Rerum, commodi?',
-  },
-];
+import { personaSetActive } from '../../redux/actions/personas';
 
 export const PersonaScreen = () => {
   const dispatch = useDispatch();
+  const { personas } = useSelector((state) => state.persona);
   // const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -41,25 +16,15 @@ export const PersonaScreen = () => {
   };
 
   const handleClickEvent = (event) => {
-    // setSelectItem(event.currentTarget.id);
-    console.log('click');
-  };
-
-  const handleDobleClick = (event) => {
+    dispatch(personaSetActive(event.currentTarget.id));
     dispatch(uiOpenModal());
-    // console.log(event.currentTarget.id, 'pressdblclick');
   };
 
   return (
     <div>
       <div className="row mt-1">
-        {lstPersonas.map((item) => (
-          <PersonaItem
-            key={item.rowId}
-            persona={item}
-            onClickEvent={handleClickEvent}
-            onDblClickEvent={handleDobleClick}
-          />
+        {personas.map((item) => (
+          <PersonaItem key={item.rowId} persona={item} onClickEvent={handleClickEvent} />
         ))}
       </div>
       <AddNewItem handleOpenModal={handleOpenModal} />

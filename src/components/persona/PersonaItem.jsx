@@ -7,8 +7,7 @@ export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent }) => {
     <div
       id={rowId}
       className="list-group-item list-group-item-action"
-      onClick={onClickEvent}
-      onDoubleClick={onDblClickEvent}>
+      onClick={onClickEvent}>
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1 text-uppercase font-weight-bolder">{nombre}</h5>
         <div className="text-mute">
