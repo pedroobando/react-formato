@@ -1,9 +1,12 @@
 import React from 'react';
-import { PersonaItem } from './PersonaItem';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { AddNewItem } from '../ui/AddNewItem';
 import { PersonaModal } from './PersonaModal';
-import { useDispatch, useSelector } from 'react-redux';
+import { PersonaItem } from './PersonaItem';
+
 import { uiOpenModal } from '../../redux/actions/ui';
+
 import { personaSetActive } from '../../redux/actions/personas';
 
 export const PersonaScreen = () => {

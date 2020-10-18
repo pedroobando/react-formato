@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 
@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../redux/actions/ui';
 
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-import { useForm } from '../../hooks/useForm';
 
 import '../../styles/modal.css';
 import {
@@ -44,19 +43,24 @@ export const PersonaModal = () => {
   const { modalOpen } = useSelector((state) => state.ui);
   const { activePersona } = useSelector((state) => state.persona);
 
-  const [formValues, handleInputChange, reset] = useForm(initialForm);
+  const [formValues, setFormValues] = useState(initialForm);
   const { nombre, dni, telefono, comentario, activo } = formValues;
 
   useEffect(() => {
     if (activePersona !== null) {
-      reset(activePersona);
+      setFormValues(activePersona);
     }
   }, [activePersona]);
+
+  const handleInputChange = ({ target }) => {
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    setFormValues({ ...formValues, [target.name]: value });
+  };
 
   const handleModalClose = () => {
     dispatch(uiCloseModal());
     dispatch(personaClearActive());
-    reset();
+    setFormValues(initialForm);
   };
 
   const handleDelete = () => {

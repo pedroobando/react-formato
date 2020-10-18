@@ -5,6 +5,14 @@ const initialState = {
   active: null,
 };
 
+// vehiculo = {
+//   rowId: '006',
+//   placa: 'PEW-23D',
+//   marca: 'NISAN',
+//   modelo: 'J3',
+//   color: 'GRIS',
+// },
+
 export const vehiculoReducer = (state = initialState, action) => {
   switch (action.type) {
     case typeVehiculo.setActive:

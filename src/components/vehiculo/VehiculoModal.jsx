@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { uiCloseModal } from '../../redux/actions/ui';
+
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-import { useForm } from '../../hooks/useForm';
+// import { useForm } from '../../hooks/useForm';
 
 import '../../styles/modal.css';
+import {
+  vehiculoAddNew,
+  vehiculoClearActive,
+  vehiculoDelete,
+  vehiculoUpdated,
+} from '../../redux/actions/vehiculos';
 
 const customStyles = {
   content: {
@@ -29,12 +39,34 @@ const initialForm = {
 Modal.setAppElement('#root');
 
 export const VehiculoModal = () => {
-  const [openModal, setOpenModal] = useState(true);
-  const [formValues, handleInputChange] = useForm(initialForm);
+  const dispatch = useDispatch();
+
+  const { modalOpen } = useSelector((state) => state.ui);
+  const { active } = useSelector((state) => state.vehiculo);
+
+  const [formValues, setFormValues] = useState(initialForm);
   const { placa, marca, modelo, color, activo } = formValues;
 
+  useEffect(() => {
+    if (active !== null) {
+      setFormValues(active);
+    }
+  }, [active]);
+
+  const handleInputChange = ({ target }) => {
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    setFormValues({ ...formValues, [target.name]: value });
+  };
+
   const handleModalClose = () => {
-    setOpenModal(false);
+    dispatch(uiCloseModal());
+    dispatch(vehiculoClearActive());
+    setFormValues(initialForm);
+  };
+
+  const handleDelete = () => {
+    dispatch(vehiculoDelete());
+    handleModalClose();
   };
 
   const isFormValid = () => {
@@ -71,13 +103,28 @@ export const VehiculoModal = () => {
       return;
     }
 
-    setOpenModal(false);
+    if (active) {
+      dispatch(vehiculoUpdated(formValues));
+    } else {
+      dispatch(
+        vehiculoAddNew({
+          ...formValues,
+          rowId: new Date().getTime().toString(),
+          user: {
+            _id: '001',
+            name: 'pedro',
+          },
+        })
+      );
+    }
+
+    handleModalClose();
   };
 
   return (
     <div>
       <Modal
-        isOpen={openModal}
+        isOpen={modalOpen}
         onRequestClose={handleModalClose}
         style={customStyles}
         closeTimeoutMS={200}
@@ -147,7 +194,7 @@ export const VehiculoModal = () => {
               <input
                 type="checkbox"
                 name="activo"
-                value={activo}
+                checked={activo}
                 onChange={handleInputChange}
               />{' '}
               Activo
@@ -155,12 +202,23 @@ export const VehiculoModal = () => {
           </div>
 
           <div className="d-flex justify-content-between px-2">
-            <button
-              className="btn btn-secondary px-4"
-              type="button"
-              onClick={handleModalClose}>
-              Cancelar
-            </button>
+            <div>
+              <button
+                className="btn btn-outline-secondary px-4"
+                type="button"
+                onClick={handleModalClose}>
+                Cancelar
+              </button>
+              {active && (
+                <button
+                  className="btn btn-outline-danger px-4 ml-2"
+                  type="button"
+                  onClick={handleDelete}>
+                  Borrar
+                </button>
+              )}
+            </div>
+
             <button className="btn btn-success px-4" type="submit">
               Aceptar
             </button>
