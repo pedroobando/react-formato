@@ -12,3 +12,8 @@ body {
   right: 25px;
   z-index: 100;
 }
+
+.fab-danger {
+  left: 25px;
+  z-index: 99;
+}

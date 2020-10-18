@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { SalidaItem } from './SalidaItem';
 // import { SalidaModal } from './SalidaModal';
 import { AddNewItem } from '../ui/AddNewItem';
+import { DeleteItem } from '../ui/DeleteItem';
 
 const lstSalida = [
   {
@@ -130,6 +131,7 @@ export const SalidaScreen = ({ history }) => {
           />
         ))}
       </div>
+      <DeleteItem />
       <AddNewItem handleOpenModal={handleOpenModal} />
       {/* <SalidaModal xstate={modalOpen} /> */}
     </div>

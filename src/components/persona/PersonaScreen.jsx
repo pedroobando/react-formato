@@ -9,7 +9,6 @@ import { personaSetActive } from '../../redux/actions/personas';
 export const PersonaScreen = () => {
   const dispatch = useDispatch();
   const { personas } = useSelector((state) => state.persona);
-  // const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
     dispatch(uiOpenModal());
@@ -27,6 +26,7 @@ export const PersonaScreen = () => {
           <PersonaItem key={item.rowId} persona={item} onClickEvent={handleClickEvent} />
         ))}
       </div>
+
       <AddNewItem handleOpenModal={handleOpenModal} />
       <PersonaModal />
     </div>

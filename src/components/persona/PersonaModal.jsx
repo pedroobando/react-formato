@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 
@@ -9,6 +9,12 @@ import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import { useForm } from '../../hooks/useForm';
 
 import '../../styles/modal.css';
+import {
+  personaAddNew,
+  personaClearActive,
+  personaDelete,
+  personaUpdated,
+} from '../../redux/actions/personas';
 
 const customStyles = {
   content: {
@@ -33,14 +39,29 @@ const initialForm = {
 Modal.setAppElement('#root');
 
 export const PersonaModal = () => {
-  const { modalOpen } = useSelector((state) => state.ui);
   const dispatch = useDispatch();
 
-  const [formValues, handleInputChange] = useForm(initialForm);
+  const { modalOpen } = useSelector((state) => state.ui);
+  const { activePersona } = useSelector((state) => state.persona);
+
+  const [formValues, handleInputChange, reset] = useForm(initialForm);
   const { nombre, dni, telefono, comentario, activo } = formValues;
+
+  useEffect(() => {
+    if (activePersona !== null) {
+      reset(activePersona);
+    }
+  }, [activePersona]);
 
   const handleModalClose = () => {
     dispatch(uiCloseModal());
+    dispatch(personaClearActive());
+    reset();
+  };
+
+  const handleDelete = () => {
+    dispatch(personaDelete());
+    handleModalClose();
   };
 
   const isFormValid = () => {
@@ -61,7 +82,6 @@ export const PersonaModal = () => {
     event.preventDefault();
     const isValidData = isFormValid();
 
-    console.log(isValidData);
     if (isValidData.length >= 1) {
       Swal.fire({
         title: 'Verificar',
@@ -69,6 +89,21 @@ export const PersonaModal = () => {
         icon: 'warning',
       });
       return;
+    }
+
+    if (activePersona) {
+      dispatch(personaUpdated(formValues));
+    } else {
+      dispatch(
+        personaAddNew({
+          ...formValues,
+          rowId: new Date().getTime().toString(),
+          user: {
+            _id: '001',
+            name: 'pedro',
+          },
+        })
+      );
     }
 
     handleModalClose();
@@ -137,7 +172,7 @@ export const PersonaModal = () => {
               <input
                 type="checkbox"
                 name="activo"
-                value={activo}
+                checked={activo}
                 onChange={handleInputChange}
               />{' '}
               Activo
@@ -155,12 +190,22 @@ export const PersonaModal = () => {
               placeholder="Comentario(s)"></textarea>
           </div>
           <div className="d-flex justify-content-between px-2">
-            <button
-              className="btn btn-secondary px-4"
-              type="button"
-              onClick={handleModalClose}>
-              Cancelar
-            </button>
+            <div>
+              <button
+                className="btn btn-outline-secondary px-4"
+                type="button"
+                onClick={handleModalClose}>
+                Cancelar
+              </button>
+              {activePersona && (
+                <button
+                  className="btn btn-outline-danger px-4 ml-2"
+                  type="button"
+                  onClick={handleDelete}>
+                  Borrar
+                </button>
+              )}
+            </div>
 
             <button className="btn btn-success px-4" type="submit">
               Aceptar

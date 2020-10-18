@@ -1,44 +1,7 @@
 import { typePersona } from '../types/types';
 
 const initialState = {
-  personas: [
-    {
-      rowId: '001',
-      nombre: 'pedro obando',
-      dni: '38728787',
-      telefono: '3232323',
-      comentario:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure fugiat dolores dolorem? Quidem eius a recusandae rerum voluptatibus ipsa, similique, veritatis itaque architecto quos maiores est adipisci repudiandae! Rerum, commodi?',
-      user: {
-        _id: '123',
-        name: 'pedro',
-      },
-    },
-    {
-      rowId: '002',
-      nombre: 'Maria Carmona',
-      dni: '323244545',
-      telefono: '3232222323',
-      comentario:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure fugiat dolores dolorem? Quidem eius a recusandae rerum voluptatibus ipsa, similique, veritatis itaque architecto quos maiores est adipisci repudiandae! Rerum, commodi?',
-      user: {
-        _id: '123',
-        name: 'pedro',
-      },
-    },
-    {
-      rowId: '003',
-      nombre: 'Felipe Guerra',
-      dni: 'v10248564',
-      telefono: '3232323 - 594858985 -4344434',
-      comentario:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure fugiat dolores dolorem? Quidem eius a recusandae rerum voluptatibus ipsa, similique, veritatis itaque architecto quos maiores est adipisci repudiandae! Rerum, commodi?',
-      user: {
-        _id: '123',
-        name: 'pedro',
-      },
-    },
-  ],
+  personas: [],
   activePersona: null,
 };
 
@@ -48,6 +11,44 @@ export const personaReducer = (state = initialState, action) => {
       return {
         ...state,
         activePersona: state.personas.find((element) => element.rowId === action.payload),
+      };
+
+    case typePersona.addNew:
+      return {
+        ...state,
+        personas: [action.payload, ...state.personas],
+      };
+
+    case typePersona.clearActive:
+      return {
+        ...state,
+        activePersona: null,
+      };
+
+    case typePersona.updated:
+      return {
+        ...state,
+        personas: state.personas.map((e) =>
+          e.rowId === action.payload.rowId ? action.payload : e
+        ),
+      };
+
+    case typePersona.deleted:
+      return {
+        ...state,
+        personas: state.personas.filter((e) => e.rowId !== state.activePersona.rowId),
+        activePersona: null,
+      };
+
+    case typePersona.loaded:
+      return {
+        ...state,
+        personas: [...action.payload],
+      };
+
+    case typePersona.logout:
+      return {
+        ...initialState,
       };
 
     default:

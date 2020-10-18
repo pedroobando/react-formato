@@ -1,6 +1,7 @@
 {
   "name": "react-formatos",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
