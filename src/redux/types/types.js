@@ -31,3 +31,13 @@ export const typeVehiculo = {
   loaded: '[vehiculo] Loaded',
   logout: '[vehiculo] Logout',
 };
+
+export const typeUsuario = {
+  setActive: '[usuario] Set Active',
+  addNew: '[usuario] Add New',
+  clearActive: '[usuario] Clear Active',
+  updated: '[usuario] Updated',
+  deleted: '[usuario] Deleted',
+  loaded: '[usuario] Loaded',
+  logout: '[usuario] Logout',
+};
