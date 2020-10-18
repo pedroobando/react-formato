@@ -5,15 +5,16 @@ const initialState = {
   active: null,
 };
 
-// vehiculo = {
+// usuario = {
 //   rowId: '006',
-//   placa: 'PEW-23D',
-//   marca: 'NISAN',
-//   modelo: 'J3',
-//   color: 'GRIS',
+//   name: 'PEW-23D',
+//   fullname: 'NISAN',
+//   email: 'J3',
+//   password: 'GRIS',
+//  active:true
 // },
 
-export const vehiculoReducer = (state = initialState, action) => {
+export const usuarioReducer = (state = initialState, action) => {
   switch (action.type) {
     case typeUsuario.setActive:
       return {
@@ -24,7 +25,7 @@ export const vehiculoReducer = (state = initialState, action) => {
     case typeUsuario.addNew:
       return {
         ...state,
-        vehiculos: [action.payload, ...state.usuarios],
+        usuarios: [action.payload, ...state.usuarios],
       };
 
     case typeUsuario.clearActive:
@@ -36,7 +37,7 @@ export const vehiculoReducer = (state = initialState, action) => {
     case typeUsuario.updated:
       return {
         ...state,
-        vehiculos: state.usuarios.map((e) =>
+        usuarios: state.usuarios.map((e) =>
           e.rowId === action.payload.rowId ? action.payload : e
         ),
       };
@@ -44,14 +45,14 @@ export const vehiculoReducer = (state = initialState, action) => {
     case typeUsuario.deleted:
       return {
         ...state,
-        vehiculos: state.usuarios.filter((e) => e.rowId !== state.active.rowId),
+        usuarios: state.usuarios.filter((e) => e.rowId !== state.active.rowId),
         active: null,
       };
 
     case typeUsuario.loaded:
       return {
         ...state,
-        vehiculos: [...action.payload],
+        usuarios: [...action.payload],
       };
 
     case typeUsuario.logout:
