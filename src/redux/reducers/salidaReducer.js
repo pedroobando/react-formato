@@ -1,7 +1,7 @@
 import { typeSalida } from '../types/types';
 
 const initialState = {
-  ordsalidas: [],
+  salidas: [],
   active: null,
 };
 
@@ -72,13 +72,13 @@ export const salidaReducer = (state = initialState, action) => {
     case typeSalida.setActive:
       return {
         ...state,
-        active: state.ordsalidas.find((element) => element.rowId === action.payload),
+        active: state.salidas.find((element) => element.rowId === action.payload),
       };
 
     case typeSalida.addNew:
       return {
         ...state,
-        ordsalidas: [action.payload, ...state.ordsalidas],
+        salidas: [action.payload, ...state.salidas],
       };
 
     case typeSalida.clearActive:
@@ -90,7 +90,7 @@ export const salidaReducer = (state = initialState, action) => {
     case typeSalida.updated:
       return {
         ...state,
-        ordsalidas: state.ordsalidas.map((e) =>
+        salidas: state.salidas.map((e) =>
           e.rowId === action.payload.rowId ? action.payload : e
         ),
       };
@@ -98,14 +98,14 @@ export const salidaReducer = (state = initialState, action) => {
     case typeSalida.deleted:
       return {
         ...state,
-        ordsalidas: state.ordsalidas.filter((e) => e.rowId !== state.active.rowId),
+        salidas: state.salidas.filter((e) => e.rowId !== state.active.rowId),
         active: null,
       };
 
     case typeSalida.loaded:
       return {
         ...state,
-        ordsalidas: [...action.payload],
+        salidas: [...action.payload],
       };
 
     case typeSalida.logout:

@@ -1,139 +1,57 @@
 import React, { useState } from 'react';
-// import { history } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { SalidaItem } from './SalidaItem';
-// import { SalidaModal } from './SalidaModal';
-import { AddNewItem } from '../ui/AddNewItem';
 import { DeleteItem } from '../ui/DeleteItem';
 
-const lstSalida = [
-  {
-    rowId: '5323',
-    fecha: '20201012',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-    user: {
-      _id: 123,
-      name: 'Carlos Eduardo',
-    },
-    active: false,
-  },
-  {
-    rowId: '5322',
-    fecha: '20200314',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-    user: {
-      _id: 123,
-      name: 'Maglis',
-    },
-    active: false,
-  },
-  {
-    rowId: '1001',
-    fecha: '20200913',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-    user: {
-      _id: 123,
-      name: 'Yotsi',
-    },
-  },
-  {
-    rowId: '1002',
-    fecha: '20191230',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-  },
-  {
-    rowId: '1003',
-    fecha: '20200101',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-  },
-  {
-    rowId: '1004',
-    fecha: '20191130',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-  },
-  {
-    rowId: '1005',
-    fecha: '20201011',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-  },
-  {
-    rowId: '1006',
-    fecha: '20201001',
-    material: 'Bomba x',
-    motivo:
-      'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus ',
-    responsableNombre: 'Pedro Colmenares',
-    transportePlaca: 'GNV-232F',
-  },
-];
+import { uiOpenModal } from '../../redux/actions/ui';
+import { salidaSetActive } from '../../redux/actions/salidas';
+import { AddNewItem } from '../ui/AddNewItem';
 
 export const SalidaScreen = ({ history }) => {
-  // const [modalOpen, setModalOpen] = useState(false);
-  const [selectItem, setSelectItem] = useState();
+  const dispatch = useDispatch();
+  const { salidas: lstOrdSalidas } = useSelector((state) => state.ordsalida);
 
   const handleOpenModal = () => {
     history.push('/salida/nuevo');
   };
 
   const handleClickEvent = (event) => {
-    setSelectItem(event.currentTarget.id);
+    dispatch(salidaSetActive(event.currentTarget.id));
+    history.push('/salida/nuevo');
+    // dispatch(uiOpenModal());
   };
 
-  const handleDobleClick = (event) => {
-    console.log(event.currentTarget.id, 'pressdblclick');
-  };
+  // const handleClickEvent = (event) => {
+  //   setSelectItem(event.currentTarget.id);
+  // };
 
-  const selectStyle = (rowId) => {
-    let predStyle = 'list-group-item list-group-item-action';
-    if (rowId === selectItem) {
-      predStyle += ' active';
-    }
-    return predStyle;
-  };
+  // const handleDobleClick = (event) => {
+  //   console.log(event.currentTarget.id, 'pressdblclick');
+  // };
+
+  // const selectStyle = (rowId) => {
+  //   let predStyle = 'list-group-item list-group-item-action';
+  //   if (rowId === selectItem) {
+  //     predStyle += ' active';
+  //   }
+  //   return predStyle;
+  // };
 
   return (
     <div>
       <div className="row my-1">
-        {lstSalida.map((itmSalida) => (
+        {lstOrdSalidas.map((iten) => (
           <SalidaItem
-            key={itmSalida.rowId}
-            ordsalida={itmSalida}
+            key={iten.rowId}
+            ordsalida={iten}
             onClickEvent={handleClickEvent}
-            onDblClickEvent={handleDobleClick}
-            style={selectStyle(itmSalida.rowId)}
+            // onDblClickEvent={handleDobleClick}
+            // style={selectStyle(itmSalida.rowId)}
           />
         ))}
       </div>
-      <DeleteItem />
+      {/* <DeleteItem /> */}
       <AddNewItem handleOpenModal={handleOpenModal} />
-      {/* <SalidaModal xstate={modalOpen} /> */}
     </div>
   );
 };

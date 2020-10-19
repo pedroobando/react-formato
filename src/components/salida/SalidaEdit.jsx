@@ -1,89 +1,161 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-import { useForm } from '../../hooks/useForm';
+import { salidaAddNew, salidaUpdated } from '../../redux/actions/salidas';
+
+// const initialForm2 = {
+//   fechaemision: Date.now(),
+//   material: '',
+//   motivo: '',
+//   retornara: true,
+//   destino: '',
+//   solicitante: '',
+//   transporte: '',
+//   aprobadorAdm: '',
+//   aprobadorSeg: '',
+//   creador: '',
+//   comentario: '',
+// };
 
 const initialForm = {
-  fechaemision: Date.now(),
+  rowId: '',
+  numerosec: '',
+  fechaemision: new Date().getDate(),
   material: '',
   motivo: '',
   retornara: true,
   destino: '',
-  solicitante: '',
-  transporte: '',
-  aprobadorAdm: '',
-  aprobadorSeg: '',
-  creador: '',
-  comentario: '',
+  solicitante: {
+    id: '',
+    toString: '',
+  },
+  transporte: {
+    id: '',
+    toString: '',
+  },
+  aprobadoradm: {
+    id: '',
+    toString: '',
+  },
+  aprobadorseg: {
+    id: '',
+    toString: '',
+  },
+  creador: {
+    id: '',
+    toString: '',
+  },
+  solicitanteTo: '',
+  transporteTo: '',
+  aprobadoradmTo: '',
+  aprobadorsegTo: '',
+  comentarioinicial: '',
+  comentarios: [
+    {
+      fecha: new Date().getDate(),
+      nota: '',
+      usuario: {
+        id: '',
+        toString: '',
+      },
+    },
+  ],
 };
 
-const initialValid = {
-  material: true,
-  solicitante: true,
-  transporte: true,
-  aprobadorAdm: true,
-  aprobadorSeg: true,
-};
+export const SalidaEdit = ({ history }) => {
+  const dispatch = useDispatch();
 
-export const SalidaEdit = () => {
-  const [formValues, handleInputChange] = useForm(initialForm);
-  const [validState, setValidState] = useState(initialValid);
+  const { active } = useSelector((state) => state.departamento);
   const [tabSelect, setTabSelect] = useState(1);
+
+  const [formValues, setFormValues] = useState(initialForm);
   const {
+    numerosec,
+    fechaemision,
     material,
     motivo,
     retornara,
     destino,
     solicitante,
     transporte,
-    aprobadorAdm,
-    aprobadorSeg,
-    comentario,
+    aprobadoradm,
+    aprobadorseg,
+    solicitanteTo,
+    transporteTo,
+    aprobadoradmTo,
+    aprobadorsegTo,
+    creador,
+    comentarios,
+    comentarioinicial,
   } = formValues;
+
+  useEffect(() => {
+    if (active !== null) {
+      setFormValues(active);
+    }
+  }, [active]);
+
+  const handleInputChange = ({ target }) => {
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    setFormValues({ ...formValues, [target.name]: value });
+  };
 
   const handleTabPeople = (tabs) => {
     setTabSelect(tabs);
   };
 
+  const handleSearchSolicitante = () => {
+    setFormValues((e) => ({ ...e, solicitante: { id: 22, toString: 'nuevo' } }));
+  };
+
+  const handleSearchTransporte = () => {
+    setFormValues((e) => ({ ...e, transporte: { id: 22, toString: 'nuevo2' } }));
+  };
+
+  const handleSchAprobAdm = () => {
+    setFormValues((e) => ({ ...e, aprobadoradm: { id: 22, toString: 'Adminitrador' } }));
+  };
+
+  const handleSchAprobSeg = () => {
+    setFormValues((e) => ({ ...e, aprobadorseg: { id: 22, toString: 'Seguridad' } }));
+  };
+
+  const handleClose = () => {
+    history.goBack();
+  };
+
+  const handleDelete = () => {};
+
   const isFormValid = () => {
     let alertForm = [];
 
-    setValidState((estate) => ({ ...estate, material: true }));
     if (material === undefined || material.trim().length <= 4) {
-      setValidState((estate) => ({ ...estate, material: false }));
       alertForm = [...alertForm, `Material o equipo ${material} mas de 4 caracteres`];
     }
 
-    setValidState((estate) => ({ ...estate, solicitante: true }));
-    if (solicitante === undefined || solicitante.trim().length <= 4) {
-      setValidState((estate) => ({ ...estate, solicitante: false }));
+    if (solicitanteTo === undefined || solicitanteTo.trim().length <= 4) {
       alertForm = [
         ...alertForm,
-        `La CI / RIF del solicitante ${solicitante} no es valido.`,
+        `La CI / RIF del solicitante ${solicitanteTo} no es valido.`,
       ];
     }
 
-    setValidState((estate) => ({ ...estate, transporte: true }));
-    if (transporte === undefined || transporte.trim().length <= 4) {
-      setValidState((estate) => ({ ...estate, transporte: false }));
-      alertForm = [...alertForm, `Placa del transporte ${transporte} no es valido.`];
+    if (transporteTo === undefined || transporteTo.trim().length <= 4) {
+      alertForm = [...alertForm, `Placa del transporte ${transporteTo} no es valido.`];
     }
 
-    setValidState((estate) => ({ ...estate, aprobadorAdm: true }));
-    if (aprobadorAdm === undefined || aprobadorAdm.trim().length <= 4) {
-      setValidState((estate) => ({ ...estate, aprobadorAdm: false }));
+    if (aprobadoradmTo === undefined || aprobadoradmTo.trim().length <= 4) {
       alertForm = [
         ...alertForm,
-        `CI del aprobador supervisor ${aprobadorAdm} no es valido.`,
+        `CI del aprobador supervisor ${aprobadoradmTo} no es valido.`,
       ];
     }
 
-    setValidState((estate) => ({ ...estate, aprobadorSeg: true }));
-    if (aprobadorSeg === undefined || aprobadorSeg.trim().length <= 4) {
-      setValidState((estate) => ({ ...estate, aprobadorSeg: false }));
+    if (aprobadorsegTo === undefined || aprobadorsegTo.trim().length <= 4) {
       alertForm = [
         ...alertForm,
-        `CI del aprobador seguridad ${aprobadorSeg} no es valido.`,
+        `CI del aprobador seguridad ${aprobadorsegTo} no es valido.`,
       ];
     }
 
@@ -98,10 +170,27 @@ export const SalidaEdit = () => {
       Swal.fire({
         title: 'Verificar',
         html: htmlAlertMessage(isValidData),
-        icon: 'error',
+        icon: 'warning',
       });
       return;
     }
+
+    if (active) {
+      dispatch(salidaUpdated(formValues));
+    } else {
+      dispatch(
+        salidaAddNew({
+          ...formValues,
+          rowId: new Date().getTime().toString(),
+          creador: {
+            _id: '001',
+            name: 'pedro',
+          },
+        })
+      );
+    }
+
+    handleClose();
   };
 
   const tabMaterial = () => (
@@ -166,8 +255,8 @@ export const SalidaEdit = () => {
       <div className="form-label-group">
         <textarea
           id="inputComentario"
-          name="comentario"
-          value={comentario}
+          name="comentarioinicial"
+          value={comentarioinicial}
           onChange={handleInputChange}
           placeholder="Comentario sobre la salida"
           className="form-control"
@@ -183,28 +272,42 @@ export const SalidaEdit = () => {
         <input
           type="text"
           id="inputPersona"
-          className={`form-control ${!validState.solicitante && 'is-invalid'}`}
+          className="form-control d-inline w-50"
           placeholder="CI o RIF - Persona Solicitante"
-          name="solicitante"
-          value={solicitante}
+          name="solicitanteTo"
+          value={solicitanteTo}
           onChange={handleInputChange}
           required
         />
         <label htmlFor="inputPersona">CI o RIF - Persona Solicitante</label>
+        <button
+          type="button"
+          className="btn btn-outline-info d-inline ml-2"
+          onClick={handleSearchSolicitante}>
+          <i className="fa fa-search"></i>
+        </button>
+        <span className="ml-4">{solicitante.toString}</span>
       </div>
 
       <div className="form-label-group">
         <input
           type="text"
           id="inputTransporte"
-          className={`form-control ${!validState.transporte && 'is-invalid'}`}
+          className="form-control d-inline w-50"
           placeholder="Placa del Transporte"
-          name="transporte"
-          value={transporte}
+          name="transporteTo"
+          value={transporteTo}
           onChange={handleInputChange}
           required
         />
         <label htmlFor="inputMotivo">Placa del Transporte</label>
+        <button
+          type="button"
+          className="btn btn-outline-info d-inline ml-2"
+          onClick={handleSearchTransporte}>
+          <i className="fa fa-search"></i>
+        </button>
+        <span className="ml-4">{transporte.toString}</span>
       </div>
     </section>
   );
@@ -215,28 +318,42 @@ export const SalidaEdit = () => {
         <input
           type="text"
           id="inputAprobadorAdm"
-          className={`form-control ${!validState.aprobadorAdm && 'is-invalid'}`}
+          className="form-control d-inline w-50"
           placeholder="CI. Aprobador Supervisor"
-          name="aprobadorAdm"
-          value={aprobadorAdm}
+          name="aprobadoradmTo"
+          value={aprobadoradmTo}
           onChange={handleInputChange}
           required
         />
         <label htmlFor="inputAprobadorAdm">CI. Aprobador Supervisor</label>
+        <button
+          type="button"
+          className="btn btn-outline-info d-inline ml-2"
+          onClick={handleSchAprobAdm}>
+          <i className="fa fa-search"></i>
+        </button>
+        <span className="ml-4">{aprobadoradm.toString}</span>
       </div>
 
       <div className="form-label-group">
         <input
           type="text"
           id="inputAprobadorSeg"
-          className={`form-control ${!validState.aprobadorSeg && 'is-invalid'}`}
+          className="form-control d-inline w-50"
           placeholder="CI. Aprobador Proct y Bienes"
-          name="aprobadorSeg"
-          value={aprobadorSeg}
+          name="aprobadorsegTo"
+          value={aprobadorsegTo}
           onChange={handleInputChange}
           required
         />
         <label htmlFor="inputAprobadorSeg">CI. Aprobador Proct y Bienes</label>
+        <button
+          type="button"
+          className="btn btn-outline-info d-inline ml-2"
+          onClick={handleSchAprobSeg}>
+          <i className="fa fa-search"></i>
+        </button>
+        <span className="ml-4">{aprobadorseg.toString}</span>
       </div>
     </section>
   );
@@ -272,12 +389,25 @@ export const SalidaEdit = () => {
         {tabSelect === 1 && tabMaterial()}
         {tabSelect === 2 && tabSolicitante()}
         {tabSelect === 3 && tabAprobadores()}
-        <div className="d-flex justify-content-between p-2">
-          <button className="btn btn-ourline-secondary" type="button">
-            Cancelar
-          </button>
+        <div className="d-flex justify-content-between px-2">
+          <div>
+            <button
+              className="btn btn-outline-secondary px-4"
+              type="button"
+              onClick={handleClose}>
+              Cancelar
+            </button>
+            {active && (
+              <button
+                className="btn btn-outline-danger px-4 ml-2"
+                type="button"
+                onClick={handleDelete}>
+                Borrar
+              </button>
+            )}
+          </div>
 
-          <button className="btn btn-success" type="submit">
+          <button className="btn btn-success px-4" type="submit">
             Aceptar
           </button>
         </div>

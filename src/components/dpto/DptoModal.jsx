@@ -156,7 +156,9 @@ export const DptoModal = () => {
 
           <div className="form-label-group">
             <input
-              type="text"
+              type="number"
+              min="1"
+              max="9999"
               id="inputNroSalida"
               className="form-control"
               placeholder="Nro Salida"
