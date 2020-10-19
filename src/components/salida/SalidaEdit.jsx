@@ -71,8 +71,8 @@ export const SalidaEdit = ({ history }) => {
 
   const [formValues, setFormValues] = useState(initialForm);
   const {
-    numerosec,
-    fechaemision,
+    // numerosec,
+    // fechaemision,
     material,
     motivo,
     retornara,
@@ -85,8 +85,8 @@ export const SalidaEdit = ({ history }) => {
     transporteTo,
     aprobadoradmTo,
     aprobadorsegTo,
-    creador,
-    comentarios,
+    // creador,
+    // comentarios,
     comentarioinicial,
   } = formValues;
 
