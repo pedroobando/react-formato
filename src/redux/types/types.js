@@ -51,3 +51,13 @@ export const typeDepartamento = {
   loaded: '[departamento] Loaded',
   logout: '[departamento] Logout',
 };
+
+export const typeSalida = {
+  setActive: '[salida] Set Active',
+  addNew: '[salida] Add New',
+  clearActive: '[salida] Clear Active',
+  updated: '[salida] Updated',
+  deleted: '[salida] Deleted',
+  loaded: '[salida] Loaded',
+  logout: '[salida] Logout',
+};
