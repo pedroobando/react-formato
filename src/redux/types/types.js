@@ -41,3 +41,13 @@ export const typeUsuario = {
   loaded: '[usuario] Loaded',
   logout: '[usuario] Logout',
 };
+
+export const typeDepartamento = {
+  setActive: '[departamento] Set Active',
+  addNew: '[departamento] Add New',
+  clearActive: '[departamento] Clear Active',
+  updated: '[departamento] Updated',
+  deleted: '[departamento] Deleted',
+  loaded: '[departamento] Loaded',
+  logout: '[departamento] Logout',
+};

@@ -4,6 +4,7 @@ import { uiReducer } from './uiReducer';
 import { personaReducer } from './personaReducer';
 import { vehiculoReducer } from './vehiculoReducer';
 import { usuarioReducer } from './usuarioReducer';
+import { departamentoReducer } from './departamentoReducer';
 
 export const rootReducer = combineReducers({
   ui: uiReducer,
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
 
   persona: personaReducer,
   vehiculo: vehiculoReducer,
+  departamento: departamentoReducer,
   usuario: usuarioReducer,
 });
