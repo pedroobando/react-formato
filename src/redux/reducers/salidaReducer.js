@@ -5,7 +5,7 @@ const initialState = {
   active: null,
 };
 
-// entity = {
+// const entity = {
 //   rowId: '006',
 //   numerosec: 'ADM-00000-2020',
 //   fechaemision: '2020-02-01',
@@ -14,58 +14,36 @@ const initialState = {
 //   retornara: true,
 //   destino: 'direccion donde estara',
 //   solicitante: {
-//      id:'387487343',
-//      toString:'pedro perez'
-//    },
+//     id: '387487343',
+//     toString: 'pedro perez',
+//   },
 //   transporte: {
-//      id:'387487343',
-//      toString:'GDA-6458'
-//    },
+//     id: '387487343',
+//     toString: 'GDA-6458',
+//   },
 //   aprobadoradm: {
-//      id:'387487343',
-//      toString:'pedro perez'
-//    },
+//     id: '387487343',
+//     toString: 'pedro perez',
+//   },
 //   aprobadorseg: {
-//      id:'387487343',
-//      toString:'pedro perez'
-//    },
+//     id: '387487343',
+//     toString: 'pedro perez',
+//   },
 //   creador: {
-//      id:'387487343',
-//      toString:'pedro perez'
-//    },
-//   comentarios: [{
-//      fecha:'2020-01-20',
-//      nota:'Se entrego la pieza a x elemento'
-//      usuario: {
-//        id:'387487343',
-//        toString:'pedro perez'
-//      },
-//   }],
-//   comentarios: [{
-//      fecha:'2020-01-20',
-//      nota:'Se entrego la pieza a x elemento'
-//      usuario: {
-//        id:'387487343',
-//        toString:'pedro perez'
-//      },
-//   }],
-//   comentarios: [{
-//      fecha:'2020-01-20',
-//      nota:'Se entrego la pieza a x elemento'
-//      usuario: {
-//        id:'387487343',
-//        toString:'pedro perez'
-//      },
-//    },
-//    {
-//      fecha:'2020-01-20',
-//      nota:'Se entrego la pieza a x elemento'
-//      usuario: {
-//        id:'387487343',
-//        toString:'pedro perez'
-//      },
-//    }
-// },
+//     id: '387487343',
+//     toString: 'pedro perez',
+//   },
+//   comentarios: [
+//     {
+//       fecha: '2020-01-20',
+//       nota: 'Se entrego la pieza a x elemento',
+//       usuario: {
+//         id: '387487343',
+//         toString: 'pedro perez',
+//       },
+//     },
+//   ],
+// };
 
 export const salidaReducer = (state = initialState, action) => {
   switch (action.type) {

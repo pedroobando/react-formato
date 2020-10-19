@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-import { salidaAddNew, salidaUpdated } from '../../redux/actions/salidas';
+import { salidaAddNew, salidaDelete, salidaUpdated } from '../../redux/actions/salidas';
 
 // const initialForm2 = {
 //   fechaemision: Date.now(),
@@ -21,7 +21,7 @@ import { salidaAddNew, salidaUpdated } from '../../redux/actions/salidas';
 const initialForm = {
   rowId: '',
   numerosec: '',
-  fechaemision: new Date().getDate(),
+  fechaemision: '',
   material: '',
   motivo: '',
   retornara: true,
@@ -66,7 +66,7 @@ const initialForm = {
 export const SalidaEdit = ({ history }) => {
   const dispatch = useDispatch();
 
-  const { active } = useSelector((state) => state.departamento);
+  const { active } = useSelector((state) => state.ordsalida);
   const [tabSelect, setTabSelect] = useState(1);
 
   const [formValues, setFormValues] = useState(initialForm);
@@ -106,26 +106,35 @@ export const SalidaEdit = ({ history }) => {
   };
 
   const handleSearchSolicitante = () => {
-    setFormValues((e) => ({ ...e, solicitante: { id: 22, toString: 'nuevo' } }));
+    setFormValues((e) => ({ ...e, solicitante: { id: 22, toString: 'Luis Martinez' } }));
   };
 
   const handleSearchTransporte = () => {
-    setFormValues((e) => ({ ...e, transporte: { id: 22, toString: 'nuevo2' } }));
+    setFormValues((e) => ({ ...e, transporte: { id: 102, toString: 'NAU3648D' } }));
   };
 
   const handleSchAprobAdm = () => {
-    setFormValues((e) => ({ ...e, aprobadoradm: { id: 22, toString: 'Adminitrador' } }));
+    setFormValues((e) => ({
+      ...e,
+      aprobadoradm: { id: 684, toString: 'Aprobador Adminitrador' },
+    }));
   };
 
   const handleSchAprobSeg = () => {
-    setFormValues((e) => ({ ...e, aprobadorseg: { id: 22, toString: 'Seguridad' } }));
+    setFormValues((e) => ({
+      ...e,
+      aprobadorseg: { id: 367, toString: 'Aprobador Seguridad' },
+    }));
   };
 
   const handleClose = () => {
     history.goBack();
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    dispatch(salidaDelete());
+    handleClose();
+  };
 
   const isFormValid = () => {
     let alertForm = [];
@@ -182,6 +191,16 @@ export const SalidaEdit = ({ history }) => {
         salidaAddNew({
           ...formValues,
           rowId: new Date().getTime().toString(),
+          comentarios: [
+            {
+              fecha: new Date().getDate(),
+              nota: comentarioinicial,
+              usuario: {
+                id: '001',
+                toString: 'pedro',
+              },
+            },
+          ],
           creador: {
             _id: '001',
             name: 'pedro',
@@ -245,7 +264,7 @@ export const SalidaEdit = ({ history }) => {
           <input
             type="checkbox"
             name="retornara"
-            value={retornara}
+            checked={retornara}
             onChange={handleInputChange}
           />{' '}
           Retornara
