@@ -15,6 +15,9 @@ export const NavbarTop = () => {
             Salidas
           </Nav.Link>
           <NavDropdown title="Datos" id="collasible-nav-dropdown">
+            <NavDropdown.Item as={Link} to="/datos/departamento">
+              Departamento
+            </NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/datos/persona">
               Personas
             </NavDropdown.Item>

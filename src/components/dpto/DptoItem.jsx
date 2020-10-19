@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const VehiculoItem = ({ vehiculo, onClickEvent, onDblClickEvent }) => {
-  const { rowId, placa, marca, modelo, color } = vehiculo;
+export const DptoItem = ({ departamento, onClickEvent, onDblClickEvent }) => {
+  const { rowId, nombre, abreviacion, nrosalida } = departamento;
 
   return (
     <div
@@ -11,13 +11,12 @@ export const VehiculoItem = ({ vehiculo, onClickEvent, onDblClickEvent }) => {
       onDoubleClick={onDblClickEvent}>
       <div className="d-flex justify-content-between">
         <h5 className="mb-1 text-uppercase font-weight-bolder">
-          {placa} &nbsp;
-          <i className="fas fa-shuttle-van fa-1x" />
+          {nombre}
+          <span className="text-muted ml-2">({abreviacion})</span>
+          <i className="fas fa-layer-group fa-1x ml-2" />
         </h5>
         <div className="text-muted d-flex justify-content-between">
-          <span className="mr-2">{marca}</span>
-          <span className="mr-2">{modelo}</span>
-          <span>{color}</span>
+          <span className="mr-2"># {nrosalida}</span>
         </div>
       </div>
     </div>

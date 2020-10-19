@@ -6,15 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../redux/actions/ui';
 
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-// import { useForm } from '../../hooks/useForm';
 
 import '../../styles/modal.css';
 import {
-  vehiculoAddNew,
-  vehiculoClearActive,
-  vehiculoDelete,
-  vehiculoUpdated,
-} from '../../redux/actions/vehiculos';
+  departamentoAddNew,
+  departamentoClearActive,
+  departamentoDelete,
+  departamentoUpdated,
+} from '../../redux/actions/departamentos';
 
 const customStyles = {
   content: {
@@ -38,14 +37,14 @@ const initialForm = {
 
 Modal.setAppElement('#root');
 
-export const VehiculoModal = () => {
+export const DptoModal = () => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
-  const { active } = useSelector((state) => state.vehiculo);
+  const { active } = useSelector((state) => state.departamento);
 
   const [formValues, setFormValues] = useState(initialForm);
-  const { placa, marca, modelo, color, activo } = formValues;
+  const { nombre, abreviacion, nrosalida } = formValues;
 
   useEffect(() => {
     if (active !== null) {
@@ -60,33 +59,26 @@ export const VehiculoModal = () => {
 
   const handleModalClose = () => {
     dispatch(uiCloseModal());
-    dispatch(vehiculoClearActive());
+    dispatch(departamentoClearActive());
     setFormValues(initialForm);
   };
 
   const handleDelete = () => {
-    dispatch(vehiculoDelete());
+    dispatch(departamentoDelete());
     handleModalClose();
   };
 
   const isFormValid = () => {
     let alertForm = [];
 
-    if (placa === undefined || placa.trim().length <= 4) {
-      alertForm = [...alertForm, `Placa ${placa} menos de 5 caracteres`];
+    if (nombre === undefined || nombre.trim().length <= 4) {
+      alertForm = [...alertForm, `Nombre ${nombre} menos de 5 caracteres`];
     }
 
-    if (marca === undefined || marca.trim().length <= 2) {
-      alertForm = [...alertForm, `La marca del vehiculo es requerida.`];
+    if (abreviacion === undefined || abreviacion.trim().length >= 4) {
+      alertForm = [...alertForm, `Abreviacion mas de 3 caracteres.`];
     }
 
-    if (modelo === undefined || modelo.trim().length <= 2) {
-      alertForm = [...alertForm, `El modelo del vehiculo es solicitado.`];
-    }
-
-    if (color === undefined || color.trim().length <= 2) {
-      alertForm = [...alertForm, `El color del vehiculo es solicitado.`];
-    }
     return alertForm;
   };
 
@@ -104,10 +96,10 @@ export const VehiculoModal = () => {
     }
 
     if (active) {
-      dispatch(vehiculoUpdated(formValues));
+      dispatch(departamentoUpdated(formValues));
     } else {
       dispatch(
-        vehiculoAddNew({
+        departamentoAddNew({
           ...formValues,
           rowId: new Date().getTime().toString(),
           user: {
@@ -132,73 +124,47 @@ export const VehiculoModal = () => {
         overlayClassName="modal-fondo">
         <form className="p-2" onSubmit={handleSubmit}>
           <div className="text-center text-uppercase">
-            <h4>Datos del transporte / vehiculo</h4>
+            <h4>{!active ? 'Nuevo Departamento' : 'Datos Departamento'}</h4>
             <hr />
           </div>
           <div className="form-label-group">
             <input
               type="text"
-              id="inputPlaca"
+              id="inputDpto"
               className="form-control"
-              placeholder="Placa del vehiculo"
-              name="placa"
-              value={placa}
+              placeholder="Nombre del Departamento"
+              name="nombre"
+              value={nombre}
               onChange={handleInputChange}
               required
             />
-            <label htmlFor="inputPlaca">Placa del vehiculo</label>
+            <label htmlFor="inputDpto">Nombre del Departamento</label>
           </div>
 
           <div className="form-label-group">
             <input
               type="text"
-              id="inputMarca"
+              id="inputAbrev"
               className="form-control"
-              placeholder="Marca del vehiculo"
-              name="marca"
-              value={marca}
+              placeholder="Abreviacion"
+              name="abreviacion"
+              value={abreviacion}
               onChange={handleInputChange}
             />
-            <label htmlFor="inputMarca">Marca del vehiculo</label>
+            <label htmlFor="inputAbrev">Abreviacion</label>
           </div>
 
           <div className="form-label-group">
             <input
               type="text"
-              id="inputModelo"
+              id="inputNroSalida"
               className="form-control"
-              placeholder="Modelo del vehiculo"
-              name="modelo"
-              value={modelo}
+              placeholder="Nro Salida"
+              name="nrosalida"
+              value={nrosalida}
               onChange={handleInputChange}
             />
-            <label htmlFor="inputModelo">Modelo del vehiculo</label>
-          </div>
-
-          <div className="form-label-group">
-            <input
-              type="text"
-              id="inputColor"
-              className="form-control"
-              placeholder="Color"
-              autoComplete="off"
-              name="color"
-              value={color}
-              onChange={handleInputChange}
-            />
-            <label htmlFor="inputColor">Color</label>
-          </div>
-
-          <div className="checkbox mb-3">
-            <label>
-              <input
-                type="checkbox"
-                name="activo"
-                checked={activo}
-                onChange={handleInputChange}
-              />{' '}
-              Activo
-            </label>
+            <label htmlFor="inputNroSalida">Nro Salida</label>
           </div>
 
           <div className="d-flex justify-content-between px-2">

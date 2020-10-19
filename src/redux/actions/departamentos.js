@@ -1,24 +1,24 @@
 import { typeDepartamento } from '../types/types';
 
-export const vehiculoAddNew = (dataEntity) => ({
+export const departamentoAddNew = (dataEntity) => ({
   type: typeDepartamento.addNew,
   payload: dataEntity,
 });
 
-export const vehiculoSetActive = (event) => ({
+export const departamentoSetActive = (event) => ({
   type: typeDepartamento.setActive,
   payload: event,
 });
 
-export const vehiculoClearActive = () => ({
+export const departamentoClearActive = () => ({
   type: typeDepartamento.clearActive,
 });
 
-export const vehiculoUpdated = (dataEntity) => ({
+export const departamentoUpdated = (dataEntity) => ({
   type: typeDepartamento.updated,
   payload: dataEntity,
 });
 
-export const vehiculoDelete = () => ({
+export const departamentoDelete = () => ({
   type: typeDepartamento.deleted,
 });

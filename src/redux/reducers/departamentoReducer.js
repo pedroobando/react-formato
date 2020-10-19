@@ -5,12 +5,11 @@ const initialState = {
   active: null,
 };
 
-// vehiculo = {
+// entity = {
 //   rowId: '006',
-//   placa: 'PEW-23D',
-//   marca: 'NISAN',
-//   modelo: 'J3',
-//   color: 'GRIS',
+//   nombre: 'Administracion',
+//   abreviacion: 'ADM',
+//   nrosalida: 0001,
 // },
 
 export const departamentoReducer = (state = initialState, action) => {
