@@ -1,7 +1,16 @@
 import React from 'react';
 
 export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent }) => {
-  const { rowId, nombre, dni, telefono, comentario } = persona;
+  const {
+    rowId,
+    nombre,
+    dni,
+    telefono,
+    comentario,
+    activo,
+    aprobadoradm,
+    aprobadorseg,
+  } = persona;
 
   return (
     <div
@@ -9,7 +18,13 @@ export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent }) => {
       className="list-group-item list-group-item-action"
       onClick={onClickEvent}>
       <div className="d-flex w-100 justify-content-between">
-        <h5 className="mb-1 text-uppercase font-weight-bolder">{nombre}</h5>
+        <h5
+          className={`mb-1 text-uppercase font-weight-bolder ${
+            !activo ? 'text-muted' : ''
+          }`}>
+          {nombre} {aprobadoradm && <i className="fa fa-user-tie" />}{' '}
+          {aprobadorseg && <i className="fa fa-user-shield" />}
+        </h5>
         <div className="text-mute">
           <small className="d-inline-block">
             <i className="fas fa-id-card fa-1x" />

@@ -33,6 +33,8 @@ const initialForm = {
   telefono: '',
   comentario: '',
   activo: false,
+  aprobadoradm: false,
+  aprobadorseg: false,
 };
 
 Modal.setAppElement('#root');
@@ -44,7 +46,15 @@ export const PersonaModal = () => {
   const { activePersona } = useSelector((state) => state.persona);
 
   const [formValues, setFormValues] = useState(initialForm);
-  const { nombre, dni, telefono, comentario, activo } = formValues;
+  const {
+    nombre,
+    dni,
+    telefono,
+    comentario,
+    activo,
+    aprobadoradm,
+    aprobadorseg,
+  } = formValues;
 
   useEffect(() => {
     if (activePersona !== null) {
@@ -169,6 +179,30 @@ export const PersonaModal = () => {
               onChange={handleInputChange}
             />
             <label htmlFor="inputTelefono">Telefono(s)</label>
+          </div>
+
+          <div className="checkbox mb-3">
+            <label>
+              <input
+                type="checkbox"
+                name="aprobadoradm"
+                checked={aprobadoradm}
+                onChange={handleInputChange}
+              />{' '}
+              Aprobador Admin
+            </label>
+          </div>
+
+          <div className="checkbox mb-3">
+            <label>
+              <input
+                type="checkbox"
+                name="aprobadorseg"
+                checked={aprobadorseg}
+                onChange={handleInputChange}
+              />{' '}
+              Aprobador Seguridad
+            </label>
           </div>
 
           <div className="checkbox mb-3">
