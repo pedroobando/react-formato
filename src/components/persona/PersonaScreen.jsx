@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AddNewItem } from '../ui/AddNewItem';
@@ -7,11 +7,15 @@ import { PersonaItem } from './PersonaItem';
 
 import { uiOpenModal } from '../../redux/actions/ui';
 
-import { personaSetActive } from '../../redux/actions/personas';
+import { personaSetActive, personaStartLoading } from '../../redux/actions/personas';
 
 export const PersonaScreen = () => {
   const dispatch = useDispatch();
   const { personas } = useSelector((state) => state.persona);
+
+  useEffect(() => {
+    dispatch(personaStartLoading());
+  }, [dispatch]);
 
   const handleOpenModal = () => {
     dispatch(uiOpenModal());

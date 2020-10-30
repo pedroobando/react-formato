@@ -9,9 +9,9 @@ import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 
 import '../../styles/modal.css';
 import {
-  personaAddNew,
   personaClearActive,
   personaDelete,
+  personaStartAddNew,
   personaUpdated,
 } from '../../redux/actions/personas';
 
@@ -108,16 +108,7 @@ export const PersonaModal = () => {
     if (activePersona) {
       dispatch(personaUpdated(formValues));
     } else {
-      dispatch(
-        personaAddNew({
-          ...formValues,
-          rowId: new Date().getTime().toString(),
-          user: {
-            _id: '001',
-            name: 'pedro',
-          },
-        })
-      );
+      dispatch(personaStartAddNew(formValues));
     }
 
     handleModalClose();

@@ -1,4 +1,21 @@
+/* eslint-disable no-irregular-whitespace */
 import { typePersona } from '../types/types';
+// const item ={
+//   ​​rowId: "5f9c7d147b415120550c0f53",
+//   activo: true,
+//   ​​aprobadoradm: true,
+//   ​​aprobadorseg: true,
+//   ​​comentario: "324 32432432432324",
+//   ​​creador: "5f9c35b8ecfeb73d914ffde3",
+//   ​​createdAt: "2020-10-30T20:52:36.482Z",
+//   ​​dni: "3434SDDSFDS",
+//   ​​nombre: "343434 34343434",
+//   ​​telefono: "324324324",
+//   user:{
+//     _id: '2323232323',
+//     name: 'pedro'
+//   },
+// ​}
 
 const initialState = {
   personas: [],

@@ -23,7 +23,6 @@ export const typePersona = {
   updated: '[persona] Updated',
   deleted: '[persona] Deleted',
   loaded: '[persona] Loaded',
-  logout: '[persona] Logout',
 };
 
 export const typeVehiculo = {
