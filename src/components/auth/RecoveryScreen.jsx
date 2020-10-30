@@ -6,18 +6,22 @@ import { useForm } from '../../hooks/useForm';
 import { Link } from 'react-router-dom';
 
 const initialForm = {
-  lemail: 'pedroobando@hotmail.com',
-  lpassword: '123456',
+  email: 'pedroobando@hotmail.com',
 };
 
 export const RecoveryScreen = () => {
   const dispatch = useDispatch();
   const [formValues, handleInputChange] = useForm(initialForm);
-  const { lpassword, lemail } = formValues;
+  const { email } = formValues;
+
+  const handleSubmit = (hevent) => {
+    hevent.preventDefault();
+    // dispatch(startRegister(rname, remail, rpassword));
+  };
 
   return (
     <div className="bodylogin">
-      <form className="form-signin">
+      <form className="form-signin" onSubmit={handleSubmit}>
         <div className="text-center mb-4">
           <i className="fas fa-5x fa-unlock-alt"></i>
           <h3 className="mt-2">Recuperar</h3>
@@ -28,8 +32,11 @@ export const RecoveryScreen = () => {
           <input
             type="email"
             id="inputEmail"
+            name="email"
+            value={email}
             className="form-control"
             placeholder="Email address"
+            onChange={handleInputChange}
             required
           />
           <label htmlFor="inputEmail">Direccion de correo</label>

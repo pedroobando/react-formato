@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { useForm } from '../../hooks/useForm';
-import { startLogin } from '../../redux/actions/auth';
+import { startRegister } from '../../redux/actions/auth';
 
 const initialForm = {
   rname: 'pedro',
@@ -18,7 +18,7 @@ export const RegisterScreen = () => {
 
   const handleSubmit = (hevent) => {
     hevent.preventDefault();
-    dispatch(startLogin(rname, remail, rpassword));
+    dispatch(startRegister(rname, remail, rpassword));
   };
   return (
     <div className="bodylogin">

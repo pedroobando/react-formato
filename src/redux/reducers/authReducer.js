@@ -11,8 +11,16 @@ export const authReducer = (state = inititalState, action) => {
     case typesAuth.authLogin:
       return {
         ...state,
-        checking: false,
         ...action.payload,
+        checking: false,
+      };
+
+    case typesAuth.authCheckingFinish:
+      return {
+        ...state,
+        checking: false,
+        name: null,
+        uid: null,
       };
 
     default:
