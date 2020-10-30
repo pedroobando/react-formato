@@ -16,7 +16,6 @@ export const AppRouter = () => {
     dispatch(startCheckin());
   }, [dispatch]);
 
-  console.log(!!uid);
   if (checking) {
     return <h5>Espere..</h5>;
   }
@@ -34,7 +33,7 @@ export const AppRouter = () => {
           <PrivateRouter
             // exact
             isAuthenticated={!!uid}
-            notAuthenticatedRedirectTo="auth/login"
+            notAuthenticatedRedirectTo="/auth/login"
             path="/"
             component={MainRouter}
           />

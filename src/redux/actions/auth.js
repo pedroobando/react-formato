@@ -52,6 +52,15 @@ export const startRegister = (name, email, password) => {
   };
 };
 
+export const startLogout = () => {
+  return async (dispath) => {
+    localStorage.clear();
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('token-init-date');
+    dispath(logout());
+  };
+};
+
 export const startCheckin = () => {
   return async (dispath) => {
     const resp = await fetchConToken('auth/renew');
@@ -77,4 +86,8 @@ const checkingFinish = () => ({ type: typesAuth.authCheckingFinish });
 const login = (user) => ({
   type: typesAuth.authLogin,
   payload: user,
+});
+
+const logout = () => ({
+  type: typesAuth.authLogout,
 });

@@ -1,12 +1,25 @@
 import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { startLogout } from '../../redux/actions/auth';
 
 export const NavbarTop = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { name } = useSelector((state) => state.auth);
+
+  const handleLogOut = () => {
+    dispatch(startLogout());
+    history.replace('/auth/login');
+    // console.log('logout');
+  };
+
   return (
     <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Navbar.Brand as={Link} to="/">
-        Formato
+        Salidas
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
@@ -31,8 +44,13 @@ export const NavbarTop = () => {
           </NavDropdown>
         </Nav>
         <Nav>
-          <Nav.Link href="#deets">Pedro</Nav.Link>
-          <button className="btn btn-btn-outline-dark btn-sm">Logout</button>
+          <Nav.Link href="#chupas">{name}</Nav.Link>
+          <button
+            type="button"
+            className="btn btn-btn-outline-dark btn-sm"
+            onClick={handleLogOut}>
+            Logout
+          </button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

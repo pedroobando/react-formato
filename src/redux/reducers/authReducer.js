@@ -23,6 +23,14 @@ export const authReducer = (state = inititalState, action) => {
         uid: null,
       };
 
+    case typesAuth.authLogout:
+      return {
+        ...state,
+        checking: false,
+        name: null,
+        uid: null,
+      };
+
     default:
       return state;
   }
