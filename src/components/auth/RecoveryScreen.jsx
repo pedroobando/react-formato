@@ -1,7 +1,20 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
+// import { startLogin } from '../../redux/actions/auth';
+
 import { Link } from 'react-router-dom';
 
+const initialForm = {
+  lemail: 'pedroobando@hotmail.com',
+  lpassword: '123456',
+};
+
 export const RecoveryScreen = () => {
+  const dispatch = useDispatch();
+  const [formValues, handleInputChange] = useForm(initialForm);
+  const { lpassword, lemail } = formValues;
+
   return (
     <div className="bodylogin">
       <form className="form-signin">

@@ -1,10 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { useForm } from '../../hooks/useForm';
+import { startLogin } from '../../redux/actions/auth';
+
+const initialForm = {
+  rname: 'pedro',
+  remail: 'pedroobando@hotmail.com',
+  rpassword: '123456',
+};
 
 export const RegisterScreen = () => {
+  const dispatch = useDispatch();
+  const [formValues, handleInputChange] = useForm(initialForm);
+  const { rpassword, remail, rname } = formValues;
+
+  const handleSubmit = (hevent) => {
+    hevent.preventDefault();
+    dispatch(startLogin(rname, remail, rpassword));
+  };
   return (
     <div className="bodylogin">
-      <form className="form-signin">
+      <form className="form-signin" onSubmit={handleSubmit}>
         <div className="text-center mb-4">
           <i className="fas fa-5x fa-user-friends"></i>
           <h3 className="mt-2">Por favor, registrese</h3>
@@ -18,8 +36,11 @@ export const RegisterScreen = () => {
           <input
             type="text"
             id="inputName"
+            name="rname"
+            value={rname}
             className="form-control"
             placeholder="nombre usuario"
+            onChange={handleInputChange}
             required
           />
           <label htmlFor="inputName">Nombre</label>
@@ -29,8 +50,11 @@ export const RegisterScreen = () => {
           <input
             type="email"
             id="inputEmail"
+            name="remail"
+            value={remail}
             className="form-control"
             placeholder="Email address"
+            onChange={handleInputChange}
             required
           />
           <label htmlFor="inputEmail">Direccion de correo</label>
@@ -40,8 +64,11 @@ export const RegisterScreen = () => {
           <input
             type="password"
             id="inputPassword"
+            name="rpassword"
+            value={rpassword}
             className="form-control"
             placeholder="Password"
+            onChange={handleInputChange}
             required
           />
           <label htmlFor="inputPassword">Password</label>

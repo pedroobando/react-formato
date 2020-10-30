@@ -6,10 +6,11 @@ import { vehiculoReducer } from './vehiculoReducer';
 import { usuarioReducer } from './usuarioReducer';
 import { departamentoReducer } from './departamentoReducer';
 import { salidaReducer } from './salidaReducer';
+import { authReducer } from './authReducer';
 
 export const rootReducer = combineReducers({
   ui: uiReducer,
-  // TODO: authReducer
+  auth: authReducer,
   ordsalida: salidaReducer,
   persona: personaReducer,
   vehiculo: vehiculoReducer,

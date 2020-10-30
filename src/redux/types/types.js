@@ -1,9 +1,13 @@
 export const typesAuth = {
+  authChecking: '[auth] Checking login state',
+  authCheckingFinish: '[auth] Finish checking login state',
+
   authStartLogin: '[auth] Start Login',
   authLogin: '[auth] Login',
 
   authStartRegister: '[auth] Start Register',
-  authFrogetPassword: '[auth] Renew password',
+  authStartTokenRenew: '[auth] Start token renew',
+  authFrogetPassword: '[auth] Froget password',
   authLogout: '[auth] Logout',
 };
 
