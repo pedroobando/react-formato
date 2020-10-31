@@ -1,7 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 import { typePersona } from '../types/types';
 // const item ={
-//   ​​rowId: "5f9c7d147b415120550c0f53",
+//   ​​id: "5f9c7d147b415120550c0f53",
 //   activo: true,
 //   ​​aprobadoradm: true,
 //   ​​aprobadorseg: true,
@@ -27,7 +27,7 @@ export const personaReducer = (state = initialState, action) => {
     case typePersona.setActive:
       return {
         ...state,
-        activePersona: state.personas.find((element) => element.rowId === action.payload),
+        activePersona: state.personas.find((element) => element.id === action.payload),
       };
 
     case typePersona.addNew:
@@ -46,14 +46,14 @@ export const personaReducer = (state = initialState, action) => {
       return {
         ...state,
         personas: state.personas.map((e) =>
-          e.rowId === action.payload.rowId ? action.payload : e
+          e.id === action.payload.id ? action.payload : e
         ),
       };
 
     case typePersona.deleted:
       return {
         ...state,
-        personas: state.personas.filter((e) => e.rowId !== state.activePersona.rowId),
+        personas: state.personas.filter((e) => e.id !== state.activePersona.id),
         activePersona: null,
       };
 

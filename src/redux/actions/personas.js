@@ -1,6 +1,21 @@
 import { typePersona } from '../types/types';
 import { fetchConToken } from '../../helpers/fetch';
 
+export const personaStartLoading = () => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetchConToken('persona');
+      const body = await resp.json();
+
+      if (body.ok && body.data.length >= 1) {
+        dispatch(eventLoaded(body.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const personaStartAddNew = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
@@ -14,23 +29,71 @@ export const personaStartAddNew = (dataEntity) => {
       if (body.ok) {
         const dataEntityUpd = {
           ...dataEntity,
-          rowId: body.data.id,
+          id: body.data.id,
           user: { _id: uid, name },
         };
-        // dataEntity.rowId = body.data.id;
-        // dataEntity.user = { _id: uid, name };
         dispatch(personaAddNew(dataEntityUpd));
       }
-      console.log(body);
     } catch (error) {
       console.error(error);
     }
   };
 };
 
-export const personaAddNew = (dataEntity) => ({
+export const personaStartUpdate = (dataEntity) => {
+  return async (dispatch, getState) => {
+    try {
+      const { uid, name } = getState().auth;
+      const resp = await fetchConToken(
+        `persona/${dataEntity.id}`,
+        { ...dataEntity, creador: uid },
+        'PUT'
+      );
+      const body = await resp.json();
+      if (body.ok) {
+        const dataEntityUpd = {
+          ...dataEntity,
+          user: { _id: uid, name },
+        };
+        dispatch(personaUpdated(dataEntityUpd));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const personaStartDelete = (dataEntity) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetchConToken(`persona/${dataEntity.id}`, {}, 'DELETE');
+      const body = await resp.json();
+      if (body.ok) {
+        dispatch(personaDelete());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+const personaAddNew = (dataEntity) => ({
   type: typePersona.addNew,
   payload: dataEntity,
+});
+
+const personaUpdated = (dataEntity) => ({
+  type: typePersona.updated,
+  payload: dataEntity,
+});
+
+const personaDelete = () => ({
+  type: typePersona.deleted,
+});
+
+const eventLoaded = (entities) => ({
+  type: typePersona.loaded,
+  payload: entities,
 });
 
 export const personaSetActive = (event) => ({
@@ -40,37 +103,4 @@ export const personaSetActive = (event) => ({
 
 export const personaClearActive = () => ({
   type: typePersona.clearActive,
-});
-
-export const personaUpdated = (dataEntity) => ({
-  type: typePersona.updated,
-  payload: dataEntity,
-});
-
-export const personaDelete = () => ({
-  type: typePersona.deleted,
-});
-
-export const personaStartLoading = () => {
-  return async (dispatch) => {
-    // const { uid, name } = getState().auth;
-    try {
-      const resp = await fetchConToken('persona');
-      const body = await resp.json();
-      // const { events, ok } = body;
-
-      if (body.ok && body.data.length >= 1) {
-        // const events = prepareEvents(body.events);
-        // console.log(events);
-        dispatch(eventLoaded(body.data));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
-
-const eventLoaded = (entities) => ({
-  type: typePersona.loaded,
-  payload: entities,
 });

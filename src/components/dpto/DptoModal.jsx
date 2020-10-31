@@ -28,10 +28,9 @@ const customStyles = {
 
 const initialForm = {
   rowId: '',
-  placa: '',
-  marca: '',
-  modelo: '',
-  color: '',
+  nombre: '',
+  abreviacion: '',
+  nrosalida: 1,
   activo: false,
 };
 
@@ -136,7 +135,7 @@ export const DptoModal = () => {
               name="nombre"
               value={nombre}
               onChange={handleInputChange}
-              required
+              // required
             />
             <label htmlFor="inputDpto">Nombre del Departamento</label>
           </div>

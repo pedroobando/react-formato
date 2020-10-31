@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 // import { startLogin } from '../../redux/actions/auth';
 
@@ -10,7 +9,6 @@ const initialForm = {
 };
 
 export const RecoveryScreen = () => {
-  const dispatch = useDispatch();
   const [formValues, handleInputChange] = useForm(initialForm);
   const { email } = formValues;
 

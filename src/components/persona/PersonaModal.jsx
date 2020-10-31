@@ -10,9 +10,9 @@ import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import '../../styles/modal.css';
 import {
   personaClearActive,
-  personaDelete,
   personaStartAddNew,
-  personaUpdated,
+  personaStartDelete,
+  personaStartUpdate,
 } from '../../redux/actions/personas';
 
 const customStyles = {
@@ -27,7 +27,7 @@ const customStyles = {
 };
 
 const initialForm = {
-  rowId: '',
+  id: '',
   nombre: '',
   dni: '',
   telefono: '',
@@ -35,6 +35,7 @@ const initialForm = {
   activo: false,
   aprobadoradm: false,
   aprobadorseg: false,
+  creador: '',
 };
 
 Modal.setAppElement('#root');
@@ -68,14 +69,20 @@ export const PersonaModal = () => {
   };
 
   const handleModalClose = () => {
-    dispatch(uiCloseModal());
-    dispatch(personaClearActive());
-    setFormValues(initialForm);
+    try {
+      dispatch(uiCloseModal());
+      dispatch(personaClearActive());
+      setFormValues(initialForm);
+    } catch (error) {
+      // console.log(error);
+    }
   };
 
   const handleDelete = () => {
-    dispatch(personaDelete());
-    handleModalClose();
+    dispatch(personaStartDelete(activePersona));
+    setFormValues(initialForm);
+    dispatch(uiCloseModal());
+    // handleModalClose();
   };
 
   const isFormValid = () => {
@@ -106,7 +113,7 @@ export const PersonaModal = () => {
     }
 
     if (activePersona) {
-      dispatch(personaUpdated(formValues));
+      dispatch(personaStartUpdate(formValues));
     } else {
       dispatch(personaStartAddNew(formValues));
     }
@@ -213,7 +220,7 @@ export const PersonaModal = () => {
               name="comentario"
               value={comentario}
               onChange={handleInputChange}
-              rows="3"
+              rows="2"
               id="inputComentario"
               className="form-control"
               placeholder="Comentario(s)"></textarea>

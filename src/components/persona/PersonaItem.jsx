@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent }) => {
+export const PersonaItem = ({ persona, onClickEvent }) => {
   const {
-    rowId,
+    id: rowId,
     nombre,
     dni,
     telefono,
@@ -38,7 +38,6 @@ export const PersonaItem = ({ persona, onClickEvent, onDblClickEvent }) => {
           </small>
         </div>
       </div>
-      <div></div>
       <p className="mb-1 font-italic">{comentario}</p>
     </div>
   );

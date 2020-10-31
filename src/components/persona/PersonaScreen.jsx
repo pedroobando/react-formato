@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddNewItem } from '../ui/AddNewItem';
 import { PersonaModal } from './PersonaModal';
 import { PersonaItem } from './PersonaItem';
+import { Paginate } from '../ui/Paginate';
 
 import { uiOpenModal } from '../../redux/actions/ui';
 
@@ -11,7 +12,7 @@ import { personaSetActive, personaStartLoading } from '../../redux/actions/perso
 
 export const PersonaScreen = () => {
   const dispatch = useDispatch();
-  const { personas } = useSelector((state) => state.persona);
+  const { personas: lstpersonas } = useSelector((state) => state.persona);
 
   useEffect(() => {
     dispatch(personaStartLoading());
@@ -27,15 +28,17 @@ export const PersonaScreen = () => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <div className="row mt-1">
-        {personas.map((item) => (
-          <PersonaItem key={item.rowId} persona={item} onClickEvent={handleClickEvent} />
+        {lstpersonas.map((item) => (
+          <PersonaItem key={item.id} persona={item} onClickEvent={handleClickEvent} />
         ))}
+        {lstpersonas.length >= 2 && <Paginate />}
       </div>
 
       <AddNewItem handleOpenModal={handleOpenModal} />
+
       <PersonaModal />
-    </div>
+    </React.Fragment>
   );
 };
