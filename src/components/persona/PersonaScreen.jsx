@@ -27,13 +27,19 @@ export const PersonaScreen = () => {
     dispatch(uiOpenModal());
   };
 
+  const handlePageClick = (event) => {
+    console.log(event);
+  };
+
   return (
     <React.Fragment>
       <div className="row mt-1">
         {lstpersonas.map((item) => (
           <PersonaItem key={item.id} persona={item} onClickEvent={handleClickEvent} />
         ))}
-        {lstpersonas.length >= 2 && <Paginate />}
+        {lstpersonas.length >= 2 && (
+          <Paginate pageCount={10} handlePageClick={handlePageClick} />
+        )}
       </div>
 
       <AddNewItem handleOpenModal={handleOpenModal} />
