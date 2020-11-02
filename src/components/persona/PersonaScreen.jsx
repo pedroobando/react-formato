@@ -28,7 +28,7 @@ export const PersonaScreen = () => {
   };
 
   const handlePageClick = (event) => {
-    console.log(event);
+    console.log(event.selected);
   };
 
   return (
@@ -37,7 +37,7 @@ export const PersonaScreen = () => {
         {lstpersonas.map((item) => (
           <PersonaItem key={item.id} persona={item} onClickEvent={handleClickEvent} />
         ))}
-        {lstpersonas.length >= 2 && (
+        {lstpersonas.length >= 10 && (
           <Paginate pageCount={10} handlePageClick={handlePageClick} />
         )}
       </div>

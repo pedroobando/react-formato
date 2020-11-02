@@ -3,50 +3,10 @@ import ReactPaginate from 'react-paginate';
 
 export const Paginate = ({ pageCount, handlePageClick }) => {
   return (
-    <div>
-      <div>
-        <ul className="pagination">
-          <li className="page-item disabled">
-            <a className="page-link" href="#">
-              &laquo;
-            </a>
-          </li>
-          <li className="page-item active">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              4
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              5
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              &raquo;
-            </a>
-          </li>
-        </ul>
-      </div>
-
+    <React.Fragment>
       <ReactPaginate
-        previousLabel={'previous'}
-        nextLabel={'next'}
+        previousLabel={'<<'}
+        nextLabel={'>>'}
         breakLabel={'...'}
         breakClassName={'break-me'}
         pageCount={pageCount}
@@ -55,11 +15,17 @@ export const Paginate = ({ pageCount, handlePageClick }) => {
         onPageChange={handlePageClick}
         containerClassName={'pagination'}
         pageClassName={'page-item'}
-        pageLinkClassName={'page-item'}
-        activeLinkClassName={'page-link'}
-        activeClassName={'active'}
-        disabledClassName={'disabled'}
+        pageLinkClassName={'page-link'}
+        activeClassName={'page-item active'}
+        disabledClassName={'page-item disabled'}
+        previousClassName={'page-item'}
+        previousLinkClassName={'page-link'}
+        nextClassName={'page-item'}
+        nextLinkClassName={'page-link'}
+        // breakClassName={"page-item"}
+        breakLinkClassName={'page-link'}
+        // forcePage={activePage}
       />
-    </div>
+    </React.Fragment>
   );
 };
