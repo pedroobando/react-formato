@@ -1,14 +1,15 @@
 import { typePersona } from '../types/types';
 import { fetchConToken } from '../../helpers/fetch';
+import faker from 'faker';
 
-export const personaStartLoading = () => {
+export const personaStartLoading = (page = 1, limit = 10) => {
   return async (dispatch) => {
     try {
-      const resp = await fetchConToken('persona');
+      const resp = await fetchConToken(`persona?page=${page}&limit=${limit}`);
       const body = await resp.json();
-
+      // console.log(body);
       if (body.ok && body.data.length >= 1) {
-        dispatch(eventLoaded(body.data));
+        dispatch(eventLoaded(body));
       }
     } catch (error) {
       console.log(error);
@@ -70,6 +71,31 @@ export const personaStartDelete = (dataEntity) => {
       const body = await resp.json();
       if (body.ok) {
         dispatch(personaDelete());
+        dispatch(personaStartLoading());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const personaStartFaker = (quantity) => {
+  const { name, phone, random, lorem } = faker;
+
+  return (dispatch) => {
+    try {
+      let dataEntity = {};
+      for (let index = 0; index < quantity; index++) {
+        dataEntity = {
+          activo: true,
+          nombre: name.findName(),
+          dni: random.alphaNumeric(10),
+          comentario: lorem.paragraph(),
+          aprobadoradm: true,
+          aprobadorseg: true,
+          telefono: phone.phoneNumber(),
+        };
+        dispatch(personaStartAddNew(dataEntity));
       }
     } catch (error) {
       console.error(error);
@@ -93,7 +119,11 @@ const personaDelete = () => ({
 
 const eventLoaded = (entities) => ({
   type: typePersona.loaded,
-  payload: entities,
+  payload: {
+    data: entities.data,
+    totalPages: entities.totalPages,
+    activePage: entities.page,
+  },
 });
 
 export const personaSetActive = (event) => ({

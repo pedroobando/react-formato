@@ -19,6 +19,8 @@ import { typePersona } from '../types/types';
 
 const initialState = {
   personas: [],
+  totalPages: 0,
+  activePage: 0,
   activePersona: null,
 };
 
@@ -60,7 +62,9 @@ export const personaReducer = (state = initialState, action) => {
     case typePersona.loaded:
       return {
         ...state,
-        personas: [...action.payload],
+        personas: [...action.payload.data],
+        totalPages: action.payload.totalPages,
+        activePage: action.payload.activePage,
       };
 
     case typePersona.logout:
