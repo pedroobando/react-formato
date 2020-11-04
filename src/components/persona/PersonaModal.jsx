@@ -33,7 +33,7 @@ const initialForm = {
   dni: '',
   telefono: '',
   comentario: '',
-  activo: false,
+  activo: true,
   aprobadoradm: false,
   aprobadorseg: false,
   creador: '',
@@ -45,7 +45,7 @@ export const PersonaModal = ({ listIndex }) => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
-  const { activePersona } = useSelector((state) => state.persona);
+  const { active } = useSelector((state) => state.collection);
 
   const [formValues, setFormValues] = useState(initialForm);
   const {
@@ -59,10 +59,10 @@ export const PersonaModal = ({ listIndex }) => {
   } = formValues;
 
   useEffect(() => {
-    if (activePersona !== null) {
-      setFormValues(activePersona);
+    if (active !== null) {
+      setFormValues(active);
     }
-  }, [activePersona]);
+  }, [active]);
 
   const handleInputChange = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -81,7 +81,7 @@ export const PersonaModal = ({ listIndex }) => {
 
   const handleDelete = () => {
     const { page, limit, inlist, totalPages } = listIndex;
-    dispatch(personaStartDelete(activePersona));
+    dispatch(personaStartDelete(active));
     if (totalPages >= 2) {
       const newPage = inlist === 1 ? page - 1 : page;
       dispatch(personaStartLoading(newPage, limit));
@@ -117,7 +117,7 @@ export const PersonaModal = ({ listIndex }) => {
       return;
     }
 
-    if (activePersona) {
+    if (active) {
       dispatch(personaStartUpdate(formValues));
     } else {
       dispatch(personaStartAddNew(formValues));
@@ -238,7 +238,7 @@ export const PersonaModal = ({ listIndex }) => {
                 onClick={handleModalClose}>
                 Cancelar
               </button>
-              {activePersona && (
+              {active && (
                 <button
                   className="btn btn-outline-danger px-4 ml-2"
                   type="button"

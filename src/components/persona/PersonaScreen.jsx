@@ -15,7 +15,9 @@ const initialState = { page: 1, limit: 10 };
 export const PersonaScreen = () => {
   const dispatch = useDispatch();
   const [stPage, setStPage] = useState(initialState);
-  const { personas: lstpersonas, totalPages } = useSelector((state) => state.persona);
+  const { collections: lstpersonas, totalPages } = useSelector(
+    (state) => state.collection
+  );
 
   useEffect(() => {
     dispatch(personaStartLoading(stPage.page, stPage.limit));

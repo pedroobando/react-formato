@@ -1,4 +1,4 @@
-import { typePersona } from '../types/types';
+import { typeCollection } from '../types/types';
 import { fetchConToken } from '../../helpers/fetch';
 import faker from 'faker';
 
@@ -105,21 +105,21 @@ export const personaStartFaker = (quantity) => {
 };
 
 const personaAddNew = (dataEntity) => ({
-  type: typePersona.addNew,
+  type: typeCollection.addNew,
   payload: dataEntity,
 });
 
 const personaUpdated = (dataEntity) => ({
-  type: typePersona.updated,
+  type: typeCollection.updated,
   payload: dataEntity,
 });
 
 const personaDelete = () => ({
-  type: typePersona.deleted,
+  type: typeCollection.deleted,
 });
 
 const eventLoaded = (entities) => ({
-  type: typePersona.loaded,
+  type: typeCollection.loaded,
   payload: {
     data: entities.data,
     totalPages: entities.totalPages,
@@ -128,10 +128,10 @@ const eventLoaded = (entities) => ({
 });
 
 export const personaSetActive = (event) => ({
-  type: typePersona.setActive,
+  type: typeCollection.setActive,
   payload: event,
 });
 
 export const personaClearActive = () => ({
-  type: typePersona.clearActive,
+  type: typeCollection.clearActive,
 });
