@@ -1,11 +1,11 @@
 import React from 'react';
 
 export const DptoItem = ({ departamento, onClickEvent, onDblClickEvent }) => {
-  const { rowId, nombre, abreviacion, nrosalida } = departamento;
+  const { id, nombre, abreviacion, nrosalida } = departamento;
 
   return (
     <div
-      id={rowId}
+      id={id}
       className="list-group-item list-group-item-action"
       onClick={onClickEvent}
       onDoubleClick={onDblClickEvent}>

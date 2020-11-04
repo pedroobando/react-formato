@@ -4,7 +4,7 @@ import { uiReducer } from './uiReducer';
 import { personaReducer } from './personaReducer';
 import { vehiculoReducer } from './vehiculoReducer';
 import { usuarioReducer } from './usuarioReducer';
-import { departamentoReducer } from './departamentoReducer';
+import { collectionReducer } from './departamentoReducer';
 import { salidaReducer } from './salidaReducer';
 import { authReducer } from './authReducer';
 
@@ -14,6 +14,6 @@ export const rootReducer = combineReducers({
   ordsalida: salidaReducer,
   persona: personaReducer,
   vehiculo: vehiculoReducer,
-  departamento: departamentoReducer,
+  departamento: collectionReducer,
   usuario: usuarioReducer,
 });

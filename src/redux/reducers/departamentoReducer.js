@@ -1,59 +1,61 @@
-import { typeDepartamento } from '../types/types';
+import { typeCollection } from '../types/types';
 
 const initialState = {
-  departamentos: [],
+  collections: [],
   active: null,
 };
 
 // entity = {
-//   rowId: '006',
+//   id: '006',
 //   nombre: 'Administracion',
 //   abreviacion: 'ADM',
 //   nrosalida: 0001,
 // },
 
-export const departamentoReducer = (state = initialState, action) => {
+export const collectionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case typeDepartamento.setActive:
+    case typeCollection.setActive:
       return {
         ...state,
-        active: state.departamentos.find((element) => element.rowId === action.payload),
+        active: state.collections.find((element) => element.rowId === action.payload),
       };
 
-    case typeDepartamento.addNew:
+    case typeCollection.addNew:
       return {
         ...state,
-        departamentos: [action.payload, ...state.departamentos],
+        collections: [action.payload, ...state.collections],
       };
 
-    case typeDepartamento.clearActive:
+    case typeCollection.clearActive:
       return {
         ...state,
         active: null,
       };
 
-    case typeDepartamento.updated:
+    case typeCollection.updated:
       return {
         ...state,
-        departamentos: state.departamentos.map((e) =>
+        collections: state.collections.map((e) =>
           e.rowId === action.payload.rowId ? action.payload : e
         ),
       };
 
-    case typeDepartamento.deleted:
+    case typeCollection.deleted:
       return {
         ...state,
-        departamentos: state.departamentos.filter((e) => e.rowId !== state.active.rowId),
+        collections: state.collections.filter((e) => e.rowId !== state.active.rowId),
         active: null,
       };
 
-    case typeDepartamento.loaded:
+    case typeCollection.loaded:
       return {
         ...state,
-        departamentos: [...action.payload],
+        collections: [...action.payload.data],
+        totalPages: action.payload.totalPages,
+        activePage: action.payload.activePage,
       };
 
-    case typeDepartamento.logout:
+    case typeCollection.logout:
       return {
         ...initialState,
       };
