@@ -44,7 +44,7 @@ export const DptoModal = ({ listIndex }) => {
   const { active } = useSelector((state) => state.collection);
 
   const [formValues, setFormValues] = useState(initialForm);
-  const { nombre, abreviacion, nrosalida } = formValues;
+  const { nombre, abreviacion, nrosalida, activo } = formValues;
 
   useEffect(() => {
     if (active !== null) {
@@ -173,6 +173,18 @@ export const DptoModal = ({ listIndex }) => {
               onChange={handleInputChange}
             />
             <label htmlFor="inputNroSalida">Nro Salida</label>
+          </div>
+
+          <div className="checkbox mb-3">
+            <label>
+              <input
+                type="checkbox"
+                name="activo"
+                checked={activo}
+                onChange={handleInputChange}
+              />{' '}
+              Activo
+            </label>
           </div>
 
           <div className="d-flex justify-content-between px-2">

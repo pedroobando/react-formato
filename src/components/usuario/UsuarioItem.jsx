@@ -1,16 +1,18 @@
 import React from 'react';
 
-export const UsuarioItem = ({ usuario, onClickEvent, onDblClickEvent }) => {
-  const { rowId, name, fullname, email } = usuario;
+export const UsuarioItem = ({ usuario, onClickEvent }) => {
+  const { id, name, fullname, email, activo } = usuario;
 
   return (
     <div
-      id={rowId}
+      id={id}
       className="list-group-item list-group-item-action"
-      onClick={onClickEvent}
-      onDoubleClick={onDblClickEvent}>
+      onClick={onClickEvent}>
       <div className="d-flex justify-content-between">
-        <h3 className="mb-1 text-uppercase font-weight-bolder">
+        <h3
+          className={`mb-1 text-uppercase font-weight-bolder ${
+            !activo ? 'text-muted' : ''
+          }`}>
           {name} &nbsp;
           <i className="fas fa-user fa-1x" />
         </h3>

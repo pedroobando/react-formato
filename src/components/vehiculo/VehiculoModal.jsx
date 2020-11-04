@@ -118,7 +118,8 @@ export const VehiculoModal = ({ listIndex }) => {
     } else {
       dispatch(vehiculoStartAddNew(formValues));
     }
-    dispatch(uiCloseModal());
+    handleModalClose();
+    // dispatch(uiCloseModal());
   };
 
   return (

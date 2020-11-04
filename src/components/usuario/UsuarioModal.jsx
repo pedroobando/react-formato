@@ -10,10 +10,11 @@ import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 
 import '../../styles/modal.css';
 import {
-  usuarioAddNew,
   usuarioClearActive,
-  usuarioDelete,
-  usuarioUpdated,
+  usuarioStartAddNew,
+  usuarioStartDelete,
+  usuarioStartLoading,
+  usuarioStartUpdate,
 } from '../../redux/actions/usuarios';
 
 const customStyles = {
@@ -28,25 +29,25 @@ const customStyles = {
 };
 
 const initialForm = {
-  rowId: '',
+  id: '',
   name: '',
   fullname: '',
   email: '',
   password: '',
   password2: '',
-  activo: false,
+  activo: true,
 };
 
 Modal.setAppElement('#root');
 
-export const UsuarioModal = () => {
+export const UsuarioModal = ({ listIndex }) => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
-  const { active } = useSelector((state) => state.usuario);
+  const { active } = useSelector((state) => state.collection);
 
   const [formValues, setFormValues] = useState(initialForm);
-  const { name, fullname, email, password, password2 } = formValues;
+  const { name, fullname, email, password, password2, activo } = formValues;
 
   useEffect(() => {
     if (active !== null) {
@@ -66,8 +67,14 @@ export const UsuarioModal = () => {
   };
 
   const handleDelete = () => {
-    dispatch(usuarioDelete());
-    handleModalClose();
+    const { page, limit, inlist, totalPages } = listIndex;
+    dispatch(usuarioStartDelete(active));
+    if (totalPages >= 2) {
+      const newPage = inlist === 1 ? page - 1 : page;
+      dispatch(usuarioStartLoading(newPage, limit));
+    }
+    setFormValues(initialForm);
+    dispatch(uiCloseModal());
   };
 
   const isFormValid = () => {
@@ -110,19 +117,9 @@ export const UsuarioModal = () => {
     }
 
     if (active) {
-      dispatch(usuarioUpdated({ ...formValues, name: name.replace(/ /g, '') }));
+      dispatch(usuarioStartUpdate(formValues));
     } else {
-      dispatch(
-        usuarioAddNew({
-          ...formValues,
-          rowId: new Date().getTime().toString(),
-          name: name.replace(/ /g, ''),
-          user: {
-            _id: '001',
-            name: 'pedro',
-          },
-        })
-      );
+      dispatch(usuarioStartAddNew(formValues));
     }
 
     handleModalClose();
@@ -209,6 +206,18 @@ export const UsuarioModal = () => {
               onChange={handleInputChange}
             />
             <label htmlFor="inputPassword2">Verifique Password</label>
+          </div>
+
+          <div className="checkbox mb-3">
+            <label>
+              <input
+                type="checkbox"
+                name="activo"
+                checked={activo}
+                onChange={handleInputChange}
+              />{' '}
+              Activo
+            </label>
           </div>
 
           <div className="d-flex justify-content-between px-2">

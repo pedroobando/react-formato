@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const VehiculoItem = ({ vehiculo, onClickEvent, onDblClickEvent }) => {
-  const { id, placa, marca, modelo, color } = vehiculo;
+  const { id, placa, marca, modelo, color, activo } = vehiculo;
 
   return (
     <div
@@ -10,7 +10,10 @@ export const VehiculoItem = ({ vehiculo, onClickEvent, onDblClickEvent }) => {
       onClick={onClickEvent}
       onDoubleClick={onDblClickEvent}>
       <div className="d-flex justify-content-between">
-        <h5 className="mb-1 text-uppercase font-weight-bolder">
+        <h5
+          className={`mb-1 text-uppercase font-weight-bolder ${
+            !activo ? 'text-muted' : ''
+          }`}>
           {placa} &nbsp;
           <i className="fas fa-shuttle-van fa-1x" />
         </h5>

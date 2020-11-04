@@ -1,34 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { uiOpenModal } from '../../redux/actions/ui';
-import { usuarioSetActive } from '../../redux/actions/usuarios';
+
+import { AddNewItem } from '../ui/AddNewItem';
+import { usuarioSetActive, usuarioStartLoading } from '../../redux/actions/usuarios';
 import { UsuarioItem } from './UsuarioItem';
 import { UsuarioModal } from './UsuarioModal';
-import { AddNewItem } from '../ui/AddNewItem';
+import { uiOpenModal } from '../../redux/actions/ui';
+
+import { Paginate } from '../ui/Paginate';
+
+const initialState = { page: 1, limit: 10 };
 
 export const UsuarioScreen = () => {
   const dispatch = useDispatch();
-  const { usuarios: lstUsuarios } = useSelector((state) => state.usuario);
+  const [stPage, setStPage] = useState(initialState);
+  const { collections: lstusuarios, totalPages } = useSelector(
+    (state) => state.collection
+  );
+
+  useEffect(() => {
+    dispatch(usuarioStartLoading(stPage.page, stPage.limit));
+  }, [dispatch, stPage]);
 
   const handleOpenModal = () => {
     dispatch(uiOpenModal());
   };
 
   const handleClickEvent = (event) => {
+    console.log(event);
     dispatch(usuarioSetActive(event.currentTarget.id));
     dispatch(uiOpenModal());
   };
 
+  const handlePageClick = (event) => {
+    setStPage({ ...stPage, page: event.selected + 1 });
+  };
   return (
-    <div>
+    <React.Fragment>
       <div className="row mt-1">
-        {lstUsuarios.map((item) => (
-          <UsuarioItem key={item.rowId} usuario={item} onClickEvent={handleClickEvent} />
+        {lstusuarios.map((item) => (
+          <UsuarioItem key={item.id} usuario={item} onClickEvent={handleClickEvent} />
         ))}
+        {totalPages >= 2 && (
+          <Paginate pageCount={totalPages} handlePageClick={handlePageClick} />
+        )}
       </div>
 
       <AddNewItem handleOpenModal={handleOpenModal} />
-      <UsuarioModal />
-    </div>
+      <UsuarioModal
+        listIndex={{
+          page: stPage.page,
+          limit: stPage.limit,
+          inlist: lstusuarios.length,
+          totalPages,
+        }}
+      />
+    </React.Fragment>
   );
 };
