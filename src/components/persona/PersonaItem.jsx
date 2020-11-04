@@ -22,8 +22,11 @@ export const PersonaItem = ({ persona, onClickEvent }) => {
           className={`mb-1 text-uppercase font-weight-bolder ${
             !activo ? 'text-muted' : ''
           }`}>
-          {nombre} {aprobadoradm && <i className="fa fa-user-tie" />}{' '}
-          {aprobadorseg && <i className="fa fa-user-shield" />}
+          {nombre}{' '}
+          {aprobadoradm && <i className="fa fa-user-tie" style={{ color: '#598f07' }} />}{' '}
+          {aprobadorseg && (
+            <i className="fa fa-user-shield" style={{ color: '#8c1107' }} />
+          )}
         </h5>
         <div className="text-mute">
           <small className="d-inline-block">
