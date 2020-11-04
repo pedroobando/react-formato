@@ -10,10 +10,11 @@ import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 
 import '../../styles/modal.css';
 import {
-  vehiculoAddNew,
   vehiculoClearActive,
-  vehiculoDelete,
-  vehiculoUpdated,
+  vehiculoStartDelete,
+  vehiculoStartAddNew,
+  vehiculoStartUpdate,
+  vehiculoStartLoading,
 } from '../../redux/actions/vehiculos';
 
 const customStyles = {
@@ -28,21 +29,21 @@ const customStyles = {
 };
 
 const initialForm = {
-  rowId: '',
+  id: '',
   placa: '',
   marca: '',
   modelo: '',
   color: '',
-  activo: false,
+  activo: true,
 };
 
 Modal.setAppElement('#root');
 
-export const VehiculoModal = () => {
+export const VehiculoModal = ({ listIndex }) => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
-  const { active } = useSelector((state) => state.vehiculo);
+  const { active } = useSelector((state) => state.collection);
 
   const [formValues, setFormValues] = useState(initialForm);
   const { placa, marca, modelo, color, activo } = formValues;
@@ -65,8 +66,14 @@ export const VehiculoModal = () => {
   };
 
   const handleDelete = () => {
-    dispatch(vehiculoDelete());
-    handleModalClose();
+    const { page, limit, inlist, totalPages } = listIndex;
+    dispatch(vehiculoStartDelete(active));
+    if (totalPages >= 2) {
+      const newPage = inlist === 1 ? page - 1 : page;
+      dispatch(vehiculoStartLoading(newPage, limit));
+    }
+    setFormValues(initialForm);
+    dispatch(uiCloseModal());
   };
 
   const isFormValid = () => {
@@ -92,6 +99,7 @@ export const VehiculoModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const isValidData = isFormValid();
 
     if (isValidData.length >= 1) {
@@ -103,22 +111,14 @@ export const VehiculoModal = () => {
       return;
     }
 
-    if (active) {
-      dispatch(vehiculoUpdated(formValues));
-    } else {
-      dispatch(
-        vehiculoAddNew({
-          ...formValues,
-          rowId: new Date().getTime().toString(),
-          user: {
-            _id: '001',
-            name: 'pedro',
-          },
-        })
-      );
-    }
+    // console.log(!!active, !active, placa); // active;
 
-    handleModalClose();
+    if (active) {
+      dispatch(vehiculoStartUpdate(formValues));
+    } else {
+      dispatch(vehiculoStartAddNew(formValues));
+    }
+    dispatch(uiCloseModal());
   };
 
   return (

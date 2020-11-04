@@ -30,13 +30,11 @@ export const DptoScreen = () => {
   };
 
   const handleClickEvent = (event) => {
-    // event.currentTarget.id
     dispatch(departamentoSetActive(event.currentTarget.id));
     dispatch(uiOpenModal());
   };
 
   const handlePageClick = (event) => {
-    // console.log(event.selected);
     setStPage({ ...stPage, page: event.selected + 1 });
   };
 
