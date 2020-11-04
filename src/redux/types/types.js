@@ -46,12 +46,12 @@ export const typeUsuario = {
 };
 
 export const typeCollection = {
-  setActive: '[persona] Set Active',
-  addNew: '[persona] Add New',
-  clearActive: '[persona] Clear Active',
-  updated: '[persona] Updated',
-  deleted: '[persona] Deleted',
-  loaded: '[persona] Loaded',
+  setActive: '[collection] Set Active',
+  addNew: '[collection] Add New',
+  clearActive: '[collection] Clear Active',
+  updated: '[collection] Updated',
+  deleted: '[collection] Deleted',
+  loaded: '[collection] Loaded',
 };
 
 export const typeSalida = {

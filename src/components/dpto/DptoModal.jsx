@@ -41,7 +41,7 @@ export const DptoModal = ({ listIndex }) => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
-  const { active } = useSelector((state) => state.departamento);
+  const { active } = useSelector((state) => state.collection);
 
   const [formValues, setFormValues] = useState(initialForm);
   const { nombre, abreviacion, nrosalida } = formValues;

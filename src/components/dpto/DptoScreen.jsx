@@ -18,7 +18,7 @@ export const DptoScreen = () => {
   const dispatch = useDispatch();
   const [stPage, setStPage] = useState(initialState);
   const { collections: lstDepartamentos, totalPages } = useSelector(
-    (state) => state.departamento
+    (state) => state.collection
   );
 
   useEffect(() => {

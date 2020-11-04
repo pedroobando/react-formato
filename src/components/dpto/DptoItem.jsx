@@ -1,14 +1,13 @@
 import React from 'react';
 
-export const DptoItem = ({ departamento, onClickEvent, onDblClickEvent }) => {
+export const DptoItem = ({ departamento, onClickEvent }) => {
   const { id, nombre, abreviacion, nrosalida } = departamento;
 
   return (
     <div
       id={id}
       className="list-group-item list-group-item-action"
-      onClick={onClickEvent}
-      onDoubleClick={onDblClickEvent}>
+      onClick={onClickEvent}>
       <div className="d-flex justify-content-between">
         <h5 className="mb-1 text-uppercase font-weight-bolder">
           {nombre}

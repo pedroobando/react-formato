@@ -14,6 +14,6 @@ export const rootReducer = combineReducers({
   ordsalida: salidaReducer,
   persona: personaReducer,
   vehiculo: vehiculoReducer,
-  departamento: collectionReducer,
+  collection: collectionReducer,
   usuario: usuarioReducer,
 });
