@@ -6,14 +6,9 @@ import { PersonaModal } from './PersonaModal';
 import { PersonaItem } from './PersonaItem';
 import { Paginate } from '../ui/Paginate';
 
-import { uiCloseModal, uiOpenModal } from '../../redux/actions/ui';
+import { uiOpenModal } from '../../redux/actions/ui';
 
-import {
-  personaSetActive,
-  personaStartLoading,
-  personaStartFaker,
-  personaStartDelete,
-} from '../../redux/actions/personas';
+import { personaSetActive, personaStartLoading } from '../../redux/actions/personas';
 
 const initialState = { page: 1, limit: 10 };
 
