@@ -9,10 +9,11 @@ import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 
 import '../../styles/modal.css';
 import {
-  departamentoAddNew,
+  departamentoStartAddNew,
   departamentoClearActive,
-  departamentoDelete,
-  departamentoUpdated,
+  departamentoStartDelete,
+  departamentoStartUpdate,
+  departamentoStartLoading,
 } from '../../redux/actions/departamentos';
 
 const customStyles = {
@@ -27,7 +28,7 @@ const customStyles = {
 };
 
 const initialForm = {
-  rowId: '',
+  id: '',
   nombre: '',
   abreviacion: '',
   nrosalida: 1,
@@ -36,7 +37,7 @@ const initialForm = {
 
 Modal.setAppElement('#root');
 
-export const DptoModal = () => {
+export const DptoModal = ({ listIndex }) => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
@@ -63,8 +64,14 @@ export const DptoModal = () => {
   };
 
   const handleDelete = () => {
-    dispatch(departamentoDelete());
-    handleModalClose();
+    const { page, limit, inlist, totalPages } = listIndex;
+    dispatch(departamentoStartDelete(active));
+    if (totalPages >= 2) {
+      const newPage = inlist === 1 ? page - 1 : page;
+      dispatch(departamentoStartLoading(newPage, limit));
+    }
+    setFormValues(initialForm);
+    dispatch(uiCloseModal());
   };
 
   const isFormValid = () => {
@@ -95,10 +102,10 @@ export const DptoModal = () => {
     }
 
     if (active) {
-      dispatch(departamentoUpdated(formValues));
+      dispatch(departamentoStartUpdate(formValues));
     } else {
       dispatch(
-        departamentoAddNew({
+        departamentoStartAddNew({
           ...formValues,
           rowId: new Date().getTime().toString(),
           user: {

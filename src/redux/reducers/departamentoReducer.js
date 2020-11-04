@@ -17,7 +17,7 @@ export const collectionReducer = (state = initialState, action) => {
     case typeCollection.setActive:
       return {
         ...state,
-        active: state.collections.find((element) => element.rowId === action.payload),
+        active: state.collections.find((element) => element.id === action.payload),
       };
 
     case typeCollection.addNew:
@@ -36,14 +36,14 @@ export const collectionReducer = (state = initialState, action) => {
       return {
         ...state,
         collections: state.collections.map((e) =>
-          e.rowId === action.payload.rowId ? action.payload : e
+          e.id === action.payload.id ? action.payload : e
         ),
       };
 
     case typeCollection.deleted:
       return {
         ...state,
-        collections: state.collections.filter((e) => e.rowId !== state.active.rowId),
+        collections: state.collections.filter((e) => e.id !== state.active.id),
         active: null,
       };
 
