@@ -6,12 +6,13 @@ import { PersonaModal } from './PersonaModal';
 import { PersonaItem } from './PersonaItem';
 import { Paginate } from '../ui/Paginate';
 
-import { uiOpenModal } from '../../redux/actions/ui';
+import { uiCloseModal, uiOpenModal } from '../../redux/actions/ui';
 
 import {
   personaSetActive,
   personaStartLoading,
   personaStartFaker,
+  personaStartDelete,
 } from '../../redux/actions/personas';
 
 const initialState = { page: 1, limit: 10 };
@@ -40,7 +41,6 @@ export const PersonaScreen = () => {
     setStPage({ ...stPage, page: event.selected + 1 });
   };
 
-  // console.log(lstpersonas);
   return (
     <React.Fragment>
       <div className="row mt-1">
@@ -54,7 +54,14 @@ export const PersonaScreen = () => {
 
       <AddNewItem handleOpenModal={handleOpenModal} />
 
-      <PersonaModal />
+      <PersonaModal
+        listIndex={{
+          page: stPage.page,
+          limit: stPage.limit,
+          inlist: lstpersonas.length,
+          totalPages,
+        }}
+      />
     </React.Fragment>
   );
 };

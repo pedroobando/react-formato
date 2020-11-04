@@ -12,6 +12,7 @@ import {
   personaClearActive,
   personaStartAddNew,
   personaStartDelete,
+  personaStartLoading,
   personaStartUpdate,
 } from '../../redux/actions/personas';
 
@@ -40,7 +41,7 @@ const initialForm = {
 
 Modal.setAppElement('#root');
 
-export const PersonaModal = () => {
+export const PersonaModal = ({ listIndex }) => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
@@ -79,10 +80,14 @@ export const PersonaModal = () => {
   };
 
   const handleDelete = () => {
+    const { page, limit, inlist, totalPages } = listIndex;
     dispatch(personaStartDelete(activePersona));
+    if (totalPages >= 2) {
+      const newPage = inlist === 1 ? page - 1 : page;
+      dispatch(personaStartLoading(newPage, limit));
+    }
     setFormValues(initialForm);
     dispatch(uiCloseModal());
-    // handleModalClose();
   };
 
   const isFormValid = () => {

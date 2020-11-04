@@ -5,7 +5,7 @@ import faker from 'faker';
 export const personaStartLoading = (page = 1, limit = 10) => {
   return async (dispatch) => {
     try {
-      const resp = await fetchConToken(`persona?page=${page}&limit=${limit}`);
+      const resp = await fetchConToken(`persona?page=${page}&limit=${limit}&sort=nombre`);
       const body = await resp.json();
       // console.log(body);
       if (body.ok && body.data.length >= 1) {
@@ -71,7 +71,8 @@ export const personaStartDelete = (dataEntity) => {
       const body = await resp.json();
       if (body.ok) {
         dispatch(personaDelete());
-        dispatch(personaStartLoading());
+        // const { activePage, totalPages } = getState().persona;
+        // dispatch(personaStartLoading(activePage, totalPages));
       }
     } catch (error) {
       console.error(error);
