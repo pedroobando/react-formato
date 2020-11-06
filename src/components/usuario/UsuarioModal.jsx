@@ -92,11 +92,11 @@ export const UsuarioModal = ({ listIndex }) => {
       alertForm = [...alertForm, `El email del usuario es requerido.`];
     }
 
-    if (password === undefined || password.trim().length <= 4) {
+    if (!active && (password === undefined || password.trim().length <= 4)) {
       alertForm = [...alertForm, `El password debe contener 5 o mas caracteres.`];
     }
 
-    if (password !== password2) {
+    if (!active && password !== password2) {
       alertForm = [...alertForm, `Verifique su password, no coincide.`];
     }
 
@@ -180,33 +180,37 @@ export const UsuarioModal = ({ listIndex }) => {
             <label htmlFor="inputEmail">Email</label>
           </div>
 
-          <div className="form-label-group">
-            <input
-              type="password"
-              id="inputPassword"
-              className="form-control"
-              placeholder="Password"
-              autoComplete="off"
-              name="password"
-              value={password}
-              onChange={handleInputChange}
-            />
-            <label htmlFor="inputPassword">Password</label>
-          </div>
+          {!active && (
+            <React.Fragment>
+              <div className="form-label-group">
+                <input
+                  type="password"
+                  id="inputPassword"
+                  className="form-control"
+                  placeholder="Password"
+                  autoComplete="off"
+                  name="password"
+                  value={password}
+                  onChange={handleInputChange}
+                />
+                <label htmlFor="inputPassword">Password</label>
+              </div>
 
-          <div className="form-label-group">
-            <input
-              type="password"
-              id="inputPassword2"
-              className="form-control"
-              placeholder="Verifique Password"
-              autoComplete="off"
-              name="password2"
-              value={password2}
-              onChange={handleInputChange}
-            />
-            <label htmlFor="inputPassword2">Verifique Password</label>
-          </div>
+              <div className="form-label-group">
+                <input
+                  type="password"
+                  id="inputPassword2"
+                  className="form-control"
+                  placeholder="Verifique Password"
+                  autoComplete="off"
+                  name="password2"
+                  value={password2}
+                  onChange={handleInputChange}
+                />
+                <label htmlFor="inputPassword2">Verifique Password</label>
+              </div>
+            </React.Fragment>
+          )}
 
           <div className="checkbox mb-3">
             <label>

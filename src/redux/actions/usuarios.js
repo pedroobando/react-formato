@@ -66,12 +66,14 @@ export const usuarioStartUpdate = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
       const { uid, name } = getState().auth;
+      console.log(dataEntity);
       const resp = await fetchConToken(
         `usuario/${dataEntity.id}`,
         { ...dataEntity, creador: uid },
         'PUT'
       );
       const body = await resp.json();
+      console.log(body);
       if (body.ok) {
         const dataEntityUpd = {
           ...dataEntity,

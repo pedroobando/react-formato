@@ -70,7 +70,6 @@ export const LoginScreen = () => {
         {/* <FontAwesomeIcon className="ml-2" icon={faSignInAlt} /> */}
         <div className="d-flex justify-content-around my-4">
           <Link to="/auth/recovery">Olvido su password</Link>
-          <Link to="/auth/register">Registro de usuario</Link>
         </div>
         <p className="mt-5 mb-3 text-muted text-center">&copy; 2017-2020</p>
       </form>
