@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AddNewItem } from '../ui/AddNewItem';
-import { usuarioSetActive, usuarioStartLoading } from '../../redux/actions/usuarios';
+import {
+  usuarioSetActive,
+  usuarioStartLoading,
+  departamentoStartLoading,
+} from '../../redux/actions/usuarios';
 import { UsuarioItem } from './UsuarioItem';
 import { UsuarioModal } from './UsuarioModal';
 import { uiOpenModal } from '../../redux/actions/ui';
@@ -14,6 +18,7 @@ const initialState = { page: 1, limit: 10 };
 export const UsuarioScreen = () => {
   const dispatch = useDispatch();
   const [stPage, setStPage] = useState(initialState);
+  const [stDepartamento, setStDepartamento] = useState([]);
   const { collections: lstusuarios, totalPages } = useSelector(
     (state) => state.collection
   );
@@ -21,6 +26,12 @@ export const UsuarioScreen = () => {
   useEffect(() => {
     dispatch(usuarioStartLoading(stPage.page, stPage.limit));
   }, [dispatch, stPage]);
+
+  useEffect(() => {
+    dispatch(departamentoStartLoading(1, 100)).then((result) => {
+      setStDepartamento([...result]);
+    });
+  }, []);
 
   const handleOpenModal = () => {
     dispatch(uiOpenModal());
@@ -54,6 +65,7 @@ export const UsuarioScreen = () => {
           inlist: lstusuarios.length,
           totalPages,
         }}
+        lstDepartamentos={stDepartamento}
       />
     </React.Fragment>
   );

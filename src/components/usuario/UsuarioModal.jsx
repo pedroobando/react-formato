@@ -38,9 +38,14 @@ const initialForm = {
   activo: true,
 };
 
+// const initialDepartamento = ['Administracion', 'Contabilidad'];
+
 Modal.setAppElement('#root');
 
-export const UsuarioModal = ({ listIndex }) => {
+export const UsuarioModal = ({
+  listIndex,
+  lstDepartamentos = [{ id: '', nombre: 'Seleccione Departamento' }],
+}) => {
   const dispatch = useDispatch();
 
   const { modalOpen } = useSelector((state) => state.ui);
@@ -178,6 +183,14 @@ export const UsuarioModal = ({ listIndex }) => {
               required
             />
             <label htmlFor="inputEmail">Email</label>
+          </div>
+
+          <div className="form-group">
+            <select className="custom-select">
+              {lstDepartamentos.map((element) => (
+                <option key={element.id}>{element.nombre}</option>
+              ))}
+            </select>
           </div>
 
           {!active && (

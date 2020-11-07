@@ -17,6 +17,24 @@ export const usuarioStartLoading = (page = 1, limit = 10) => {
   };
 };
 
+export const departamentoStartLoading = (page = 1, limit = 100) => {
+  return async () => {
+    try {
+      const resp = await fetchConToken(
+        `departamento?page=${page}&limit=${limit}&sort=nombre`
+      );
+      const body = await resp.json();
+      // console.log(body);
+      if (body.ok && body.data.length >= 1) {
+        return body.data.map((item) => ({ id: item.id, nombre: item.nombre }));
+        // dispatch(eventLoaded(body));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const usuarioStartAddNew = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
@@ -66,14 +84,12 @@ export const usuarioStartUpdate = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
       const { uid, name } = getState().auth;
-      console.log(dataEntity);
       const resp = await fetchConToken(
         `usuario/${dataEntity.id}`,
         { ...dataEntity, creador: uid },
         'PUT'
       );
       const body = await resp.json();
-      console.log(body);
       if (body.ok) {
         const dataEntityUpd = {
           ...dataEntity,
