@@ -5,20 +5,20 @@ import { AddNewItem } from '../ui/AddNewItem';
 import {
   usuarioSetActive,
   usuarioStartLoading,
-  departamentoStartLoading,
+  usuarioClearActive,
 } from '../../redux/actions/usuarios';
 import { UsuarioItem } from './UsuarioItem';
-import { UsuarioModal } from './UsuarioModal';
-import { uiOpenModal } from '../../redux/actions/ui';
+// import { UsuarioModal } from './UsuarioModal';
+// import { uiOpenModal } from '../../redux/actions/ui';
 
 import { Paginate } from '../ui/Paginate';
 
 const initialState = { page: 1, limit: 10 };
 
-export const UsuarioScreen = () => {
+export const UsuarioScreen = ({ history }) => {
   const dispatch = useDispatch();
   const [stPage, setStPage] = useState(initialState);
-  const [stDepartamento, setStDepartamento] = useState([]);
+  // const [stDepartamento, setStDepartamento] = useState([]);
   const { collections: lstusuarios, totalPages } = useSelector(
     (state) => state.collection
   );
@@ -27,25 +27,30 @@ export const UsuarioScreen = () => {
     dispatch(usuarioStartLoading(stPage.page, stPage.limit));
   }, [dispatch, stPage]);
 
-  useEffect(() => {
-    dispatch(departamentoStartLoading(1, 100)).then((result) => {
-      setStDepartamento([...result]);
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch(departamentoStartLoading(1, 100)).then((result) => {
+  //     if (result) setStDepartamento([...result]);
+  //   });
+  //   return () => {
+  //     setStDepartamento([]);
+  //   };
+  // }, [dispatch, setStDepartamento]);
 
   const handleOpenModal = () => {
-    dispatch(uiOpenModal());
+    // dispatch(uiOpenModal());
+    dispatch(usuarioClearActive());
+    history.push('/datos/usuario/edit');
   };
 
   const handleClickEvent = (event) => {
-    console.log(event);
     dispatch(usuarioSetActive(event.currentTarget.id));
-    dispatch(uiOpenModal());
+    history.push('/datos/usuario/edit');
   };
 
   const handlePageClick = (event) => {
     setStPage({ ...stPage, page: event.selected + 1 });
   };
+
   return (
     <React.Fragment>
       <div className="row mt-1">
@@ -58,7 +63,7 @@ export const UsuarioScreen = () => {
       </div>
 
       <AddNewItem handleOpenModal={handleOpenModal} />
-      <UsuarioModal
+      {/* <UsuarioModal
         listIndex={{
           page: stPage.page,
           limit: stPage.limit,
@@ -66,7 +71,7 @@ export const UsuarioScreen = () => {
           totalPages,
         }}
         lstDepartamentos={stDepartamento}
-      />
+      /> */}
     </React.Fragment>
   );
 };

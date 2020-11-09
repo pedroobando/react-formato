@@ -9,6 +9,7 @@ export const usuarioStartLoading = (page = 1, limit = 10) => {
       const body = await resp.json();
       // console.log(body);
       if (body.ok && body.data.length >= 1) {
+        // console.log(body.data);
         dispatch(eventLoaded(body));
       }
     } catch (error) {
@@ -28,6 +29,8 @@ export const departamentoStartLoading = (page = 1, limit = 100) => {
       if (body.ok && body.data.length >= 1) {
         return body.data.map((item) => ({ id: item.id, nombre: item.nombre }));
         // dispatch(eventLoaded(body));
+      } else {
+        return [];
       }
     } catch (error) {
       console.log(error);
@@ -81,8 +84,12 @@ export const usuarioStartAddNew = (dataEntity) => {
 // };
 
 export const usuarioStartUpdate = (dataEntity) => {
+  // console.log(dataEntity);
+
   return async (dispatch, getState) => {
     try {
+      const { id } = dataEntity.departamento;
+      dataEntity.departamento = id;
       const { uid, name } = getState().auth;
       const resp = await fetchConToken(
         `usuario/${dataEntity.id}`,
@@ -123,7 +130,12 @@ export const usuarioStartDelete = (dataEntity) => {
 const eventLoaded = (entities) => ({
   type: typeCollection.loaded,
   payload: {
-    data: entities.data,
+    // data: entities.data.map((item) => ({
+    //   ...item,
+    //   departamento: !!item.departamento ? item.departamento.id : '',
+    //   departamentoName: !!item.departamento ? item.departamento.nombre : '',
+    // })),
+
     totalPages: entities.totalPages,
     activePage: entities.page,
   },

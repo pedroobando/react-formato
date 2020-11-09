@@ -44,7 +44,7 @@ Modal.setAppElement('#root');
 
 export const UsuarioModal = ({
   listIndex,
-  lstDepartamentos = [{ id: '', nombre: 'Seleccione Departamento' }],
+  lstDepartamentos = [{ id: 'www', nombre: 'Seleccione Departamento' }],
 }) => {
   const dispatch = useDispatch();
 
@@ -52,15 +52,17 @@ export const UsuarioModal = ({
   const { active } = useSelector((state) => state.collection);
 
   const [formValues, setFormValues] = useState(initialForm);
-  const { name, fullname, email, password, password2, activo } = formValues;
+  const { name, fullname, email, password, password2, departamento, activo } = formValues;
 
   useEffect(() => {
     if (active !== null) {
       setFormValues(active);
+      console.log(name, departamento);
     }
   }, [active]);
 
   const handleInputChange = ({ target }) => {
+    // console.log(target.value);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     setFormValues({ ...formValues, [target.name]: value });
   };
@@ -120,7 +122,6 @@ export const UsuarioModal = ({
       });
       return;
     }
-
     if (active) {
       dispatch(usuarioStartUpdate(formValues));
     } else {
@@ -185,10 +186,20 @@ export const UsuarioModal = ({
             <label htmlFor="inputEmail">Email</label>
           </div>
 
-          <div className="form-group">
-            <select className="custom-select">
+          <div className="form-label-group">
+            <select
+              className="custom-select"
+              name="departamento"
+              value={departamento.id}
+              // defaultValue={departamento}
+              onChange={handleInputChange}>
               {lstDepartamentos.map((element) => (
-                <option key={element.id}>{element.nombre}</option>
+                <option
+                  key={element.id}
+                  selected={departamento.id === element.id}
+                  value={element.id}>
+                  {element.nombre}
+                </option>
               ))}
             </select>
           </div>
