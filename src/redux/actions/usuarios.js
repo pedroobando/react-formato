@@ -41,7 +41,6 @@ export const departamentoStartLoading = (page = 1, limit = 100) => {
 export const usuarioStartAddNew = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
-      console.log(dataEntity);
       const { uid, name } = getState().auth;
       const resp = await fetchConToken(
         'auth/new',

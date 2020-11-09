@@ -35,7 +35,7 @@ const initialForm = {
 export const UsuarioEdit = ({ history }) => {
   const dispatch = useDispatch();
 
-  const { active } = useSelector((state) => state.collection);
+  const { active, collections } = useSelector((state) => state.collection);
 
   const [lstDepartamentos, setLstDepartamento] = useState([]);
 
@@ -60,15 +60,17 @@ export const UsuarioEdit = ({ history }) => {
         setLstDepartamento([...result]);
       }
     });
-    return () => {
-      setLstDepartamento([]);
-    };
+    // return () => {
+    //   setLstDepartamento([]);
+    // };
   }, [dispatch]);
+
+  if (collections.length <= 0) history.push('/datos/usuario');
 
   const handleInputChange = ({ target }) => {
     // console.log(target.name, target.type, target.value, target.checked);
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    if (target.name === 'departamento') {
+    if (target.type === 'select-one') {
       setFormValues({ ...formValues, [target.name]: { id: value } });
     } else {
       setFormValues({ ...formValues, [target.name]: value });
@@ -106,6 +108,10 @@ export const UsuarioEdit = ({ history }) => {
 
     if (email === undefined || email.trim().length <= 2) {
       alertForm = [...alertForm, `El email del usuario es requerido.`];
+    }
+
+    if (departamento.id === '' || departamento.id.trim() <= 2) {
+      alertForm = [...alertForm, `El departamento es requerido.`];
     }
 
     if (!active && (password === undefined || password.trim().length <= 4)) {
