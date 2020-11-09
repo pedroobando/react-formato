@@ -135,7 +135,7 @@ const eventLoaded = (entities) => ({
     //   departamento: !!item.departamento ? item.departamento.id : '',
     //   departamentoName: !!item.departamento ? item.departamento.nombre : '',
     // })),
-
+    data: entities.data,
     totalPages: entities.totalPages,
     activePage: entities.page,
   },

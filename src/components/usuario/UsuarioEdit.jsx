@@ -25,8 +25,12 @@ const initialForm = {
   email: '',
   password: '',
   password2: '',
-  departamento: '',
-  departamentoName: '',
+  departamento: {
+    id: '',
+    nombre: '',
+  },
+  // departamento: '',
+  // departamentoName: '',
   activo: true,
 };
 
@@ -61,7 +65,11 @@ export const UsuarioEdit = ({ history }) => {
   const handleInputChange = ({ target }) => {
     console.log(target.name, target.type, target.value, target.checked);
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    setFormValues({ ...formValues, [target.name]: value });
+    if (target.name === 'departamento') {
+      setFormValues({ ...formValues, [target.name]: { id: value } });
+    } else {
+      setFormValues({ ...formValues, [target.name]: value });
+    }
   };
 
   const handleModalClose = () => {
@@ -120,7 +128,8 @@ export const UsuarioEdit = ({ history }) => {
       });
       return;
     }
-    console.log(formValues);
+
+    // console.log(formValues);
     if (active) {
       dispatch(usuarioStartUpdate(formValues));
     } else {
@@ -183,7 +192,7 @@ export const UsuarioEdit = ({ history }) => {
           <select
             className="custom-select"
             name="departamento"
-            value={departamento}
+            value={departamento.id}
             onChange={handleInputChange}>
             {lstDepartamentos.map((element) => (
               <option key={element.id} value={element.id}>
