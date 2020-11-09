@@ -10,7 +10,7 @@ import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 
 import '../../styles/modal.css';
 import {
-  usuarioClearActive,
+  // usuarioClearActive,
   usuarioStartAddNew,
   usuarioStartDelete,
   // usuarioStartLoading,
@@ -29,8 +29,6 @@ const initialForm = {
     id: '',
     nombre: '',
   },
-  // departamento: '',
-  // departamentoName: '',
   activo: true,
 };
 
@@ -46,24 +44,29 @@ export const UsuarioEdit = ({ history }) => {
 
   useEffect(() => {
     if (active !== null) {
-      setFormValues(active);
+      setFormValues({
+        ...active,
+        departamento:
+          active.departamento != null
+            ? { id: active.departamento.id, nombre: active.departamento.nombre }
+            : { id: '', nombre: '' },
+      });
     }
   }, [active]);
 
   useEffect(() => {
-    dispatch(departamentoStartLoading(1, 100)).then((result) => {
+    dispatch(departamentoStartLoading(1, 500)).then((result) => {
       if (result.length >= 1) {
-        // console.log(result);
         setLstDepartamento([...result]);
       }
     });
     return () => {
       setLstDepartamento([]);
     };
-  }, []);
+  }, [dispatch]);
 
   const handleInputChange = ({ target }) => {
-    console.log(target.name, target.type, target.value, target.checked);
+    // console.log(target.name, target.type, target.value, target.checked);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     if (target.name === 'departamento') {
       setFormValues({ ...formValues, [target.name]: { id: value } });
@@ -74,8 +77,8 @@ export const UsuarioEdit = ({ history }) => {
 
   const handleModalClose = () => {
     // dispatch(usuarioClearActive());
-    // history.goBack();
-    history.push('/datos/usuario');
+    history.goBack();
+    // history.push('/datos/usuario');
     // setFormValues(initialForm);
   };
 

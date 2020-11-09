@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const UsuarioItem = ({ usuario, onClickEvent }) => {
-  const { id, name, fullname, email, activo, departamento, departamentoName } = usuario;
+  const { id, name, fullname, email, activo, departamento } = usuario;
 
   return (
     <div
