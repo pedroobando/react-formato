@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 // import Modal from 'react-modal';
-import Swal from 'sweetalert2';
 
 import { useDispatch, useSelector } from 'react-redux';
 // import { uiCloseModal } from '../../redux/actions/ui';
@@ -8,7 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 // import { useForm } from '../../hooks/useForm';
 
-import '../../styles/modal.css';
+import Swal from 'sweetalert2';
+import Select from 'react-select';
+
+// import '../../styles/modal.css';
 import {
   // usuarioClearActive,
   usuarioStartAddNew,
@@ -31,6 +33,11 @@ const initialForm = {
   },
   activo: true,
 };
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
 
 export const UsuarioEdit = ({ history }) => {
   const dispatch = useDispatch();
@@ -57,15 +64,25 @@ export const UsuarioEdit = ({ history }) => {
   useEffect(() => {
     dispatch(departamentoStartLoading(1, 500)).then((result) => {
       if (result.length >= 1) {
-        setLstDepartamento([...result]);
+        setLstDepartamento([
+          ...result.map((item) => ({
+            value: item.id,
+            label: item.nombre,
+          })),
+        ]);
       }
     });
     // return () => {
     //   setLstDepartamento([]);
     // };
-  }, [dispatch]);
+  }, []);
 
   if (collections.length <= 0) history.push('/datos/usuario');
+
+  const handleChange = (selectedOption) => {
+    // this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  };
 
   const handleInputChange = ({ target }) => {
     // console.log(target.name, target.type, target.value, target.checked);
@@ -196,20 +213,12 @@ export const UsuarioEdit = ({ history }) => {
           />
           <label htmlFor="inputEmail">Email</label>
         </div>
-
-        <div className="form-label-group">
-          <select
-            className="custom-select"
-            name="departamento"
-            value={departamento.id}
-            onChange={handleInputChange}>
-            {lstDepartamentos.map((element) => (
-              <option key={element.id} value={element.id}>
-                {element.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          className="mb-4"
+          label="Single select"
+          onChange={handleChange}
+          options={lstDepartamentos}
+        />
 
         {!active && (
           <React.Fragment>
