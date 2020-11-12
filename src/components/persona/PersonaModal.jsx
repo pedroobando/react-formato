@@ -245,6 +245,10 @@ export const PersonaModal = ({ listIndex }) => {
               placeholder="Comentario(s)"></textarea>
           </div>
           <div className="d-flex justify-content-between px-2">
+            <button className="btn btn-success px-4" type="submit">
+              Aceptar
+            </button>
+
             <div>
               <button
                 className="btn btn-outline-secondary px-4"
@@ -261,10 +265,6 @@ export const PersonaModal = ({ listIndex }) => {
                 </button>
               )}
             </div>
-
-            <button className="btn btn-success px-4" type="submit">
-              Aceptar
-            </button>
           </div>
         </form>
       </Modal>

@@ -67,13 +67,27 @@ export const VehiculoModal = ({ listIndex }) => {
 
   const handleDelete = () => {
     const { page, limit, inlist, totalPages } = listIndex;
-    dispatch(vehiculoStartDelete(active));
-    if (totalPages >= 2) {
-      const newPage = inlist === 1 ? page - 1 : page;
-      dispatch(vehiculoStartLoading(newPage, limit));
-    }
-    setFormValues(initialForm);
-    dispatch(uiCloseModal());
+
+    Swal.fire({
+      title: `Borrar a ${marca} ${modelo}, ${placa}.?`,
+      text: `¡No podrás revertir esto!  ¿Estás seguro?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, seguro de borrar !',
+      cancelButtonText: 'No borrar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(vehiculoStartDelete(active));
+        if (totalPages >= 2) {
+          const newPage = inlist === 1 ? page - 1 : page;
+          dispatch(vehiculoStartLoading(newPage, limit));
+        }
+        setFormValues(initialForm);
+        dispatch(uiCloseModal());
+      }
+    });
   };
 
   const isFormValid = () => {
@@ -203,6 +217,9 @@ export const VehiculoModal = ({ listIndex }) => {
           </div>
 
           <div className="d-flex justify-content-between px-2">
+            <button className="btn btn-success px-4" type="submit">
+              Aceptar
+            </button>
             <div>
               <button
                 className="btn btn-outline-secondary px-4"
@@ -219,10 +236,6 @@ export const VehiculoModal = ({ listIndex }) => {
                 </button>
               )}
             </div>
-
-            <button className="btn btn-success px-4" type="submit">
-              Aceptar
-            </button>
           </div>
         </form>
       </Modal>

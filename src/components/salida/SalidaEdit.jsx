@@ -409,6 +409,10 @@ export const SalidaEdit = ({ history }) => {
         {tabSelect === 2 && tabSolicitante()}
         {tabSelect === 3 && tabAprobadores()}
         <div className="d-flex justify-content-between px-2">
+          <button className="btn btn-success px-4" type="submit">
+            Aceptar
+          </button>
+
           <div>
             <button
               className="btn btn-outline-secondary px-4"
@@ -425,10 +429,6 @@ export const SalidaEdit = ({ history }) => {
               </button>
             )}
           </div>
-
-          <button className="btn btn-success px-4" type="submit">
-            Aceptar
-          </button>
         </div>
       </form>
     </div>
