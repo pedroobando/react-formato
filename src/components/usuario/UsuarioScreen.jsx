@@ -6,15 +6,10 @@ import {
   usuarioSetActive,
   usuarioStartLoading,
   usuarioClearActive,
-  // departamentoStartLoading,
 } from '../../redux/actions/usuarios';
 
 import { listaDptoStartLoading } from '../../redux/actions/listas';
 import { UsuarioItem } from './UsuarioItem';
-// import { UsuarioModal } from './UsuarioModal';
-
-// import UsuarioEdit from './UsuarioEdit';
-// import { uiOpenModal } from '../../redux/actions/ui';
 
 import { Paginate } from '../ui/Paginate';
 
@@ -23,8 +18,6 @@ const initialState = { page: 1, limit: 10 };
 export const UsuarioScreen = ({ history }) => {
   const dispatch = useDispatch();
   const [stPage, setStPage] = useState(initialState);
-  // const [stDepartamento, setStDepartamento] = useState([]);
-  // const [lstDepartamentos, setLstDepartamento] = useState([]);
   const { collections: lstusuarios, totalPages } = useSelector(
     (state) => state.collection
   );
@@ -32,15 +25,6 @@ export const UsuarioScreen = ({ history }) => {
   useEffect(() => {
     dispatch(usuarioStartLoading(stPage.page, stPage.limit));
   }, [dispatch, stPage]);
-
-  // useEffect(() => {
-  //   dispatch(departamentoStartLoading(1, 100)).then((result) => {
-  //     if (result) setStDepartamento([...result]);
-  //   });
-  //   return () => {
-  //     setStDepartamento([]);
-  //   };
-  // }, [dispatch, setStDepartamento]);
 
   const handleOpenModal = () => {
     // dispatch(uiOpenModal());

@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
-// import Modal from 'react-modal';
-
 import { useDispatch, useSelector } from 'react-redux';
-// import { uiCloseModal } from '../../redux/actions/ui';
 
 import Swal from 'sweetalert2';
 import Select from 'react-select';
 
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-// import { useForm } from '../../hooks/useForm';
-
-// import '../../styles/modal.css';
 import {
-  // usuarioClearActive,
+  usuarioClearActive,
   usuarioStartAddNew,
   usuarioStartDelete,
-  // usuarioStartLoading,
   usuarioStartUpdate,
 } from '../../redux/actions/usuarios';
+import { listaDptoClear } from '../../redux/actions/listas';
 
 const initialForm = {
   id: '',
@@ -48,7 +42,6 @@ export const UsuarioEdit = ({ history }) => {
     if (active !== null) {
       setFormValues({
         ...active,
-        // deptName: active.departamento.nombre,
         departamento:
           active.departamento != null
             ? { id: active.departamento.id, nombre: active.departamento.nombre }
@@ -57,27 +50,7 @@ export const UsuarioEdit = ({ history }) => {
     }
   }, [active]);
 
-  // useEffect(() => {
-  //   const xxx = departamentoStartLoading(1, 500);
-
-  //   xxx().then((result) => {
-  //     if (result.length >= 1) {
-  //       setLstDepartamento([
-  //         ...result.map((item) => ({
-  //           value: item.id,
-  //           label: item.nombre,
-  //         })),
-  //       ]);
-  //     }
-  //   });
-  //   // return () => {
-  //   //   setLstDepartamento([]);
-  //   // };
-  // }, []);
-
   const handleChange = (target) => {
-    // this.setState({ selectedOption });
-    console.log(`Option selected:`, target);
     setFormValues((formV) => ({ ...formV, departamento: { id: target.value } }));
   };
 
@@ -92,21 +65,33 @@ export const UsuarioEdit = ({ history }) => {
   };
 
   const handleModalClose = () => {
-    // dispatch(usuarioClearActive());
+    // dispatch(usuarioClearActive);
+    dispatch(listaDptoClear());
+    dispatch(usuarioClearActive());
     history.goBack();
-    // history.push('/datos/usuario');
-    // setFormValues(initialForm);
   };
 
   const handleDelete = () => {
-    // const { page, limit, inlist, totalPages } = listIndex;
-    dispatch(usuarioStartDelete(active));
-    // if (totalPages >= 2) {
-    //   const newPage = inlist === 1 ? page - 1 : page;
-    //   dispatch(usuarioStartLoading(newPage, limit));
-    // }
-    setFormValues(initialForm);
-    // dispatch(uiCloseModal());
+    Swal.fire({
+      title: `Borrar el usuario ${name}.?`,
+      text: `¡No podrás revertir esto!  ¿Estás seguro?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, seguro de borrar !',
+      cancelButtonText: 'No borrar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(usuarioStartDelete(active));
+        dispatch(usuarioClearActive);
+        setFormValues(initialForm);
+
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        // history.goBack();
+        handleModalClose();
+      }
+    });
   };
 
   const isFormValid = () => {
@@ -157,13 +142,23 @@ export const UsuarioEdit = ({ history }) => {
     } else {
       dispatch(usuarioStartAddNew(formValues));
     }
-
-    history.goBack();
+    handleModalClose();
+    // dispatch(listaDptoClear());
+    // dispatch(usuarioClearActive());
+    // history.goBack();
   };
 
-  if (slcDepartamentos.length <= 0 || departamento.id === '') return <h5>loading...</h5>;
+  const selectOptionDefault = (lista, itemId) => {
+    let retIndex = -1;
+    if (itemId.trim().length >= 1)
+      retIndex = lista.findIndex((item) => item.value === itemId);
+    return retIndex;
+  };
 
-  console.log(departamento.id);
+  if (slcDepartamentos.length <= 0 || (departamento.id === '' && active !== null))
+    return <h5>loading...</h5>;
+
+  // console.log(departamento.id);
 
   return (
     <div className="card border-primary w-100 mb-3 my-4">
@@ -213,6 +208,7 @@ export const UsuarioEdit = ({ history }) => {
           <label htmlFor="inputEmail">Email</label>
         </div>
 
+        {/* slcDepartamentos.findIndex((item) => item.value === active.departamento.id) */}
         <Select
           className="mb-4"
           classNamePrefix="select"
@@ -221,9 +217,7 @@ export const UsuarioEdit = ({ history }) => {
           isClearable={true}
           isSearchable={true}
           defaultValue={
-            slcDepartamentos[
-              slcDepartamentos.findIndex((item) => item.value === active.departamento.id)
-            ]
+            slcDepartamentos[selectOptionDefault(slcDepartamentos, departamento.id)]
           }
           options={slcDepartamentos}
           name="departamento"

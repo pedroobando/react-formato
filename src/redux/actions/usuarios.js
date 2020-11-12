@@ -65,26 +65,7 @@ export const usuarioStartAddNew = (dataEntity) => {
   };
 };
 
-// export const usuarioStartFPlaca = (seekData) => {
-//   return async () => {
-//     try {
-//       // console.log(seekData);
-//       const resp = await fetchConToken(`usuario/placa/${seekData}`);
-//       const body = await resp.json();
-//       // console.log(body);
-//       return body;
-//       // if (body.ok ) {
-//       //   dispatch(eventLoaded(body));
-//       // }
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-// };
-
 export const usuarioStartUpdate = (dataEntity) => {
-  // console.log(dataEntity);
-
   return async (dispatch, getState) => {
     try {
       const { id } = dataEntity.departamento;
@@ -114,7 +95,7 @@ export const usuarioStartUpdate = (dataEntity) => {
 export const usuarioStartDelete = (dataEntity) => {
   return async (dispatch) => {
     try {
-      const resp = await fetchConToken(`usuario/${dataEntity.id}`, {}, 'DELETE');
+      const resp = await fetchConToken(`usuario/${dataEntity.uid}`, {}, 'DELETE');
       const body = await resp.json();
       // console.log(body);
       if (body.ok) {
@@ -129,11 +110,6 @@ export const usuarioStartDelete = (dataEntity) => {
 const eventLoaded = (entities) => ({
   type: typeCollection.loaded,
   payload: {
-    // data: entities.data.map((item) => ({
-    //   ...item,
-    //   departamento: !!item.departamento ? item.departamento.id : '',
-    //   departamentoName: !!item.departamento ? item.departamento.nombre : '',
-    // })),
     data: entities.data,
     totalPages: entities.totalPages,
     activePage: entities.page,

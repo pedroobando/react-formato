@@ -28,6 +28,10 @@ export const typeCollection = {
 export const typeListas = {
   dptClear: '[departamento] Clear',
   dptLoaded: '[departamento] Loaded',
+  vehClear: '[vehiculo] Clear',
+  vehLoaded: '[vehiculo] Loaded',
+  perClear: '[persona] Clear',
+  perLoaded: '[persona] Loaded',
 };
 
 export const typeSalida = {

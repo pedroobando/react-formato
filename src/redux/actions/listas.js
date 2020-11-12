@@ -5,7 +5,7 @@ export const listaDptoStartLoading = (page = 1, limit = 100) => {
   return async (dispatch) => {
     try {
       const resp = await fetchConToken(
-        `departamento?page=${page}&limit=${limit}&sort=nombre`
+        `departamento?page=${page}&limit=${limit}&sort=nombre&activo=true`
       );
       const body = await resp.json();
       // console.log(body);
@@ -21,7 +21,7 @@ export const listaDptoStartLoading = (page = 1, limit = 100) => {
   };
 };
 
-export const departamentoClear = () => {
+export const listaDptoClear = () => {
   return async (dispatch) => {
     try {
       dispatch(eventClearDpto());
@@ -31,49 +31,61 @@ export const departamentoClear = () => {
   };
 };
 
-// export const usuarioStartAddNew = (dataEntity) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       const { uid, name } = getState().auth;
-//       const resp = await fetchConToken(
-//         'auth/new',
-//         { ...dataEntity, departamento: dataEntity.departamento.id, creador: uid },
-//         'POST'
-//       );
-//       const body = await resp.json();
-//       // console.log(body);
-//       if (body.ok) {
-//         const dataEntityUpd = {
-//           ...dataEntity,
-//           id: body.data.uid,
-//           user: { _id: uid, name },
-//         };
-//         dispatch(usuarioAddNew(dataEntityUpd));
-//       } else {
-//         Swal.fire('Error Duplicidad', body.data.message, 'error');
-//       }
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-// };
+export const listaPersonaStartLoading = (page = 1, limit = 100) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetchConToken(
+        `persona?page=${page}&limit=${limit}&sort=nombre&activo=true`
+      );
+      const body = await resp.json();
+      if (body.ok && body.data.length >= 1) {
+        dispatch(eventLoadedPersona(body));
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 
-// export const usuarioStartFPlaca = (seekData) => {
-//   return async () => {
-//     try {
-//       // console.log(seekData);
-//       const resp = await fetchConToken(`usuario/placa/${seekData}`);
-//       const body = await resp.json();
-//       // console.log(body);
-//       return body;
-//       // if (body.ok ) {
-//       //   dispatch(eventLoaded(body));
-//       // }
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-// };
+export const listaPersonaClear = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(eventClearPersona());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const listaVehiculoStartLoading = (page = 1, limit = 100) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetchConToken(
+        `vehiculo?page=${page}&limit=${limit}&sort=nombre&activo=true`
+      );
+      const body = await resp.json();
+      if (body.ok && body.data.length >= 1) {
+        dispatch(eventLoadedVehiculo(body));
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const listaVehiculoClear = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(eventClearVehiculo());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 
 const eventLoadedDpto = (entities) => ({
   type: typeListas.dptLoaded,
@@ -91,4 +103,40 @@ const eventLoadedDpto = (entities) => ({
 
 const eventClearDpto = () => ({
   type: typeListas.dptClear,
+});
+
+const eventLoadedPersona = (entities) => ({
+  type: typeListas.perLoaded,
+  payload: {
+    lst: entities.data.map((item) => ({
+      id: item.id,
+      name: item.nombre,
+    })),
+    slc: entities.data.map((item) => ({
+      value: item.id,
+      label: item.nombre,
+    })),
+  },
+});
+
+const eventClearPersona = () => ({
+  type: typeListas.perClear,
+});
+
+const eventLoadedVehiculo = (entities) => ({
+  type: typeListas.vehLoaded,
+  payload: {
+    lst: entities.data.map((item) => ({
+      id: item.id,
+      name: item.nombre,
+    })),
+    slc: entities.data.map((item) => ({
+      value: item.id,
+      label: item.nombre,
+    })),
+  },
+});
+
+const eventClearVehiculo = () => ({
+  type: typeListas.vehClear,
 });
