@@ -7,30 +7,8 @@ export const usuarioStartLoading = (page = 1, limit = 10) => {
     try {
       const resp = await fetchConToken(`usuario?page=${page}&limit=${limit}&sort=name`);
       const body = await resp.json();
-      // console.log(body);
       if (body.ok && body.data.length >= 1) {
-        // console.log(body.data);
         dispatch(eventLoaded(body));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
-
-export const departamentoStartLoading = (page = 1, limit = 100) => {
-  return async () => {
-    try {
-      const resp = await fetchConToken(
-        `departamento?page=${page}&limit=${limit}&sort=nombre`
-      );
-      const body = await resp.json();
-      // console.log(body);
-      if (body.ok && body.data.length >= 1) {
-        return body.data.map((item) => ({ id: item.id, nombre: item.nombre }));
-        // dispatch(eventLoaded(body));
-      } else {
-        return [];
       }
     } catch (error) {
       console.log(error);
@@ -48,7 +26,6 @@ export const usuarioStartAddNew = (dataEntity) => {
         'POST'
       );
       const body = await resp.json();
-      // console.log(body);
       if (body.ok) {
         const dataEntityUpd = {
           ...dataEntity,
@@ -68,8 +45,8 @@ export const usuarioStartAddNew = (dataEntity) => {
 export const usuarioStartUpdate = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
-      const { id } = dataEntity.departamento;
-      dataEntity.departamento = id;
+      // const { id } = dataEntity.departamento;
+      // dataEntity.departamento = id;
       const { uid, name } = getState().auth;
       const resp = await fetchConToken(
         `usuario/${dataEntity.id}`,
