@@ -81,13 +81,26 @@ export const PersonaModal = ({ listIndex }) => {
 
   const handleDelete = () => {
     const { page, limit, inlist, totalPages } = listIndex;
-    dispatch(personaStartDelete(active));
-    if (totalPages >= 2) {
-      const newPage = inlist === 1 ? page - 1 : page;
-      dispatch(personaStartLoading(newPage, limit));
-    }
-    setFormValues(initialForm);
-    dispatch(uiCloseModal());
+    Swal.fire({
+      title: `Borrar a ${nombre}.?`,
+      text: `¡No podrás revertir esto!  ¿Estás seguro?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, seguro de borrar !',
+      cancelButtonText: 'No borrar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(personaStartDelete(active));
+        if (totalPages >= 2) {
+          const newPage = inlist === 1 ? page - 1 : page;
+          dispatch(personaStartLoading(newPage, limit));
+        }
+        setFormValues(initialForm);
+        dispatch(uiCloseModal());
+      }
+    });
   };
 
   const isFormValid = () => {
@@ -146,7 +159,7 @@ export const PersonaModal = ({ listIndex }) => {
               id="inputDni"
               className="form-control"
               placeholder="Identificacion"
-              autoComplete="off"
+              autoComplete="on"
               name="dni"
               value={dni}
               onChange={handleInputChange}
@@ -161,7 +174,7 @@ export const PersonaModal = ({ listIndex }) => {
               id="inputNombre"
               className="form-control"
               placeholder="Nombre Completo"
-              autoComplete="off"
+              autoComplete="on"
               name="nombre"
               value={nombre}
               onChange={handleInputChange}
@@ -176,6 +189,7 @@ export const PersonaModal = ({ listIndex }) => {
               id="inputTelefono"
               className="form-control"
               placeholder="Telefono(s)"
+              inputMode="tel"
               autoComplete="off"
               name="telefono"
               value={telefono}

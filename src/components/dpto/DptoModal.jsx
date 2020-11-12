@@ -65,13 +65,26 @@ export const DptoModal = ({ listIndex }) => {
 
   const handleDelete = () => {
     const { page, limit, inlist, totalPages } = listIndex;
-    dispatch(departamentoStartDelete(active));
-    if (totalPages >= 2) {
-      const newPage = inlist === 1 ? page - 1 : page;
-      dispatch(departamentoStartLoading(newPage, limit));
-    }
-    setFormValues(initialForm);
-    dispatch(uiCloseModal());
+    Swal.fire({
+      title: `Borrar ${nombre}.?`,
+      text: `¡No podrás revertir esto!  ¿Estás seguro?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, seguro de borrar !',
+      cancelButtonText: 'No borrar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(departamentoStartDelete(active));
+        if (totalPages >= 2) {
+          const newPage = inlist === 1 ? page - 1 : page;
+          dispatch(departamentoStartLoading(newPage, limit));
+        }
+        setFormValues(initialForm);
+        dispatch(uiCloseModal());
+      }
+    });
   };
 
   const isFormValid = () => {
@@ -165,6 +178,7 @@ export const DptoModal = ({ listIndex }) => {
               type="number"
               min="1"
               max="9999"
+              inputMode="numeric"
               id="inputNroSalida"
               className="form-control"
               placeholder="Nro Salida"

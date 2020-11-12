@@ -187,6 +187,7 @@ export const UsuarioEdit = ({ history }) => {
             id="inputFullName"
             className="form-control"
             placeholder="Nombre Completo"
+            autoComplete="on"
             name="fullname"
             value={fullname}
             onChange={handleInputChange}
@@ -200,6 +201,7 @@ export const UsuarioEdit = ({ history }) => {
             id="inputEmail"
             className="form-control"
             placeholder="Email"
+            inputMode="email"
             name="email"
             value={email}
             onChange={handleInputChange}
@@ -268,6 +270,9 @@ export const UsuarioEdit = ({ history }) => {
         </div>
 
         <div className="d-flex justify-content-between px-2">
+          <button className="btn btn-success px-4" type="submit">
+            Aceptar
+          </button>
           <div>
             <button
               className="btn btn-outline-secondary px-4"
@@ -284,10 +289,6 @@ export const UsuarioEdit = ({ history }) => {
               </button>
             )}
           </div>
-
-          <button className="btn btn-success px-4" type="submit">
-            Aceptar
-          </button>
         </div>
       </form>
     </div>
