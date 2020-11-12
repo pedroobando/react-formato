@@ -25,6 +25,11 @@ export const typeCollection = {
   loaded: '[collection] Loaded',
 };
 
+export const typeListas = {
+  dptClear: '[departamento] Clear',
+  dptLoaded: '[departamento] Loaded',
+};
+
 export const typeSalida = {
   setActive: '[salida] Set Active',
   addNew: '[salida] Add New',

@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { uiCloseModal } from '../../redux/actions/ui';
 
-import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-// import { useForm } from '../../hooks/useForm';
-
 import Swal from 'sweetalert2';
 import Select from 'react-select';
+
+import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
+// import { useForm } from '../../hooks/useForm';
 
 // import '../../styles/modal.css';
 import {
@@ -17,7 +17,6 @@ import {
   usuarioStartDelete,
   // usuarioStartLoading,
   usuarioStartUpdate,
-  departamentoStartLoading,
 } from '../../redux/actions/usuarios';
 
 const initialForm = {
@@ -33,18 +32,14 @@ const initialForm = {
   },
   activo: true,
 };
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
 
 export const UsuarioEdit = ({ history }) => {
   const dispatch = useDispatch();
 
   const { active, collections } = useSelector((state) => state.collection);
+  if (collections.length <= 0) history.push('/datos/usuario');
 
-  const [lstDepartamentos, setLstDepartamento] = useState([]);
+  const { slcDepartamentos } = useSelector((state) => state.listas);
 
   const [formValues, setFormValues] = useState(initialForm);
   const { name, fullname, email, password, password2, departamento, activo } = formValues;
@@ -53,6 +48,7 @@ export const UsuarioEdit = ({ history }) => {
     if (active !== null) {
       setFormValues({
         ...active,
+        // deptName: active.departamento.nombre,
         departamento:
           active.departamento != null
             ? { id: active.departamento.id, nombre: active.departamento.nombre }
@@ -61,27 +57,28 @@ export const UsuarioEdit = ({ history }) => {
     }
   }, [active]);
 
-  useEffect(() => {
-    dispatch(departamentoStartLoading(1, 500)).then((result) => {
-      if (result.length >= 1) {
-        setLstDepartamento([
-          ...result.map((item) => ({
-            value: item.id,
-            label: item.nombre,
-          })),
-        ]);
-      }
-    });
-    // return () => {
-    //   setLstDepartamento([]);
-    // };
-  }, []);
+  // useEffect(() => {
+  //   const xxx = departamentoStartLoading(1, 500);
 
-  if (collections.length <= 0) history.push('/datos/usuario');
+  //   xxx().then((result) => {
+  //     if (result.length >= 1) {
+  //       setLstDepartamento([
+  //         ...result.map((item) => ({
+  //           value: item.id,
+  //           label: item.nombre,
+  //         })),
+  //       ]);
+  //     }
+  //   });
+  //   // return () => {
+  //   //   setLstDepartamento([]);
+  //   // };
+  // }, []);
 
-  const handleChange = (selectedOption) => {
+  const handleChange = (target) => {
     // this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
+    console.log(`Option selected:`, target);
+    setFormValues((formV) => ({ ...formV, departamento: { id: target.value } }));
   };
 
   const handleInputChange = ({ target }) => {
@@ -155,7 +152,6 @@ export const UsuarioEdit = ({ history }) => {
       return;
     }
 
-    // console.log(formValues);
     if (active) {
       dispatch(usuarioStartUpdate(formValues));
     } else {
@@ -163,8 +159,11 @@ export const UsuarioEdit = ({ history }) => {
     }
 
     history.goBack();
-    // handleModalClose();
   };
+
+  if (slcDepartamentos.length <= 0 || departamento.id === '') return <h5>loading...</h5>;
+
+  console.log(departamento.id);
 
   return (
     <div className="card border-primary w-100 mb-3 my-4">
@@ -213,11 +212,21 @@ export const UsuarioEdit = ({ history }) => {
           />
           <label htmlFor="inputEmail">Email</label>
         </div>
+
         <Select
           className="mb-4"
-          label="Single select"
+          classNamePrefix="select"
+          placeholder="Un departamento..."
           onChange={handleChange}
-          options={lstDepartamentos}
+          isClearable={true}
+          isSearchable={true}
+          defaultValue={
+            slcDepartamentos[
+              slcDepartamentos.findIndex((item) => item.value === active.departamento.id)
+            ]
+          }
+          options={slcDepartamentos}
+          name="departamento"
         />
 
         {!active && (

@@ -6,9 +6,14 @@ import {
   usuarioSetActive,
   usuarioStartLoading,
   usuarioClearActive,
+  // departamentoStartLoading,
 } from '../../redux/actions/usuarios';
+
+import { listaDptoStartLoading } from '../../redux/actions/listas';
 import { UsuarioItem } from './UsuarioItem';
 // import { UsuarioModal } from './UsuarioModal';
+
+// import UsuarioEdit from './UsuarioEdit';
 // import { uiOpenModal } from '../../redux/actions/ui';
 
 import { Paginate } from '../ui/Paginate';
@@ -19,6 +24,7 @@ export const UsuarioScreen = ({ history }) => {
   const dispatch = useDispatch();
   const [stPage, setStPage] = useState(initialState);
   // const [stDepartamento, setStDepartamento] = useState([]);
+  // const [lstDepartamentos, setLstDepartamento] = useState([]);
   const { collections: lstusuarios, totalPages } = useSelector(
     (state) => state.collection
   );
@@ -38,12 +44,15 @@ export const UsuarioScreen = ({ history }) => {
 
   const handleOpenModal = () => {
     // dispatch(uiOpenModal());
+    dispatch(listaDptoStartLoading());
     dispatch(usuarioClearActive());
     history.push('/datos/usuario/edit');
   };
 
   const handleClickEvent = (event) => {
+    dispatch(listaDptoStartLoading());
     dispatch(usuarioSetActive(event.currentTarget.id));
+    // handleOpenModal();
     history.push('/datos/usuario/edit');
   };
 
@@ -70,8 +79,9 @@ export const UsuarioScreen = ({ history }) => {
           inlist: lstusuarios.length,
           totalPages,
         }}
-        lstDepartamentos={stDepartamento}
-      /> */}
+        lstDepartamentos={lstDepartamentos}
+      />
+      <UsuarioEdit lstDepartamentos={lstDepartamentos} /> */}
     </React.Fragment>
   );
 };

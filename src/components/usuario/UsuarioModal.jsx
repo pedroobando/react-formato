@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
+import Select from 'react-select';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../redux/actions/ui';
@@ -65,6 +66,11 @@ export const UsuarioModal = ({
     // console.log(target.value);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     setFormValues({ ...formValues, [target.name]: value });
+  };
+
+  const handleChange = (selectedOption) => {
+    // this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
   };
 
   const handleModalClose = () => {
@@ -186,7 +192,14 @@ export const UsuarioModal = ({
             <label htmlFor="inputEmail">Email</label>
           </div>
 
-          <div className="form-label-group">
+          <Select
+            className="mb-4"
+            label="Single select"
+            onChange={handleChange}
+            options={lstDepartamentos}
+          />
+
+          {/* <div className="form-label-group">
             <select
               className="custom-select"
               name="departamento"
@@ -202,7 +215,7 @@ export const UsuarioModal = ({
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           {!active && (
             <React.Fragment>
