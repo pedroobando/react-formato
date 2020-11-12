@@ -1,6 +1,8 @@
 import { typeCollection } from '../types/types';
 
 const initialState = {
+  totalPages: 0,
+  activePage: 0,
   collections: [],
   active: null,
 };

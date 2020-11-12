@@ -13,11 +13,11 @@ import { UsuarioItem } from './UsuarioItem';
 
 import { Paginate } from '../ui/Paginate';
 
-const initialState = { page: 1, limit: 10 };
+const initialStatePage = { page: 1, limit: 10 };
 
 export const UsuarioScreen = ({ history }) => {
   const dispatch = useDispatch();
-  const [stPage, setStPage] = useState(initialState);
+  const [stPage, setStPage] = useState(initialStatePage);
   const { collections: lstusuarios, totalPages } = useSelector(
     (state) => state.collection
   );
@@ -27,7 +27,6 @@ export const UsuarioScreen = ({ history }) => {
   }, [dispatch, stPage]);
 
   const handleOpenModal = () => {
-    // dispatch(uiOpenModal());
     dispatch(listaDptoStartLoading());
     dispatch(usuarioClearActive());
     history.push('/datos/usuario/edit');
@@ -56,16 +55,6 @@ export const UsuarioScreen = ({ history }) => {
       </div>
 
       <AddNewItem handleOpenModal={handleOpenModal} />
-      {/* <UsuarioModal
-        listIndex={{
-          page: stPage.page,
-          limit: stPage.limit,
-          inlist: lstusuarios.length,
-          totalPages,
-        }}
-        lstDepartamentos={lstDepartamentos}
-      />
-      <UsuarioEdit lstDepartamentos={lstDepartamentos} /> */}
     </React.Fragment>
   );
 };

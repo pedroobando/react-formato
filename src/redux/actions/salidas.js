@@ -6,7 +6,7 @@ export const salidaStartLoading = (page = 1, limit = 20) => {
   return async (dispatch) => {
     try {
       const resp = await fetchConToken(
-        `salida?page=${page}&limit=${limit}&sort=fechaemision`
+        `ordsalida?page=${page}&limit=${limit}&sort=fechaemision`
       );
       const body = await resp.json();
       // console.log(body);
@@ -25,7 +25,7 @@ export const salidaStartAddNew = (dataEntity) => {
     try {
       const { uid, name } = getState().auth;
       const resp = await fetchConToken(
-        'salida',
+        'ordsalida',
         { ...dataEntity, departamento: dataEntity.departamento.id, creador: uid },
         'POST'
       );
@@ -54,7 +54,7 @@ export const salidaStartUpdate = (dataEntity) => {
       // dataEntity.departamento = id;
       const { uid, name } = getState().auth;
       const resp = await fetchConToken(
-        `salida/${dataEntity.id}`,
+        `ordsalida/${dataEntity.id}`,
         { ...dataEntity, creador: uid },
         'PUT'
       );
@@ -77,7 +77,7 @@ export const salidaStartUpdate = (dataEntity) => {
 export const salidaStartDelete = (dataEntity) => {
   return async (dispatch) => {
     try {
-      const resp = await fetchConToken(`salida/${dataEntity.uid}`, {}, 'DELETE');
+      const resp = await fetchConToken(`ordsalida/${dataEntity.uid}`, {}, 'DELETE');
       const body = await resp.json();
       if (body.ok) {
         dispatch(salidaDelete());
@@ -93,7 +93,7 @@ const eventLoaded = (entities) => ({
   payload: {
     data: entities.data,
     totalPages: entities.totalPages,
-    activePage: entities.page,
+    activePage: entities.currentPage,
   },
 });
 

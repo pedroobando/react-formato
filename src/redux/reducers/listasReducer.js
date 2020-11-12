@@ -3,10 +3,12 @@ import { typeListas } from '../types/types';
 const initialState = {
   lstDepartamentos: [],
   slcDepartamentos: [],
-  vehiculos: [],
+  lstVehiculos: [],
+  slcVehiculos: [],
   aprobadoresAdm: [],
   aprobadoresSeg: [],
-  personas: [],
+  lstPersonas: [],
+  slcPersonas: [],
   // active: null,
 };
 
@@ -24,6 +26,34 @@ export const listasReducer = (state = initialState, action) => {
         ...state,
         lstDepartamentos: [...action.payload.lst],
         slcDepartamentos: [...action.payload.slc],
+      };
+
+    case typeListas.perClear:
+      return {
+        ...state,
+        lstPersonas: [],
+        slcPersonas: [],
+      };
+
+    case typeListas.perLoaded:
+      return {
+        ...state,
+        lstPersonas: [...action.payload.lst],
+        slcPersonas: [...action.payload.slc],
+      };
+
+    case typeListas.vehClear:
+      return {
+        ...state,
+        lstVehiculos: [],
+        slcVehiculos: [],
+      };
+
+    case typeListas.vehLoaded:
+      return {
+        ...state,
+        lstVehiculos: [...action.payload.lst],
+        slcVehiculos: [...action.payload.slc],
       };
 
     // case typeCollection.clearActive:

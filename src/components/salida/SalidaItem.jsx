@@ -42,12 +42,12 @@ export const SalidaItem = ({ ordsalida, onClickEvent }) => {
         <div className="d-flex flex-row">
           <span className="font-weight-bold text-capitalize mr-4">
             <i className="fa fa-user mr-1" />
-            {solicitante.toString}
+            {!!solicitante && solicitante.nombre}
           </span>
 
           <span className="font-weight-bold text-uppercase">
             <i className="fa fa-truck mr-1" />
-            {transporte.toString}
+            {!!transporte && transporte.placa}
           </span>
         </div>
       </div>

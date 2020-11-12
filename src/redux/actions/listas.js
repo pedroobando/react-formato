@@ -38,6 +38,7 @@ export const listaPersonaStartLoading = (page = 1, limit = 100) => {
         `persona?page=${page}&limit=${limit}&sort=nombre&activo=true`
       );
       const body = await resp.json();
+      console.log(body);
       if (body.ok && body.data.length >= 1) {
         dispatch(eventLoadedPersona(body));
       } else {

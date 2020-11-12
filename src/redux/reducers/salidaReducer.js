@@ -2,6 +2,7 @@ import { typeSalida } from '../types/types';
 
 const initialState = {
   salidas: [],
+
   active: null,
 };
 
@@ -83,7 +84,9 @@ export const salidaReducer = (state = initialState, action) => {
     case typeSalida.loaded:
       return {
         ...state,
-        salidas: [...action.payload],
+        salidas: [...action.payload.data],
+        totalPages: action.payload.totalPages,
+        activePage: action.payload.activePage,
       };
 
     case typeSalida.logout:
