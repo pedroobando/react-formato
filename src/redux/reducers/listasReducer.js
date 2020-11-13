@@ -5,10 +5,13 @@ const initialState = {
   slcDepartamentos: [],
   lstVehiculos: [],
   slcVehiculos: [],
-  aprobadoresAdm: [],
-  aprobadoresSeg: [],
   lstPersonas: [],
   slcPersonas: [],
+  lstAprobAdm: [],
+  slcAprobAdm: [],
+  lstAprobSeg: [],
+  slcAprobSeg: [],
+
   // active: null,
 };
 
@@ -54,6 +57,20 @@ export const listasReducer = (state = initialState, action) => {
         ...state,
         lstVehiculos: [...action.payload.lst],
         slcVehiculos: [...action.payload.slc],
+      };
+
+    case typeListas.admClear:
+      return {
+        ...state,
+        lstAprobAdm: [],
+        slcAprobAdm: [],
+      };
+
+    case typeListas.admLoaded:
+      return {
+        ...state,
+        lstAprobAdm: [...action.payload.lst],
+        slcAprobAdm: [...action.payload.slc],
       };
 
     // case typeCollection.clearActive:

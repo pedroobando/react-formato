@@ -32,6 +32,10 @@ export const typeListas = {
   vehLoaded: '[vehiculo] Loaded',
   perClear: '[persona] Clear',
   perLoaded: '[persona] Loaded',
+  segClear: '[aprobadorSeg] Clear',
+  segLoaded: '[aprobadorSeg] Loaded',
+  admClear: '[aprobadorAdm] Clear',
+  admLoaded: '[aprobadorAdm] Loaded',
 };
 
 export const typeSalida = {

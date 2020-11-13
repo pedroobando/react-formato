@@ -38,7 +38,7 @@ export const listaPersonaStartLoading = (page = 1, limit = 100) => {
         `persona?page=${page}&limit=${limit}&sort=nombre&activo=true`
       );
       const body = await resp.json();
-      console.log(body);
+      // console.log(body);
       if (body.ok && body.data.length >= 1) {
         dispatch(eventLoadedPersona(body));
       } else {
@@ -54,6 +54,35 @@ export const listaPersonaClear = () => {
   return async (dispatch) => {
     try {
       dispatch(eventClearPersona());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const listaAprobAdmStartLoading = (page = 1, limit = 100) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetchConToken(
+        `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=administrador`
+      );
+      const body = await resp.json();
+      // console.log(body);
+      if (body.ok && body.data.length >= 1) {
+        dispatch(eventLoadedAprobAdm(body));
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const listaAprobAdmClear = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(eventClearAprobAdm());
     } catch (error) {
       console.log(error);
     }
@@ -140,4 +169,22 @@ const eventLoadedVehiculo = (entities) => ({
 
 const eventClearVehiculo = () => ({
   type: typeListas.vehClear,
+});
+
+const eventLoadedAprobAdm = (entities) => ({
+  type: typeListas.admLoaded,
+  payload: {
+    lst: entities.data.map((item) => ({
+      id: item.id,
+      name: item.nombre,
+    })),
+    slc: entities.data.map((item) => ({
+      value: item.id,
+      label: `${item.nombre} - ${item.dni}`,
+    })),
+  },
+});
+
+const eventClearAprobAdm = () => ({
+  type: typeListas.perClear,
 });
