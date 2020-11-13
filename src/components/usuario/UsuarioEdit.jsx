@@ -210,7 +210,6 @@ export const UsuarioEdit = ({ history }) => {
           <label htmlFor="inputEmail">Email</label>
         </div>
 
-        {/* slcDepartamentos.findIndex((item) => item.value === active.departamento.id) */}
         <Select
           className="mb-4"
           classNamePrefix="select"

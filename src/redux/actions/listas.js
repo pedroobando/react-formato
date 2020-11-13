@@ -115,7 +115,7 @@ const eventLoadedPersona = (entities) => ({
     })),
     slc: entities.data.map((item) => ({
       value: item.id,
-      label: item.nombre,
+      label: `${item.nombre} - ${item.dni}`,
     })),
   },
 });
@@ -129,11 +129,11 @@ const eventLoadedVehiculo = (entities) => ({
   payload: {
     lst: entities.data.map((item) => ({
       id: item.id,
-      name: item.nombre,
+      name: `${item.placa} - ${item.modelo} ${item.color}`,
     })),
     slc: entities.data.map((item) => ({
       value: item.id,
-      label: item.nombre,
+      label: `${item.placa} - ${item.modelo} ${item.color}`,
     })),
   },
 });

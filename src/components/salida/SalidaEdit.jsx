@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Swal from 'sweetalert2';
+import Select from 'react-select';
+
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import { salidaAddNew, salidaDelete, salidaUpdated } from '../../redux/actions/salidas';
 
@@ -67,6 +70,7 @@ export const SalidaEdit = ({ history }) => {
   const dispatch = useDispatch();
 
   const { active } = useSelector((state) => state.ordsalida);
+  const { slcPersonas, slcVehiculos } = useSelector((state) => state.listas);
   const [tabSelect, setTabSelect] = useState(1);
 
   const [formValues, setFormValues] = useState(initialForm);
@@ -101,16 +105,24 @@ export const SalidaEdit = ({ history }) => {
     setFormValues({ ...formValues, [target.name]: value });
   };
 
+  const handleSolicitanteChange = (target) => {
+    if (target !== null) {
+      setFormValues((formV) => ({ ...formV, solicitante: { id: target.value } }));
+    } else {
+      setFormValues((formV) => ({ ...formV, solicitante: { id: '-1' } }));
+    }
+  };
+
+  const handleTransporteChange = (target) => {
+    if (target !== null) {
+      setFormValues((formV) => ({ ...formV, transporte: { id: target.value } }));
+    } else {
+      setFormValues((formV) => ({ ...formV, transporte: { id: '-1' } }));
+    }
+  };
+
   const handleTabPeople = (tabs) => {
     setTabSelect(tabs);
-  };
-
-  const handleSearchSolicitante = () => {
-    setFormValues((e) => ({ ...e, solicitante: { id: 22, toString: 'Luis Martinez' } }));
-  };
-
-  const handleSearchTransporte = () => {
-    setFormValues((e) => ({ ...e, transporte: { id: 102, toString: 'NAU3648D' } }));
   };
 
   const handleSchAprobAdm = () => {
@@ -212,8 +224,27 @@ export const SalidaEdit = ({ history }) => {
     handleClose();
   };
 
+  const selectOptionDefault = (lista, itemId) => {
+    let retIndex = -1;
+    if (itemId.trim().length >= 1)
+      retIndex = lista.findIndex((item) => item.value === itemId);
+    return retIndex;
+  };
+
   const tabMaterial = () => (
-    <section className="border-bottom border-left border-right p-3 mb-5 bg-white rounded-bottom">
+    // <section className="border p-3 mb-5 bg-white rounded-bottom">
+    <React.Fragment>
+      <Select
+        className="mb-3"
+        placeholder="Persona solicitante..."
+        onChange={handleSolicitanteChange}
+        isClearable={true}
+        isSearchable={true}
+        defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
+        options={slcPersonas}
+        name="solicitante"
+      />
+      <hr />
       <div className="form-label-group">
         <input
           type="text"
@@ -244,6 +275,17 @@ export const SalidaEdit = ({ history }) => {
         <label htmlFor="inputMotivo">Motivo de Salida</label>
       </div>
 
+      <Select
+        className="mb-3"
+        placeholder="Transporte a usar..."
+        onChange={handleTransporteChange}
+        isClearable={true}
+        isSearchable={true}
+        defaultValue={slcVehiculos[selectOptionDefault(slcVehiculos, transporte.id)]}
+        options={slcVehiculos}
+        name="transporte"
+      />
+
       <div className="form-label-group">
         <input
           type="text"
@@ -267,9 +309,39 @@ export const SalidaEdit = ({ history }) => {
             checked={retornara}
             onChange={handleInputChange}
           />{' '}
-          Retornara
+          El material o equipo retornara.!
         </label>
       </div>
+
+      <hr />
+      <div className="row">
+        <div className="col-md">
+          <Select
+            className=""
+            placeholder="Aprobador Supervisor..."
+            onChange={handleSolicitanteChange}
+            isClearable={true}
+            isSearchable={true}
+            defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
+            options={slcPersonas}
+            name="solcitante1"
+          />
+        </div>
+        <div className="col-md">
+          <Select
+            className=""
+            placeholder="Aprobador Supervisor..."
+            onChange={handleSolicitanteChange}
+            isClearable={true}
+            isSearchable={true}
+            defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
+            options={slcPersonas}
+            name="solcitante2"
+          />
+        </div>
+      </div>
+
+      <hr />
 
       <div className="form-label-group">
         <textarea
@@ -282,52 +354,34 @@ export const SalidaEdit = ({ history }) => {
           cols="30"
           rows="3"></textarea>
       </div>
-    </section>
+    </React.Fragment>
+    // </section>
   );
 
   const tabSolicitante = () => (
     <section className="border-bottom border-left border-right p-3 mb-5 bg-white rounded-bottom">
-      <div className="form-label-group">
-        <input
-          type="text"
-          id="inputPersona"
-          className="form-control d-inline w-50"
-          placeholder="CI o RIF - Persona Solicitante"
-          name="solicitanteTo"
-          value={solicitanteTo}
-          onChange={handleInputChange}
-          required
-        />
-        <label htmlFor="inputPersona">CI o RIF - Persona Solicitante</label>
-        <button
-          type="button"
-          className="btn btn-outline-info d-inline ml-2"
-          onClick={handleSearchSolicitante}>
-          <i className="fa fa-search"></i>
-        </button>
-        <span className="ml-4">{solicitante.toString}</span>
-      </div>
+      <label htmlFor="">Solicitante</label>
+      <Select
+        className="mb-4"
+        placeholder="Solicitante..."
+        onChange={handleSolicitanteChange}
+        isClearable={true}
+        isSearchable={true}
+        defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
+        options={slcPersonas}
+        name="solcitante"
+      />
 
-      <div className="form-label-group">
-        <input
-          type="text"
-          id="inputTransporte"
-          className="form-control d-inline w-50"
-          placeholder="Placa del Transporte"
-          name="transporteTo"
-          value={transporteTo}
-          onChange={handleInputChange}
-          required
-        />
-        <label htmlFor="inputMotivo">Placa del Transporte</label>
-        <button
-          type="button"
-          className="btn btn-outline-info d-inline ml-2"
-          onClick={handleSearchTransporte}>
-          <i className="fa fa-search"></i>
-        </button>
-        <span className="ml-4">{transporte.toString}</span>
-      </div>
+      <Select
+        className="mb-4"
+        placeholder="Transporte..."
+        onChange={handleTransporteChange}
+        isClearable={true}
+        isSearchable={true}
+        defaultValue={slcVehiculos[selectOptionDefault(slcVehiculos, transporte.id)]}
+        options={slcVehiculos}
+        name="transporte"
+      />
     </section>
   );
 
@@ -377,11 +431,14 @@ export const SalidaEdit = ({ history }) => {
     </section>
   );
 
+  if (slcPersonas.length <= 0 || (solicitante.id === '' && active !== null))
+    return <h5>loading...</h5>;
+
   return (
     <div className="card border-primary w-100 mb-3 my-4">
       <div className="card-header h5 text-mute">Orden de Salida</div>
       <form className="card-body" onSubmit={handleSubmit}>
-        <ul className="nav nav-tabs">
+        {/* <ul className="nav nav-tabs">
           <li onClick={(event) => handleTabPeople(1)} className="nav-item">
             <button
               type="button"
@@ -403,11 +460,13 @@ export const SalidaEdit = ({ history }) => {
               Aprobadores
             </button>
           </li>
-        </ul>
+        </ul> */}
 
-        {tabSelect === 1 && tabMaterial()}
-        {tabSelect === 2 && tabSolicitante()}
-        {tabSelect === 3 && tabAprobadores()}
+        {/* {tabSelect === 1 && tabMaterial()} */}
+        {/* {tabSelect === 2 && tabSolicitante()}
+        {tabSelect === 3 && tabAprobadores()} */}
+
+        {tabMaterial()}
         <div className="d-flex justify-content-between px-2">
           <button className="btn btn-success px-4" type="submit">
             Aceptar
