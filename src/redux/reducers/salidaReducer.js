@@ -51,7 +51,7 @@ export const salidaReducer = (state = initialState, action) => {
     case typeSalida.setActive:
       return {
         ...state,
-        active: state.salidas.find((element) => element.rowId === action.payload),
+        active: state.salidas.find((element) => element.id === action.payload),
       };
 
     case typeSalida.addNew:
@@ -70,14 +70,14 @@ export const salidaReducer = (state = initialState, action) => {
       return {
         ...state,
         salidas: state.salidas.map((e) =>
-          e.rowId === action.payload.rowId ? action.payload : e
+          e.rowId === action.payload.id ? action.payload : e
         ),
       };
 
     case typeSalida.deleted:
       return {
         ...state,
-        salidas: state.salidas.filter((e) => e.rowId !== state.active.rowId),
+        salidas: state.salidas.filter((e) => e.id !== state.active.id),
         active: null,
       };
 

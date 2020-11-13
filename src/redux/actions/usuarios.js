@@ -48,9 +48,10 @@ export const usuarioStartUpdate = (dataEntity) => {
       // const { id } = dataEntity.departamento;
       // dataEntity.departamento = id;
       const { uid, name } = getState().auth;
+      // console.log(dataEntity);
       const resp = await fetchConToken(
         `usuario/${dataEntity.id}`,
-        { ...dataEntity, creador: uid },
+        { ...dataEntity, departamento: dataEntity.departamento.id, creador: uid },
         'PUT'
       );
       const body = await resp.json();

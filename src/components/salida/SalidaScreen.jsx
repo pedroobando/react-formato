@@ -10,8 +10,10 @@ import {
 } from '../../redux/actions/salidas';
 
 import {
+  listaAprobAdmStartLoading,
   listaPersonaStartLoading,
   listaVehiculoStartLoading,
+  listaAprobSegStartLoading,
 } from '../../redux/actions/listas';
 
 import { AddNewItem } from '../ui/AddNewItem';
@@ -24,8 +26,6 @@ export const SalidaScreen = ({ history }) => {
   const [stPage, setStPage] = useState(initialStatePage);
   const { salidas: lstOrdSalidas, totalPages } = useSelector((state) => state.ordsalida);
 
-  // const { salidas: lstOrdSalidas } = useSelector((state) => state.ordsalida);
-
   useEffect(() => {
     dispatch(salidaStartLoading(stPage.page, stPage.limit));
   }, [stPage, dispatch]);
@@ -33,6 +33,8 @@ export const SalidaScreen = ({ history }) => {
   const handleOpenModal = () => {
     dispatch(listaPersonaStartLoading(1));
     dispatch(listaVehiculoStartLoading(1));
+    dispatch(listaAprobAdmStartLoading(1));
+    dispatch(listaAprobSegStartLoading(1));
     dispatch(salidaClearActive());
     history.push('/salida/nuevo');
   };
@@ -40,6 +42,8 @@ export const SalidaScreen = ({ history }) => {
   const handleClickEvent = (event) => {
     dispatch(listaPersonaStartLoading(1));
     dispatch(listaVehiculoStartLoading(1));
+    dispatch(listaAprobAdmStartLoading(1));
+    dispatch(listaAprobSegStartLoading(1));
     dispatch(salidaSetActive(event.currentTarget.id));
     history.push('/salida/nuevo');
   };

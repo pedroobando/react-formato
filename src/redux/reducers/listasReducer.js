@@ -73,39 +73,19 @@ export const listasReducer = (state = initialState, action) => {
         slcAprobAdm: [...action.payload.slc],
       };
 
-    // case typeCollection.clearActive:
-    //   return {
-    //     ...state,
-    //     active: null,
-    //   };
+    case typeListas.segClear:
+      return {
+        ...state,
+        lstAprobSeg: [],
+        slcAprobSeg: [],
+      };
 
-    // case typeCollection.updated:
-    //   return {
-    //     ...state,
-    //     collections: state.collections.map((e) =>
-    //       e.id === action.payload.id ? action.payload : e
-    //     ),
-    //   };
-
-    // case typeCollection.deleted:
-    //   return {
-    //     ...state,
-    //     collections: state.collections.filter((e) => e.id !== state.active.id),
-    //     active: null,
-    //   };
-
-    // case typeCollection.loaded:
-    //   return {
-    //     ...state,
-    //     collections: [...action.payload.data],
-    //     totalPages: action.payload.totalPages,
-    //     activePage: action.payload.activePage,
-    //   };
-
-    // case typeCollection.logout:
-    //   return {
-    //     ...initialState,
-    //   };
+    case typeListas.segLoaded:
+      return {
+        ...state,
+        lstAprobSeg: [...action.payload.lst],
+        slcAprobSeg: [...action.payload.slc],
+      };
 
     default:
       return state;

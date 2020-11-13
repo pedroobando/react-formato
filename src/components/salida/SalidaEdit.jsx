@@ -5,93 +5,69 @@ import Swal from 'sweetalert2';
 import Select from 'react-select';
 
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
-import { salidaAddNew, salidaDelete, salidaUpdated } from '../../redux/actions/salidas';
-
-// const initialForm2 = {
-//   fechaemision: Date.now(),
-//   material: '',
-//   motivo: '',
-//   retornara: true,
-//   destino: '',
-//   solicitante: '',
-//   transporte: '',
-//   aprobadorAdm: '',
-//   aprobadorSeg: '',
-//   creador: '',
-//   comentario: '',
-// };
+import {
+  salidaClearActive,
+  salidaDelete,
+  salidaStartAddNew,
+  salidaStartUpdate,
+} from '../../redux/actions/salidas';
 
 const initialForm = {
-  rowId: '',
+  id: '',
   numerosec: '',
   fechaemision: '',
   material: '',
   motivo: '',
   retornara: true,
   destino: '',
-  solicitante: {
+  departamento: {
     id: '',
-    toString: '',
+  },
+  solicitante: {
+    id: '-1',
   },
   transporte: {
-    id: '',
-    toString: '',
+    id: '-1',
   },
   aprobadoradm: {
-    id: '',
-    toString: '',
+    id: '-1',
   },
   aprobadorseg: {
     id: '',
-    toString: '',
   },
   creador: {
     id: '',
     toString: '',
   },
-  solicitanteTo: '',
-  transporteTo: '',
-  aprobadoradmTo: '',
-  aprobadorsegTo: '',
-  comentarioinicial: '',
-  comentarios: [
-    {
-      fecha: new Date().getDate(),
-      nota: '',
-      usuario: {
-        id: '',
-        toString: '',
-      },
-    },
-  ],
+  comentario: '',
 };
 
 export const SalidaEdit = ({ history }) => {
   const dispatch = useDispatch();
 
   const { active } = useSelector((state) => state.ordsalida);
-  const { slcPersonas, slcVehiculos } = useSelector((state) => state.listas);
-  const [tabSelect, setTabSelect] = useState(1);
+  // if (salidas.length <= 0) history.push('/salida');
+
+  const { slcPersonas, slcVehiculos, slcAprobAdm, slcAprobSeg } = useSelector(
+    (state) => state.listas
+  );
 
   const [formValues, setFormValues] = useState(initialForm);
   const {
-    // numerosec,
+    numerosec,
     // fechaemision,
     material,
     motivo,
     retornara,
     destino,
+    // departamento,
     solicitante,
     transporte,
     aprobadoradm,
     aprobadorseg,
-    solicitanteTo,
-    transporteTo,
-    aprobadoradmTo,
-    aprobadorsegTo,
     // creador,
     // comentarios,
-    comentarioinicial,
+    comentario,
   } = formValues;
 
   useEffect(() => {
@@ -107,39 +83,52 @@ export const SalidaEdit = ({ history }) => {
 
   const handleSolicitanteChange = (target) => {
     if (target !== null) {
-      setFormValues((formV) => ({ ...formV, solicitante: { id: target.value } }));
+      setFormValues((formV) => ({
+        ...formV,
+        solicitante: { id: target.value, nombre: target.label },
+      }));
     } else {
-      setFormValues((formV) => ({ ...formV, solicitante: { id: '-1' } }));
+      setFormValues((formV) => ({ ...formV, solicitante: { id: '-1', nombre: '' } }));
     }
   };
 
   const handleTransporteChange = (target) => {
     if (target !== null) {
-      setFormValues((formV) => ({ ...formV, transporte: { id: target.value } }));
+      setFormValues((formV) => ({
+        ...formV,
+        transporte: { id: target.value, nombre: target.label },
+      }));
     } else {
-      setFormValues((formV) => ({ ...formV, transporte: { id: '-1' } }));
+      setFormValues((formV) => ({ ...formV, transporte: { id: '-1', nombre: '' } }));
     }
   };
 
-  const handleTabPeople = (tabs) => {
-    setTabSelect(tabs);
+  const handleAprobAdmChange = (target) => {
+    if (target !== null) {
+      setFormValues((formV) => ({
+        ...formV,
+        aprobadoradm: { id: target.value, nombre: target.label },
+      }));
+    } else {
+      setFormValues((formV) => ({ ...formV, aprobadoradm: { id: '-1', nombre: '' } }));
+    }
   };
 
-  const handleSchAprobAdm = () => {
-    setFormValues((e) => ({
-      ...e,
-      aprobadoradm: { id: 684, toString: 'Aprobador Adminitrador' },
-    }));
-  };
-
-  const handleSchAprobSeg = () => {
-    setFormValues((e) => ({
-      ...e,
-      aprobadorseg: { id: 367, toString: 'Aprobador Seguridad' },
-    }));
+  const handleAprobSegChange = (target) => {
+    if (target !== null) {
+      setFormValues((formV) => ({
+        ...formV,
+        aprobadorseg: { id: target.value, nombre: target.label },
+      }));
+    } else {
+      setFormValues((formV) => ({ ...formV, aprobadorseg: { id: '-1', nombre: '' } }));
+    }
   };
 
   const handleClose = () => {
+    // dispatch(usuarioClearActive);
+    // dispatch(listaDptoClear());
+    dispatch(salidaClearActive());
     history.goBack();
   };
 
@@ -155,29 +144,16 @@ export const SalidaEdit = ({ history }) => {
       alertForm = [...alertForm, `Material o equipo ${material} mas de 4 caracteres`];
     }
 
-    if (solicitanteTo === undefined || solicitanteTo.trim().length <= 4) {
-      alertForm = [
-        ...alertForm,
-        `La CI / RIF del solicitante ${solicitanteTo} no es valido.`,
-      ];
+    if (solicitante.id === '' || solicitante.id.trim().length <= 4) {
+      alertForm = [...alertForm, `Solicitante no es valido.`];
     }
 
-    if (transporteTo === undefined || transporteTo.trim().length <= 4) {
-      alertForm = [...alertForm, `Placa del transporte ${transporteTo} no es valido.`];
+    if (aprobadoradm.id === '' || aprobadoradm.id.trim().length <= 4) {
+      alertForm = [...alertForm, `Aprobador no es valido.`];
     }
 
-    if (aprobadoradmTo === undefined || aprobadoradmTo.trim().length <= 4) {
-      alertForm = [
-        ...alertForm,
-        `CI del aprobador supervisor ${aprobadoradmTo} no es valido.`,
-      ];
-    }
-
-    if (aprobadorsegTo === undefined || aprobadorsegTo.trim().length <= 4) {
-      alertForm = [
-        ...alertForm,
-        `CI del aprobador seguridad ${aprobadorsegTo} no es valido.`,
-      ];
+    if (aprobadorseg.id === '' || aprobadorseg.id.trim().length <= 4) {
+      alertForm = [...alertForm, `Pesonal de seguridad no es valido.`];
     }
 
     return alertForm;
@@ -197,31 +173,38 @@ export const SalidaEdit = ({ history }) => {
     }
 
     if (active) {
-      dispatch(salidaUpdated(formValues));
+      dispatch(salidaStartUpdate(formValues));
     } else {
-      dispatch(
-        salidaAddNew({
-          ...formValues,
-          rowId: new Date().getTime().toString(),
-          comentarios: [
-            {
-              fecha: new Date().getDate(),
-              nota: comentarioinicial,
-              usuario: {
-                id: '001',
-                toString: 'pedro',
-              },
-            },
-          ],
-          creador: {
-            _id: '001',
-            name: 'pedro',
-          },
-        })
-      );
+      dispatch(salidaStartAddNew(formValues));
     }
-
     handleClose();
+
+    // if (active) {
+    //   dispatch(salidaUpdated(formValues));
+    // } else {
+    //   dispatch(
+    //     salidaAddNew({
+    //       ...formValues,
+    //       rowId: new Date().getTime().toString(),
+    //       comentarios: [
+    //         {
+    //           fecha: new Date().getDate(),
+    //           nota: comentarioinicial,
+    //           usuario: {
+    //             id: '001',
+    //             toString: 'pedro',
+    //           },
+    //         },
+    //       ],
+    //       creador: {
+    //         _id: '001',
+    //         name: 'pedro',
+    //       },
+    //     })
+    //   );
+    // }
+
+    // handleClose();
   };
 
   const selectOptionDefault = (lista, itemId) => {
@@ -232,7 +215,6 @@ export const SalidaEdit = ({ history }) => {
   };
 
   const tabMaterial = () => (
-    // <section className="border p-3 mb-5 bg-white rounded-bottom">
     <React.Fragment>
       <Select
         className="mb-3"
@@ -243,6 +225,7 @@ export const SalidaEdit = ({ history }) => {
         defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
         options={slcPersonas}
         name="solicitante"
+        required
       />
       <hr />
       <div className="form-label-group">
@@ -319,24 +302,24 @@ export const SalidaEdit = ({ history }) => {
           <Select
             className=""
             placeholder="Aprobador Supervisor..."
-            onChange={handleSolicitanteChange}
+            onChange={handleAprobAdmChange}
             isClearable={true}
             isSearchable={true}
-            defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
-            options={slcPersonas}
-            name="solcitante1"
+            defaultValue={slcAprobAdm[selectOptionDefault(slcAprobAdm, aprobadoradm.id)]}
+            options={slcAprobAdm}
+            name="aprobadorAdm"
           />
         </div>
         <div className="col-md">
           <Select
             className=""
-            placeholder="Aprobador Supervisor..."
-            onChange={handleSolicitanteChange}
+            placeholder="Personal de seguridad..."
+            onChange={handleAprobSegChange}
             isClearable={true}
             isSearchable={true}
-            defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
-            options={slcPersonas}
-            name="solcitante2"
+            defaultValue={slcAprobSeg[selectOptionDefault(slcAprobSeg, aprobadorseg.id)]}
+            options={slcAprobSeg}
+            name="aprobadorSeg"
           />
         </div>
       </div>
@@ -346,8 +329,8 @@ export const SalidaEdit = ({ history }) => {
       <div className="form-label-group">
         <textarea
           id="inputComentario"
-          name="comentarioinicial"
-          value={comentarioinicial}
+          name="comentario"
+          value={comentario}
           onChange={handleInputChange}
           placeholder="Comentario sobre la salida"
           className="form-control"
@@ -355,117 +338,15 @@ export const SalidaEdit = ({ history }) => {
           rows="3"></textarea>
       </div>
     </React.Fragment>
-    // </section>
-  );
-
-  const tabSolicitante = () => (
-    <section className="border-bottom border-left border-right p-3 mb-5 bg-white rounded-bottom">
-      <label htmlFor="">Solicitante</label>
-      <Select
-        className="mb-4"
-        placeholder="Solicitante..."
-        onChange={handleSolicitanteChange}
-        isClearable={true}
-        isSearchable={true}
-        defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
-        options={slcPersonas}
-        name="solcitante"
-      />
-
-      <Select
-        className="mb-4"
-        placeholder="Transporte..."
-        onChange={handleTransporteChange}
-        isClearable={true}
-        isSearchable={true}
-        defaultValue={slcVehiculos[selectOptionDefault(slcVehiculos, transporte.id)]}
-        options={slcVehiculos}
-        name="transporte"
-      />
-    </section>
-  );
-
-  const tabAprobadores = () => (
-    <section className="border-bottom border-left border-right p-3 mb-5 bg-white rounded-bottom">
-      <div className="form-label-group">
-        <input
-          type="text"
-          id="inputAprobadorAdm"
-          className="form-control d-inline w-50"
-          placeholder="CI. Aprobador Supervisor"
-          name="aprobadoradmTo"
-          value={aprobadoradmTo}
-          onChange={handleInputChange}
-          required
-        />
-        <label htmlFor="inputAprobadorAdm">CI. Aprobador Supervisor</label>
-        <button
-          type="button"
-          className="btn btn-outline-info d-inline ml-2"
-          onClick={handleSchAprobAdm}>
-          <i className="fa fa-search"></i>
-        </button>
-        <span className="ml-4">{aprobadoradm.toString}</span>
-      </div>
-
-      <div className="form-label-group">
-        <input
-          type="text"
-          id="inputAprobadorSeg"
-          className="form-control d-inline w-50"
-          placeholder="CI. Aprobador Proct y Bienes"
-          name="aprobadorsegTo"
-          value={aprobadorsegTo}
-          onChange={handleInputChange}
-          required
-        />
-        <label htmlFor="inputAprobadorSeg">CI. Aprobador Proct y Bienes</label>
-        <button
-          type="button"
-          className="btn btn-outline-info d-inline ml-2"
-          onClick={handleSchAprobSeg}>
-          <i className="fa fa-search"></i>
-        </button>
-        <span className="ml-4">{aprobadorseg.toString}</span>
-      </div>
-    </section>
   );
 
   if (slcPersonas.length <= 0 || (solicitante.id === '' && active !== null))
     return <h5>loading...</h5>;
-
+  console.log(solicitante);
   return (
     <div className="card border-primary w-100 mb-3 my-4">
-      <div className="card-header h5 text-mute">Orden de Salida</div>
+      <div className="card-header h5 text-mute">Orden de Salida - {numerosec}</div>
       <form className="card-body" onSubmit={handleSubmit}>
-        {/* <ul className="nav nav-tabs">
-          <li onClick={(event) => handleTabPeople(1)} className="nav-item">
-            <button
-              type="button"
-              className={tabSelect === 1 ? 'nav-link active' : 'nav-link text-info'}>
-              Eqp / Material
-            </button>
-          </li>
-          <li onClick={(event) => handleTabPeople(2)} className="nav-item">
-            <button
-              type="button"
-              className={tabSelect === 2 ? 'nav-link active' : 'nav-link text-info'}>
-              Solicitante
-            </button>
-          </li>
-          <li onClick={(event) => handleTabPeople(3)} className="nav-item">
-            <button
-              type="button"
-              className={tabSelect === 3 ? 'nav-link active' : 'nav-link text-info'}>
-              Aprobadores
-            </button>
-          </li>
-        </ul> */}
-
-        {/* {tabSelect === 1 && tabMaterial()} */}
-        {/* {tabSelect === 2 && tabSolicitante()}
-        {tabSelect === 3 && tabAprobadores()} */}
-
         {tabMaterial()}
         <div className="d-flex justify-content-between px-2">
           <button className="btn btn-success px-4" type="submit">

@@ -67,7 +67,6 @@ export const listaAprobAdmStartLoading = (page = 1, limit = 100) => {
         `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=administrador`
       );
       const body = await resp.json();
-      // console.log(body);
       if (body.ok && body.data.length >= 1) {
         dispatch(eventLoadedAprobAdm(body));
       } else {
@@ -83,6 +82,35 @@ export const listaAprobAdmClear = () => {
   return async (dispatch) => {
     try {
       dispatch(eventClearAprobAdm());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const listaAprobSegStartLoading = (page = 1, limit = 100) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetchConToken(
+        `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=seguridad`
+      );
+      const body = await resp.json();
+      // console.log(body);
+      if (body.ok && body.data.length >= 1) {
+        dispatch(eventLoadedAprobSeg(body));
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const listaAprobSegClear = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(eventClearAprobSeg());
     } catch (error) {
       console.log(error);
     }
@@ -187,4 +215,22 @@ const eventLoadedAprobAdm = (entities) => ({
 
 const eventClearAprobAdm = () => ({
   type: typeListas.perClear,
+});
+
+const eventLoadedAprobSeg = (entities) => ({
+  type: typeListas.segLoaded,
+  payload: {
+    lst: entities.data.map((item) => ({
+      id: item.id,
+      name: item.nombre,
+    })),
+    slc: entities.data.map((item) => ({
+      value: item.id,
+      label: `${item.nombre} - ${item.dni}`,
+    })),
+  },
+});
+
+const eventClearAprobSeg = () => ({
+  type: typeListas.segClear,
 });

@@ -14,7 +14,13 @@ export const startLogin = (email, password) => {
       localStorage.setItem('token', body.data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
       // const { uid, name } = body.data;
-      dispath(login({ uid: body.data.uid, name: body.data.name }));
+      dispath(
+        login({
+          uid: body.data.uid,
+          name: body.data.name,
+          seccion: body.data.seccion,
+        })
+      );
     } else {
       Swal.fire({
         title: 'Verificar',
@@ -41,7 +47,9 @@ export const startRegister = (name, email, password) => {
       localStorage.setItem('token', body.data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
       // const { uid, name } = body.data;
-      dispath(login({ uid: body.data.uid, name: body.data.name }));
+      dispath(
+        login({ uid: body.data.uid, name: body.data.name, seccion: body.data.seccion })
+      );
     } else {
       Swal.fire({
         title: 'Verificar',
@@ -69,7 +77,9 @@ export const startCheckin = () => {
     if (body.ok) {
       localStorage.setItem('token', body.data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
-      dispath(login({ uid: body.data.uid, name: body.data.name }));
+      dispath(
+        login({ uid: body.data.uid, name: body.data.name, seccion: body.data.seccion })
+      );
     } else {
       // Swal.fire({
       //   title: 'Verificar',

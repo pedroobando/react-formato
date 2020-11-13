@@ -3,7 +3,7 @@ import { relativeTime } from '../../helpers/relativeTime';
 
 export const SalidaItem = ({ ordsalida, onClickEvent }) => {
   const {
-    rowId,
+    id,
     numerosec,
     fechaemision,
     material,
@@ -23,7 +23,7 @@ export const SalidaItem = ({ ordsalida, onClickEvent }) => {
 
   return (
     <div
-      id={rowId}
+      id={id}
       className="list-group-item list-group-item-action"
       onClick={onClickEvent}>
       <div className="d-flex w-100 justify-content-between">

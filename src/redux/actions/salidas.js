@@ -23,14 +23,24 @@ export const salidaStartLoading = (page = 1, limit = 20) => {
 export const salidaStartAddNew = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
-      const { uid, name } = getState().auth;
-      const resp = await fetchConToken(
-        'ordsalida',
-        { ...dataEntity, departamento: dataEntity.departamento.id, creador: uid },
-        'POST'
-      );
+      const { uid, name, seccion } = getState().auth;
+      // console.log('old', dataEntity);
+
+      const dataEntityNew = {
+        ...dataEntity,
+        departamento: seccion,
+        solicitante: dataEntity.solicitante.id,
+        transporte: dataEntity.transporte.id,
+        aprobadoradm: dataEntity.aprobadoradm.id,
+        aprobadorseg: dataEntity.aprobadorseg.id,
+        creador: uid,
+      };
+
+      // console.log('new', dataEntityNew);
+
+      const resp = await fetchConToken('ordsalida', dataEntityNew, 'POST');
       const body = await resp.json();
-      // console.log(body);
+      // console.log('salida body', body);
       if (body.ok) {
         const dataEntityUpd = {
           ...dataEntity,
