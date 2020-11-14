@@ -6,7 +6,7 @@ export const salidaStartLoading = (page = 1, limit = 20) => {
   return async (dispatch) => {
     try {
       const resp = await fetchConToken(
-        `ordsalida?page=${page}&limit=${limit}&sort=fechaemision`
+        `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1`
       );
       const body = await resp.json();
       // console.log(body);
@@ -21,9 +21,9 @@ export const salidaStartLoading = (page = 1, limit = 20) => {
 };
 
 export const salidaStartAddNew = (dataEntity) => {
-  return async (dispatch, getState) => {
+  return async (getState) => {
     try {
-      const { uid, name, seccion } = getState().auth;
+      const { uid, seccion } = getState().auth;
       // console.log('old', dataEntity);
 
       const dataEntityNew = {
@@ -36,19 +36,9 @@ export const salidaStartAddNew = (dataEntity) => {
         creador: uid,
       };
 
-      // console.log('new', dataEntityNew);
-
       const resp = await fetchConToken('ordsalida', dataEntityNew, 'POST');
       const body = await resp.json();
-      // console.log('salida body', body);
-      if (body.ok) {
-        const dataEntityUpd = {
-          ...dataEntity,
-          id: body.data.uid,
-          user: { _id: uid, name },
-        };
-        dispatch(salidaAddNew(dataEntityUpd));
-      } else {
+      if (!body.ok) {
         Swal.fire('Error creando', body.data.message, 'error');
       }
     } catch (error) {

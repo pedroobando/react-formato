@@ -45,7 +45,8 @@ export const SalidaScreen = ({ history }) => {
     dispatch(listaAprobAdmStartLoading(1));
     dispatch(listaAprobSegStartLoading(1));
     dispatch(salidaSetActive(event.currentTarget.id));
-    history.push('/salida/nuevo');
+    const selectOrden = lstOrdSalidas.find((item) => item.id === event.currentTarget.id);
+    history.push(`/salida/${selectOrden.numerosec}`);
   };
 
   const handlePageClick = (event) => {

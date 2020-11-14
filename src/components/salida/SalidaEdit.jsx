@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useParams } from 'react-router-dom';
+
 import Swal from 'sweetalert2';
 import Select from 'react-select';
 
@@ -42,8 +44,9 @@ const initialForm = {
   comentario: '',
 };
 
-export const SalidaEdit = ({ history }) => {
+export const SalidaEdit = ({ history, params }) => {
   const dispatch = useDispatch();
+  const { nroOrden } = useParams();
 
   const { active } = useSelector((state) => state.ordsalida);
   // if (salidas.length <= 0) history.push('/salida');
@@ -71,10 +74,10 @@ export const SalidaEdit = ({ history }) => {
   } = formValues;
 
   useEffect(() => {
-    if (active !== null) {
+    if (nroOrden !== 'nuevo') {
       setFormValues(active);
     }
-  }, [active]);
+  }, []);
 
   const handleInputChange = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -178,33 +181,6 @@ export const SalidaEdit = ({ history }) => {
       dispatch(salidaStartAddNew(formValues));
     }
     handleClose();
-
-    // if (active) {
-    //   dispatch(salidaUpdated(formValues));
-    // } else {
-    //   dispatch(
-    //     salidaAddNew({
-    //       ...formValues,
-    //       rowId: new Date().getTime().toString(),
-    //       comentarios: [
-    //         {
-    //           fecha: new Date().getDate(),
-    //           nota: comentarioinicial,
-    //           usuario: {
-    //             id: '001',
-    //             toString: 'pedro',
-    //           },
-    //         },
-    //       ],
-    //       creador: {
-    //         _id: '001',
-    //         name: 'pedro',
-    //       },
-    //     })
-    //   );
-    // }
-
-    // handleClose();
   };
 
   const selectOptionDefault = (lista, itemId) => {
@@ -343,9 +319,14 @@ export const SalidaEdit = ({ history }) => {
   if (slcPersonas.length <= 0 || (solicitante.id === '' && active !== null))
     return <h5>loading...</h5>;
   console.log(solicitante);
+  console.log(params);
   return (
     <div className="card border-primary w-100 mb-3 my-4">
-      <div className="card-header h5 text-mute">Orden de Salida - {numerosec}</div>
+      <div className="d-flex justify-content-between card-header h5 text">
+        <span className="">Orden de Salida</span>
+        <span className="text-primary">{numerosec}</span>
+      </div>
+
       <form className="card-body" onSubmit={handleSubmit}>
         {tabMaterial()}
         <div className="d-flex justify-content-between px-2">
