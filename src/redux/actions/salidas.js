@@ -20,11 +20,28 @@ export const salidaStartLoading = (page = 1, limit = 20) => {
   };
 };
 
+export const salidaLoadNroOrden = (nroOrden, setFormValues) => {
+  return async () => {
+    try {
+      const resp = await fetchConToken(`ordsalida/numerosec/${nroOrden}`);
+      const body = await resp.json();
+      if (body.ok) {
+        setFormValues({ ...body.data });
+        return true;
+      } else {
+        Swal.fire('favor verificar', body.data.message, 'warning');
+      }
+      return false;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const salidaStartAddNew = (dataEntity) => {
-  return async (getState) => {
+  return async (dispatch, getState) => {
     try {
       const { uid, seccion } = getState().auth;
-      // console.log('old', dataEntity);
 
       const dataEntityNew = {
         ...dataEntity,
@@ -40,6 +57,8 @@ export const salidaStartAddNew = (dataEntity) => {
       const body = await resp.json();
       if (!body.ok) {
         Swal.fire('Error creando', body.data.message, 'error');
+      } else {
+        dispatch(salidaAddNew(dataEntityNew));
       }
     } catch (error) {
       console.error(error);
@@ -52,13 +71,24 @@ export const salidaStartUpdate = (dataEntity) => {
     try {
       // const { id } = dataEntity.departamento;
       // dataEntity.departamento = id;
-      const { uid, name } = getState().auth;
+      // console.log(dataEntity);
+      const { uid, name, seccion } = getState().auth;
+      const dataEntityNew = {
+        ...dataEntity,
+        departamento: seccion,
+        solicitante: dataEntity.solicitante.id,
+        transporte: dataEntity.transporte.id,
+        aprobadoradm: dataEntity.aprobadoradm.id,
+        aprobadorseg: dataEntity.aprobadorseg.id,
+        // creador: uid,
+      };
       const resp = await fetchConToken(
         `ordsalida/${dataEntity.id}`,
-        { ...dataEntity, creador: uid },
+        { ...dataEntityNew, creador: uid },
         'PUT'
       );
       const body = await resp.json();
+
       if (body.ok) {
         const dataEntityUpd = {
           ...dataEntity,

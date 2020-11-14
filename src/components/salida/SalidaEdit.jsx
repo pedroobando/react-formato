@@ -8,8 +8,8 @@ import Select from 'react-select';
 
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import {
-  salidaClearActive,
   salidaDelete,
+  salidaLoadNroOrden,
   salidaStartAddNew,
   salidaStartUpdate,
 } from '../../redux/actions/salidas';
@@ -20,8 +20,8 @@ const initialForm = {
   fechaemision: '',
   material: '',
   motivo: '',
-  retornara: true,
   destino: '',
+  estatus: 'SIRETORNA',
   departamento: {
     id: '',
   },
@@ -44,12 +44,9 @@ const initialForm = {
   comentario: '',
 };
 
-export const SalidaEdit = ({ history, params }) => {
+export const SalidaEdit = ({ history }) => {
   const dispatch = useDispatch();
   const { nroOrden } = useParams();
-
-  const { active } = useSelector((state) => state.ordsalida);
-  // if (salidas.length <= 0) history.push('/salida');
 
   const { slcPersonas, slcVehiculos, slcAprobAdm, slcAprobSeg } = useSelector(
     (state) => state.listas
@@ -58,26 +55,22 @@ export const SalidaEdit = ({ history, params }) => {
   const [formValues, setFormValues] = useState(initialForm);
   const {
     numerosec,
-    // fechaemision,
     material,
     motivo,
-    retornara,
+    estatus,
     destino,
-    // departamento,
     solicitante,
     transporte,
     aprobadoradm,
     aprobadorseg,
-    // creador,
-    // comentarios,
     comentario,
   } = formValues;
 
   useEffect(() => {
     if (nroOrden !== 'nuevo') {
-      setFormValues(active);
+      dispatch(salidaLoadNroOrden(nroOrden, setFormValues));
     }
-  }, []);
+  }, [nroOrden, dispatch]);
 
   const handleInputChange = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -129,9 +122,6 @@ export const SalidaEdit = ({ history, params }) => {
   };
 
   const handleClose = () => {
-    // dispatch(usuarioClearActive);
-    // dispatch(listaDptoClear());
-    dispatch(salidaClearActive());
     history.goBack();
   };
 
@@ -175,19 +165,18 @@ export const SalidaEdit = ({ history, params }) => {
       return;
     }
 
-    if (active) {
-      dispatch(salidaStartUpdate(formValues));
-    } else {
+    // console.log(formValues);
+
+    if (nroOrden === 'nuevo') {
       dispatch(salidaStartAddNew(formValues));
+    } else {
+      dispatch(salidaStartUpdate(formValues));
     }
     handleClose();
   };
 
-  const selectOptionDefault = (lista, itemId) => {
-    let retIndex = -1;
-    if (itemId.trim().length >= 1)
-      retIndex = lista.findIndex((item) => item.value === itemId);
-    return retIndex;
+  const handleEstatusOrden = ({ target }) => {
+    setFormValues({ ...formValues, estatus: target.name });
   };
 
   const tabMaterial = () => (
@@ -198,10 +187,9 @@ export const SalidaEdit = ({ history, params }) => {
         onChange={handleSolicitanteChange}
         isClearable={true}
         isSearchable={true}
-        defaultValue={slcPersonas[selectOptionDefault(slcPersonas, solicitante.id)]}
         options={slcPersonas}
         name="solicitante"
-        required
+        value={slcPersonas.filter((option2) => option2.value === solicitante.id)}
       />
       <hr />
       <div className="form-label-group">
@@ -240,7 +228,7 @@ export const SalidaEdit = ({ history, params }) => {
         onChange={handleTransporteChange}
         isClearable={true}
         isSearchable={true}
-        defaultValue={slcVehiculos[selectOptionDefault(slcVehiculos, transporte.id)]}
+        value={slcVehiculos.filter((item) => item.value === transporte.id)}
         options={slcVehiculos}
         name="transporte"
       />
@@ -260,7 +248,49 @@ export const SalidaEdit = ({ history, params }) => {
         <label htmlFor="inputDestino">Destino del equipo / material</label>
       </div>
 
-      <div className="checkbox mb-3">
+      <div>
+        <label className="font-weight-bolder mr-2">{material}</label>
+        <div className="btn-group btn-group-toggle" data-toggle="buttons">
+          <label
+            className={estatus === 'SIRETORNA' ? `btn btn-primary` : `btn btn-secondary`}>
+            <input
+              type="radio"
+              name="SIRETORNA"
+              id="optionEstatus"
+              value={estatus}
+              checked="off"
+              onChange={handleEstatusOrden}
+            />
+            SI RETORNA
+          </label>
+          <label
+            className={estatus === 'NORETORNA' ? `btn btn-primary` : `btn btn-secondary`}>
+            <input
+              type="radio"
+              name="NORETORNA"
+              id="optionEstatus"
+              value={estatus}
+              checked="off"
+              onChange={handleEstatusOrden}
+            />
+            NO RETORNA
+          </label>
+          <label
+            className={estatus === 'YARETORNO' ? `btn btn-primary` : `btn btn-secondary`}>
+            <input
+              type="radio"
+              name="YARETORNO"
+              id="optionEstatus"
+              value={estatus}
+              checked="off"
+              onChange={handleEstatusOrden}
+            />
+            YA RETORNO
+          </label>
+        </div>
+      </div>
+
+      {/* <div className="checkbox mb-3">
         <label>
           <input
             type="checkbox"
@@ -270,7 +300,7 @@ export const SalidaEdit = ({ history, params }) => {
           />{' '}
           El material o equipo retornara.!
         </label>
-      </div>
+      </div> */}
 
       <hr />
       <div className="row">
@@ -281,7 +311,7 @@ export const SalidaEdit = ({ history, params }) => {
             onChange={handleAprobAdmChange}
             isClearable={true}
             isSearchable={true}
-            defaultValue={slcAprobAdm[selectOptionDefault(slcAprobAdm, aprobadoradm.id)]}
+            value={slcAprobAdm.filter((item) => item.value === aprobadoradm.id)}
             options={slcAprobAdm}
             name="aprobadorAdm"
           />
@@ -293,7 +323,7 @@ export const SalidaEdit = ({ history, params }) => {
             onChange={handleAprobSegChange}
             isClearable={true}
             isSearchable={true}
-            defaultValue={slcAprobSeg[selectOptionDefault(slcAprobSeg, aprobadorseg.id)]}
+            value={slcAprobSeg.filter((item) => item.value === aprobadorseg.id)}
             options={slcAprobSeg}
             name="aprobadorSeg"
           />
@@ -316,10 +346,10 @@ export const SalidaEdit = ({ history, params }) => {
     </React.Fragment>
   );
 
-  if (slcPersonas.length <= 0 || (solicitante.id === '' && active !== null))
-    return <h5>loading...</h5>;
-  console.log(solicitante);
-  console.log(params);
+  // if (slcPersonas.length <= 0 || (solicitante.id === '' && active !== null))
+  //   return <h5>loading...</h5>;
+  // console.log(solicitante);
+  // console.log(params);
   return (
     <div className="card border-primary w-100 mb-3 my-4">
       <div className="d-flex justify-content-between card-header h5 text">
@@ -341,7 +371,7 @@ export const SalidaEdit = ({ history, params }) => {
               onClick={handleClose}>
               Cancelar
             </button>
-            {active && (
+            {nroOrden !== 'nuevo' && (
               <button
                 className="btn btn-outline-danger px-4 ml-2"
                 type="button"
