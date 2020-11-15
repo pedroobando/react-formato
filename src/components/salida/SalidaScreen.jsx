@@ -19,7 +19,7 @@ import {
 import { AddNewItem } from '../ui/AddNewItem';
 import { Paginate } from '../ui/Paginate';
 
-const initialStatePage = { page: 1, limit: 20 };
+const initialStatePage = { page: 1, limit: 6 };
 
 export const SalidaScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export const SalidaScreen = ({ history }) => {
     dispatch(listaVehiculoStartLoading(1));
     dispatch(listaAprobAdmStartLoading(1));
     dispatch(listaAprobSegStartLoading(1));
-    dispatch(salidaClearActive());
+    // dispatch(salidaClearActive());
     history.push('/salida/nuevo');
   };
 
@@ -61,7 +61,9 @@ export const SalidaScreen = ({ history }) => {
           <SalidaItem key={item.id} ordsalida={item} onClickEvent={handleClickEvent} />
         ))}
         {totalPages >= 2 && (
-          <Paginate pageCount={totalPages} handlePageClick={handlePageClick} />
+          <span className="mt-2">
+            <Paginate pageCount={totalPages} handlePageClick={handlePageClick} />
+          </span>
         )}
       </div>
       <AddNewItem handleOpenModal={handleOpenModal} />

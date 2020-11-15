@@ -12,6 +12,7 @@ export const SalidaItem = ({ ordsalida, onClickEvent }) => {
     solicitante,
     transporte,
     comentario,
+    estatus,
     // aprobadoradm,
     // aprobadorseg,
     // solicitanteTo,
@@ -21,6 +22,20 @@ export const SalidaItem = ({ ordsalida, onClickEvent }) => {
     // creador,
     // user = { name: '' },
   } = ordsalida;
+
+  const estatusToColor = (estatus) => {
+    if (estatus === 'SIRETORNA') return 'd-block text-danger';
+    if (estatus === 'NORETORNA') return 'd-block text-warning';
+    if (estatus === 'YARETORNO') return 'd-block text-success';
+    return '';
+  };
+
+  const estatusToString = (estatus) => {
+    if (estatus === 'SIRETORNA') return 'SIN RETORNAR';
+    if (estatus === 'NORETORNA') return '';
+    if (estatus === 'YARETORNO') return 'YA RETORNO';
+    return '';
+  };
 
   return (
     <div
@@ -40,6 +55,9 @@ export const SalidaItem = ({ ordsalida, onClickEvent }) => {
         <div className="d-flex flex-column align-items-end">
           <small className="d-block">{numerosec}</small>
           <small className="d-block">{relativeTime(fechaemision)}</small>
+          <small className={`${estatusToColor(estatus)}`}>
+            {estatusToString(estatus)}
+          </small>
         </div>
       </div>
       <div className="mt-2 d-flex flex-row w-100 justify-content-between">
