@@ -85,9 +85,9 @@ export const UsuarioPass = ({ history, location }) => {
     }
 
     if (true) {
-      dispatch(usuarioStartUpdate(formValues));
+      // dispatch(usuarioStartUpdate(formValues));
     } else {
-      dispatch(usuarioStartAddNew(formValues));
+      // dispatch(usuarioStartAddNew(formValues));
     }
     handleModalClose();
   };
