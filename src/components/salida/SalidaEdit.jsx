@@ -13,6 +13,7 @@ import {
   salidaStartDelete,
   salidaStartUpdate,
 } from '../../redux/actions/salidas';
+import { listaSalidaComboLoading } from '../../redux/actions/listas';
 
 const initialForm = {
   id: '',
@@ -70,6 +71,7 @@ export const SalidaEdit = ({ history }) => {
     if (nroOrden !== 'nuevo') {
       dispatch(salidaLoadNroOrden(nroOrden, setFormValues));
     }
+    dispatch(listaSalidaComboLoading());
   }, [nroOrden, dispatch]);
 
   const handleInputChange = ({ target }) => {
@@ -262,7 +264,7 @@ export const SalidaEdit = ({ history }) => {
       </div>
 
       <div>
-        <label className="font-weight-bolder mr-2">{material}</label>
+        <label className="font-weight-bolder mr-2 d-block">{material}</label>
         <div className="btn-group btn-group-toggle" data-toggle="buttons">
           <label
             className={estatus === 'SIRETORNA' ? `btn btn-primary` : `btn btn-secondary`}>

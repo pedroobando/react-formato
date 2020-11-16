@@ -31,6 +31,44 @@ export const listaDptoClear = () => {
   };
 };
 
+export const listaSalidaComboLoading = (page = 1, limit = 100) => {
+  return async (dispatch) => {
+    try {
+      console.log('listaSalidaComboLoading');
+      const respPers = await fetchConToken(
+        `persona?page=${page}&limit=${limit}&sort=nombre&activo=true`
+      );
+      const bodyPers = await respPers.json();
+
+      const respAdm = await fetchConToken(
+        `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=administrador`
+      );
+      const bodyAdm = await respAdm.json();
+
+      const respSeg = await fetchConToken(
+        `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=seguridad`
+      );
+      const bodySeg = await respSeg.json();
+
+      const respVeh = await fetchConToken(
+        `vehiculo?page=${page}&limit=${limit}&sort=nombre&activo=true`
+      );
+      const bodyVeh = await respVeh.json();
+
+      if (bodyPers.ok && bodyPers.data.length >= 1) {
+        dispatch(eventLoadedPersona(bodyPers));
+        dispatch(eventLoadedAprobAdm(bodyAdm));
+        dispatch(eventLoadedAprobSeg(bodySeg));
+        dispatch(eventLoadedVehiculo(bodyVeh));
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const listaPersonaStartLoading = (page = 1, limit = 100) => {
   return async (dispatch) => {
     try {

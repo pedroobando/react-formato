@@ -1,64 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SalidaItem } from './SalidaItem';
 
 import { salidaSetActive, salidaStartLoading } from '../../redux/actions/salidas';
 
-import {
-  listaAprobAdmStartLoading,
-  listaPersonaStartLoading,
-  listaVehiculoStartLoading,
-  listaAprobSegStartLoading,
-} from '../../redux/actions/listas';
-
 import { AddNewItem } from '../ui/AddNewItem';
 import { Paginate } from '../ui/Paginate';
 
-const initialStatePage = { page: 1, limit: 20 };
+const initialStatePage = { page: 1, limit: 20, totalPages: 0 };
 
 export const SalidaScreen = ({ history }) => {
   const dispatch = useDispatch();
+  const { seccion } = useSelector((state) => state.auth);
   const [stPage, setStPage] = useState(initialStatePage);
-  const { salidas: lstOrdSalidas, totalPages } = useSelector((state) => state.ordsalida);
+  const [lstOrdSalidas, setLstOrdSalidas] = useState({ data: [], totalPages: 0 });
+  const isMountedList = useRef(false);
 
   useEffect(() => {
-    dispatch(salidaStartLoading(stPage.page, stPage.limit));
-  }, [stPage, dispatch]);
+    isMountedList.current = true;
+    salidaStartLoading(stPage.page, 20, seccion).then((retCollects) => {
+      if (isMountedList.current) {
+        setLstOrdSalidas({
+          data: [...retCollects.data],
+          totalPages: retCollects.totalPages,
+        });
+      }
+    });
+    return () => (isMountedList.current = false);
+  }, [seccion, stPage]);
 
   const handleOpenModal = () => {
-    dispatch(listaPersonaStartLoading(1));
-    dispatch(listaVehiculoStartLoading(1));
-    dispatch(listaAprobAdmStartLoading(1));
-    dispatch(listaAprobSegStartLoading(1));
-    // dispatch(salidaClearActive());
     history.push('/salida/nuevo');
   };
 
   const handleClickEvent = (event) => {
-    dispatch(listaPersonaStartLoading(1));
-    dispatch(listaVehiculoStartLoading(1));
-    dispatch(listaAprobAdmStartLoading(1));
-    dispatch(listaAprobSegStartLoading(1));
     dispatch(salidaSetActive(event.currentTarget.id));
-    const selectOrden = lstOrdSalidas.find((item) => item.id === event.currentTarget.id);
+    const selectOrden = lstOrdSalidas.data.find(
+      (item) => item.id === event.currentTarget.id
+    );
     history.push(`/salida/${selectOrden.numerosec}`);
   };
 
   const handlePageClick = (event) => {
     setStPage({ ...stPage, page: event.selected + 1 });
   };
-  // console.log(lstOrdSalidas);
 
   return (
     <React.Fragment>
       <div className="row my-1">
-        {lstOrdSalidas.map((item) => (
-          <SalidaItem key={item.id} ordsalida={item} onClickEvent={handleClickEvent} />
-        ))}
-        {totalPages >= 2 && (
+        {lstOrdSalidas.data &&
+          lstOrdSalidas.data.map((item) => (
+            <SalidaItem key={item.id} ordsalida={item} onClickEvent={handleClickEvent} />
+          ))}
+        {lstOrdSalidas.totalPages >= 2 && (
           <span className="mt-2">
-            <Paginate pageCount={totalPages} handlePageClick={handlePageClick} />
+            <Paginate
+              pageCount={lstOrdSalidas.totalPages}
+              handlePageClick={handlePageClick}
+            />
           </span>
         )}
       </div>

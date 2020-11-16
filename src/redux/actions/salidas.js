@@ -2,22 +2,21 @@ import Swal from 'sweetalert2';
 import { typeSalida } from '../types/types';
 import { fetchConToken } from '../../helpers/fetch';
 
-export const salidaStartLoading = (page = 1, limit = 20) => {
-  return async (dispatch) => {
-    try {
-      const resp = await fetchConToken(
-        `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1`
-      );
-      const body = await resp.json();
-      // console.log(body);
-      if (body.ok && body.data.length >= 1) {
-        // console.log(body.data);
-        dispatch(eventLoaded(body));
-      }
-    } catch (error) {
-      console.log(error);
+export const salidaStartLoading = async (page = 1, limit = 10, seccion) => {
+  let retVal = { ok: false };
+  try {
+    const resp = await fetchConToken(
+      `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1&seccion=${seccion}`
+    );
+    const body = await resp.json();
+    // console.log(body);
+    if (body.ok && body.data.length >= 1) {
+      retVal = body;
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+  return retVal;
 };
 
 export const salidaLoadNroOrden = (nroOrden, setFormValues) => {
@@ -69,9 +68,6 @@ export const salidaStartAddNew = (dataEntity) => {
 export const salidaStartUpdate = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
-      // const { id } = dataEntity.departamento;
-      // dataEntity.departamento = id;
-      // console.log(dataEntity);
       const { uid, name, seccion } = getState().auth;
       const dataEntityNew = {
         ...dataEntity,
@@ -107,7 +103,6 @@ export const salidaStartUpdate = (dataEntity) => {
 export const salidaStartDelete = (dataEntity) => {
   return async (dispatch) => {
     try {
-      console.log(dataEntity);
       const resp = await fetchConToken(`ordsalida/${dataEntity.id}`, {}, 'DELETE');
       const body = await resp.json();
       if (body.ok) {
@@ -121,32 +116,19 @@ export const salidaStartDelete = (dataEntity) => {
   };
 };
 
-const eventLoaded = (entities) => ({
-  type: typeSalida.loaded,
-  payload: {
-    data: entities.data,
-    totalPages: entities.totalPages,
-    activePage: entities.currentPage,
-  },
-});
+// const eventLoaded = (entities) => ({
+//   type: typeSalida.loaded,
+//   payload: {
+//     data: entities.data,
+//     totalPages: entities.totalPages,
+//     activePage: entities.currentPage,
+//   },
+// });
 
 export const salidaAddNew = (dataEntity) => ({
   type: typeSalida.addNew,
   payload: dataEntity,
 });
-
-// {
-//   const data = {
-//     ...dataEntity,
-//     numerosec: 'ADM-0001-201',
-//     fechaemision: Date.now(),
-//   };
-
-//   return {
-//     type: typeSalida.addNew,
-//     payload: data,
-//   };
-// };
 
 export const salidaSetActive = (event) => ({
   type: typeSalida.setActive,
