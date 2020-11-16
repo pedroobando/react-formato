@@ -85,6 +85,31 @@ export const usuarioStartDelete = (dataEntity) => {
   };
 };
 
+export const usuarioStartChangePass = (dataEntity) => {
+  return async (dispatch, getState) => {
+    try {
+      const { uid, name } = getState().auth;
+      const resp = await fetchConToken(
+        `usuario/${dataEntity.id}`,
+        { ...dataEntity, departamento: dataEntity.departamento.id, creador: uid },
+        'PUT'
+      );
+      const body = await resp.json();
+      if (body.ok) {
+        const dataEntityUpd = {
+          ...dataEntity,
+          user: { _id: uid, name },
+        };
+        dispatch(usuarioUpdated(dataEntityUpd));
+      } else {
+        Swal.fire('Error', body.data.message, 'error');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 const eventLoaded = (entities) => ({
   type: typeCollection.loaded,
   payload: {

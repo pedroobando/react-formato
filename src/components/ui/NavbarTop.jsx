@@ -44,7 +44,18 @@ export const NavbarTop = () => {
           </NavDropdown>
         </Nav>
         <Nav>
-          <Nav.Link href="#chupas">{name}</Nav.Link>
+          <NavDropdown
+            title={name}
+            id="collasible-nav-dropdown"
+            className="nav-item dropdown show">
+            <NavDropdown.Item as={Link} to={`/datos/usuario/pass/${name}`}>
+              Contraseña
+            </NavDropdown.Item>
+            <NavDropdown.Divider></NavDropdown.Divider>
+            <NavDropdown.Item as={Link} to="" onClick={handleLogOut}>
+              Salir
+            </NavDropdown.Item>
+          </NavDropdown>
           <button
             type="button"
             className="btn btn-btn-outline-dark btn-sm"

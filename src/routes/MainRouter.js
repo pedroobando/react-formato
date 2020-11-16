@@ -9,6 +9,7 @@ import { PersonaScreen } from '../components/persona/PersonaScreen';
 import { VehiculoScreen } from '../components/vehiculo/VehiculoScreen';
 import { UsuarioScreen } from '../components/usuario/UsuarioScreen';
 import { UsuarioEdit } from '../components/usuario/UsuarioEdit';
+import { UsuarioPass } from '../components/usuario/UsuarioPass';
 import { DptoScreen } from '../components/dpto/DptoScreen';
 
 export const MainRouter = () => {
@@ -24,6 +25,7 @@ export const MainRouter = () => {
           <Route exact path="/datos/departamento" component={DptoScreen} />
           <Route exact path="/datos/usuario" component={UsuarioScreen} />
           <Route exact path="/datos/usuario/edit" component={UsuarioEdit} />
+          <Route exact path="/datos/usuario/pass/:userName" component={UsuarioPass} />
           <Redirect to="/salida" />
         </Switch>
       </div>
