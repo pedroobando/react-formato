@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { SalidaItem } from './SalidaItem';
 
-import {
-  salidaClearActive,
-  salidaSetActive,
-  salidaStartLoading,
-} from '../../redux/actions/salidas';
+import { salidaSetActive, salidaStartLoading } from '../../redux/actions/salidas';
 
 import {
   listaAprobAdmStartLoading,
@@ -19,7 +15,7 @@ import {
 import { AddNewItem } from '../ui/AddNewItem';
 import { Paginate } from '../ui/Paginate';
 
-const initialStatePage = { page: 1, limit: 6 };
+const initialStatePage = { page: 1, limit: 20 };
 
 export const SalidaScreen = ({ history }) => {
   const dispatch = useDispatch();

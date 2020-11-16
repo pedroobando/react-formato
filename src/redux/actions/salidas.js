@@ -107,10 +107,13 @@ export const salidaStartUpdate = (dataEntity) => {
 export const salidaStartDelete = (dataEntity) => {
   return async (dispatch) => {
     try {
-      const resp = await fetchConToken(`ordsalida/${dataEntity.uid}`, {}, 'DELETE');
+      console.log(dataEntity);
+      const resp = await fetchConToken(`ordsalida/${dataEntity.id}`, {}, 'DELETE');
       const body = await resp.json();
       if (body.ok) {
         dispatch(salidaDelete());
+      } else {
+        Swal.fire('Error borrando', body.data.message, 'error');
       }
     } catch (error) {
       console.error(error);

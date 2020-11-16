@@ -8,9 +8,9 @@ import Select from 'react-select';
 
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import {
-  salidaDelete,
   salidaLoadNroOrden,
   salidaStartAddNew,
+  salidaStartDelete,
   salidaStartUpdate,
 } from '../../redux/actions/salidas';
 
@@ -125,11 +125,6 @@ export const SalidaEdit = ({ history }) => {
     history.goBack();
   };
 
-  const handleDelete = () => {
-    dispatch(salidaDelete());
-    handleClose();
-  };
-
   const isFormValid = () => {
     let alertForm = [];
 
@@ -150,6 +145,24 @@ export const SalidaEdit = ({ history }) => {
     }
 
     return alertForm;
+  };
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: `Borrar ${nroOrden}.?`,
+      text: `¡No podrás revertir esto!  ¿Estás seguro?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, seguro de borrar !',
+      cancelButtonText: 'No borrar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(salidaStartDelete(formValues));
+        handleClose();
+      }
+    });
   };
 
   const handleSubmit = (event) => {
