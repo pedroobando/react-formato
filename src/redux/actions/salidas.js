@@ -19,22 +19,72 @@ export const salidaStartLoading = async (page = 1, limit = 10, seccion) => {
   return retVal;
 };
 
-export const salidaLoadNroOrden = (nroOrden, setFormValues) => {
-  return async () => {
-    try {
-      const resp = await fetchConToken(`ordsalida/numerosec/${nroOrden}`);
-      const body = await resp.json();
-      if (body.ok) {
-        setFormValues({ ...body.data });
-        return true;
-      } else {
-        Swal.fire('favor verificar', body.data.message, 'warning');
-      }
-      return false;
-    } catch (error) {
-      console.log(error);
+export const salidaLoadNroOrden = async (nroOrden) => {
+  let retVal = {};
+  try {
+    const resp = await fetchConToken(`ordsalida/numerosec/${nroOrden}`);
+    const body = await resp.json();
+    if (body.ok) {
+      retVal = { ...body.data };
+      // setFormValues({ ...body.data });
+      // return true;
+    } else {
+      Swal.fire('favor verificar', body.data.message, 'warning');
     }
-  };
+    // return retVal;
+    console.log('salidaLoadNroOrden');
+  } catch (error) {
+    console.log(error);
+  }
+  return retVal;
+};
+
+export const listaSalidaComboLoading = async (page = 1, limit = 100) => {
+  let retVal = { ok: false };
+  try {
+    const resp1 = await fetchConToken(
+      `persona?page=${page}&limit=${limit}&sort=nombre&activo=true`
+    );
+    const resp2 = await fetchConToken(
+      `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=administrador`
+    );
+    const resp3 = await fetchConToken(
+      `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=seguridad`
+    );
+    const resp4 = await fetchConToken(
+      `vehiculo?page=${page}&limit=${limit}&sort=nombre&activo=true`
+    );
+
+    const body1 = await resp1.json();
+    const body2 = await resp2.json();
+    const body3 = await resp3.json();
+    const body4 = await resp4.json();
+
+    retVal = {
+      ok: true,
+      personas: body1.data.map((item) => ({
+        value: item.id,
+        label: `${item.nombre} - ${item.dni}`,
+      })),
+      aprobAdms: body2.data.map((item) => ({
+        value: item.id,
+        label: `${item.nombre} - ${item.dni}`,
+      })),
+      aprobSegs: body3.data.map((item) => ({
+        value: item.id,
+        label: `${item.nombre} - ${item.dni}`,
+      })),
+      vehiculos: body4.data.map((item) => ({
+        value: item.id,
+        label: `${item.placa} - ${item.marca} ${item.modelo}`,
+      })),
+    };
+
+    console.log('listaSalidaComboLoading2');
+  } catch (error) {
+    console.log(error);
+  }
+  return retVal;
 };
 
 export const salidaStartAddNew = (dataEntity) => {

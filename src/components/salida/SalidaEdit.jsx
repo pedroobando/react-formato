@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 import Select from 'react-select';
@@ -12,8 +12,8 @@ import {
   salidaStartAddNew,
   salidaStartDelete,
   salidaStartUpdate,
+  listaSalidaComboLoading,
 } from '../../redux/actions/salidas';
-import { listaSalidaComboLoading } from '../../redux/actions/listas';
 
 const initialForm = {
   id: '',
@@ -45,13 +45,22 @@ const initialForm = {
   comentario: '',
 };
 
-export const SalidaEdit = ({ history }) => {
-  const dispatch = useDispatch();
-  const { nroOrden } = useParams();
+const initialStateCombos = {
+  slcPersonas: [],
+  slcVehiculos: [],
+  slcAprobAdm: [],
+  slcAprobSeg: [],
+};
 
-  const { slcPersonas, slcVehiculos, slcAprobAdm, slcAprobSeg } = useSelector(
-    (state) => state.listas
-  );
+export const SalidaEdit = ({ history, location }) => {
+  const dispatch = useDispatch();
+  const nroOrden = location.pathname.slice('/salida/'.length);
+  // const { nroOrden } = location.pathname;
+  const isMountedlst = useRef(false);
+
+  const [slcCombos, setSlcCombos] = useState(initialStateCombos);
+
+  const { slcPersonas, slcVehiculos, slcAprobAdm, slcAprobSeg } = slcCombos;
 
   const [formValues, setFormValues] = useState(initialForm);
   const {
@@ -68,11 +77,28 @@ export const SalidaEdit = ({ history }) => {
   } = formValues;
 
   useEffect(() => {
+    isMountedlst.current = true;
+
     if (nroOrden !== 'nuevo') {
-      dispatch(salidaLoadNroOrden(nroOrden, setFormValues));
+      salidaLoadNroOrden(nroOrden).then((retVal) => {
+        if (isMountedlst.current) {
+          setFormValues({ ...retVal });
+        }
+      });
     }
-    dispatch(listaSalidaComboLoading());
-  }, [nroOrden, dispatch]);
+
+    listaSalidaComboLoading(1, 500).then((retVal) => {
+      if (isMountedlst.current) {
+        setSlcCombos({
+          slcPersonas: retVal.personas,
+          slcVehiculos: retVal.vehiculos,
+          slcAprobAdm: retVal.aprobAdms,
+          slcAprobSeg: retVal.aprobSegs,
+        });
+      }
+    });
+    return () => (isMountedlst.current = false);
+  }, [nroOrden]);
 
   const handleInputChange = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -193,6 +219,8 @@ export const SalidaEdit = ({ history }) => {
   const handleEstatusOrden = ({ target }) => {
     setFormValues({ ...formValues, estatus: target.name });
   };
+
+  // if (!isMountedlst.current) return <h2>Loading</h2>;
 
   const tabMaterial = () => (
     <React.Fragment>
@@ -361,10 +389,6 @@ export const SalidaEdit = ({ history }) => {
     </React.Fragment>
   );
 
-  // if (slcPersonas.length <= 0 || (solicitante.id === '' && active !== null))
-  //   return <h5>loading...</h5>;
-  // console.log(solicitante);
-  // console.log(params);
   return (
     <div className="card border-primary w-100 mb-3 my-4">
       <div className="d-flex justify-content-between card-header h5 text">

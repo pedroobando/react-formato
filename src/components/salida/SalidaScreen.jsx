@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { SalidaItem } from './SalidaItem';
 
-import { salidaSetActive, salidaStartLoading } from '../../redux/actions/salidas';
+import { salidaStartLoading } from '../../redux/actions/salidas';
 
 import { AddNewItem } from '../ui/AddNewItem';
 import { Paginate } from '../ui/Paginate';
@@ -11,7 +11,6 @@ import { Paginate } from '../ui/Paginate';
 const initialStatePage = { page: 1, limit: 20, totalPages: 0 };
 
 export const SalidaScreen = ({ history }) => {
-  const dispatch = useDispatch();
   const { seccion } = useSelector((state) => state.auth);
   const [stPage, setStPage] = useState(initialStatePage);
   const [lstOrdSalidas, setLstOrdSalidas] = useState({ data: [], totalPages: 0 });
@@ -35,7 +34,6 @@ export const SalidaScreen = ({ history }) => {
   };
 
   const handleClickEvent = (event) => {
-    dispatch(salidaSetActive(event.currentTarget.id));
     const selectOrden = lstOrdSalidas.data.find(
       (item) => item.id === event.currentTarget.id
     );

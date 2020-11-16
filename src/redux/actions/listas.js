@@ -34,7 +34,7 @@ export const listaDptoClear = () => {
 export const listaSalidaComboLoading = (page = 1, limit = 100) => {
   return async (dispatch) => {
     try {
-      console.log('listaSalidaComboLoading');
+      // console.log('listaSalidaComboLoading');
       const respPers = await fetchConToken(
         `persona?page=${page}&limit=${limit}&sort=nombre&activo=true`
       );
@@ -60,9 +60,36 @@ export const listaSalidaComboLoading = (page = 1, limit = 100) => {
         dispatch(eventLoadedAprobAdm(bodyAdm));
         dispatch(eventLoadedAprobSeg(bodySeg));
         dispatch(eventLoadedVehiculo(bodyVeh));
+        console.log('listaSalidaComboLoading');
       } else {
         return [];
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const listaSalidaComboLoading2 = (page = 1, limit = 100) => {
+  return (dispatch) => {
+    try {
+      Promise.all([
+        fetchConToken(`persona?page=${page}&limit=${limit}&sort=nombre&activo=true`),
+        fetchConToken(
+          `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=administrador`
+        ),
+        fetchConToken(
+          `persona?page=${page}&limit=${limit}&sort=nombre&activo=true&typepersona=seguridad`
+        ),
+        fetchConToken(`vehiculo?page=${page}&limit=${limit}&sort=nombre&activo=true`),
+      ]).then((retval) => {
+        retval[0].json().then((bodyPers) => dispatch(eventLoadedPersona(bodyPers)));
+        retval[1].json().then((bodyAdm) => dispatch(eventLoadedAprobAdm(bodyAdm)));
+        retval[2].json().then((bodySeg) => dispatch(eventLoadedAprobSeg(bodySeg)));
+        retval[3].json().then((bodyVeh) => dispatch(eventLoadedVehiculo(bodyVeh)));
+      });
+      console.log('listaSalidaComboLoading2');
+      // dispatch(eventLoadedDpto({ ok: true, data: [] }));
     } catch (error) {
       console.log(error);
     }
