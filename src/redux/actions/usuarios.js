@@ -16,6 +16,22 @@ export const usuarioStartLoading = (page = 1, limit = 10) => {
   };
 };
 
+export const usuarioStartLoad = async (userId) => {
+  try {
+    const resp = await fetchConToken(`usuario/${userId}`);
+    const body = await resp.json();
+    if (body.ok) {
+      return body.data;
+      // dispatch(eventLoaded(body));
+    } else {
+      Swal.fire('Problemas', body.data.message, 'warning');
+    }
+    return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const usuarioStartAddNew = (dataEntity) => {
   return async (dispatch, getState) => {
     try {
@@ -85,22 +101,18 @@ export const usuarioStartDelete = (dataEntity) => {
   };
 };
 
-export const usuarioStartChangePass = (dataEntity) => {
+export const usuarioChangePass = (newPass) => {
   return async (dispatch, getState) => {
     try {
-      const { uid, name } = getState().auth;
+      const { uid } = getState().auth;
       const resp = await fetchConToken(
-        `usuario/${dataEntity.id}`,
-        { ...dataEntity, departamento: dataEntity.departamento.id, creador: uid },
+        `usuario/password/${uid}`,
+        { password: newPass },
         'PUT'
       );
       const body = await resp.json();
       if (body.ok) {
-        const dataEntityUpd = {
-          ...dataEntity,
-          user: { _id: uid, name },
-        };
-        dispatch(usuarioUpdated(dataEntityUpd));
+        dispatch(usuarioClearActive());
       } else {
         Swal.fire('Error', body.data.message, 'error');
       }

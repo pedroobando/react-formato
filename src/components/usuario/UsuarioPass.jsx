@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Swal from 'sweetalert2';
 
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import {
+  usuarioChangePass,
   usuarioClearActive,
-  usuarioStartAddNew,
+  // usuarioStartAddNew,
+  // usuarioStartUpdate,
+  usuarioStartLoad,
   usuarioStartUpdate,
 } from '../../redux/actions/usuarios';
 
@@ -24,24 +27,27 @@ const initialForm = {
   activo: true,
 };
 
-export const UsuarioPass = ({ history, location }) => {
+export const UsuarioPass = ({ history }) => {
   const dispatch = useDispatch();
-  const userName = location.pathname.slice('/datos/usuario/pass/'.length);
+  const { uid } = useSelector((state) => state.auth);
 
-  // const { active, collections } = useSelector((state) => state.collection);
-  // if (collections.length <= 0) history.push('/datos/usuario');
-
+  const isMounted = useRef(false);
   const [formValues, setFormValues] = useState(initialForm);
-  const { name, fullname, password, password2 } = formValues;
+  const { name, fullname, email, departamento, password, password2 } = formValues;
 
   useEffect(() => {
-    // console.log(userName);
-    if (userName !== null) {
-      // setFormValues({
-      //   ...active,
-      // });
-    }
-  }, [userName]);
+    isMounted.current = true;
+
+    // if (userName !== null) {
+    usuarioStartLoad(uid).then((usuario) => {
+      if (isMounted.current) {
+        setFormValues({ ...usuario, password: '', password2: '' });
+      }
+    });
+    // }
+
+    return () => (isMounted.current = false);
+  }, [uid]);
 
   const handleInputChange = ({ target }) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -53,7 +59,7 @@ export const UsuarioPass = ({ history, location }) => {
   };
 
   const handleModalClose = () => {
-    dispatch(usuarioClearActive());
+    // dispatch(usuarioClearActive());
     history.goBack();
   };
 
@@ -84,11 +90,14 @@ export const UsuarioPass = ({ history, location }) => {
       return;
     }
 
-    if (true) {
-      // dispatch(usuarioStartUpdate(formValues));
-    } else {
-      // dispatch(usuarioStartAddNew(formValues));
-    }
+    dispatch(usuarioChangePass(password));
+
+    Swal.fire({
+      title: 'Contraseña',
+      text: 'Contraseña actualizad exitosamente',
+      icon: 'success',
+    });
+
     handleModalClose();
   };
 
@@ -99,15 +108,27 @@ export const UsuarioPass = ({ history, location }) => {
       </div>
 
       <form className="p-2" onSubmit={handleSubmit}>
-        <div className="form-label-group">
-          <label htmlFor="inputName">{name}</label>
-        </div>
-
-        <div className="form-label-group">
-          <label htmlFor="inputName">{fullname}</label>
-        </div>
-
         <React.Fragment>
+          <div className="ml-3 mb-2">
+            <div className="form-label">
+              <label htmlFor="inputName">Usuario: {name}</label>
+            </div>
+
+            <div className="form-label">
+              <label htmlFor="inputName">Nombre Completo: {fullname}</label>
+            </div>
+
+            <div className="form-label">
+              <label htmlFor="inputName">Email: {email}</label>
+            </div>
+
+            <div className="form-label">
+              <label htmlFor="inputName">
+                Departamento o Seccion: {departamento.nombre}
+              </label>
+            </div>
+          </div>
+
           <div className="form-label-group">
             <input
               type="password"
