@@ -23,8 +23,8 @@ export const DptoScreen = () => {
   );
 
   useEffect(() => {
-    dispatch(departamentoStartInit())
-  }, [dispatch])
+    dispatch(departamentoStartInit());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(departamentoStartLoading(stPage.page, stPage.limit));

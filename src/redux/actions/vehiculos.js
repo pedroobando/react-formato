@@ -145,3 +145,7 @@ export const vehiculoUpdated = (dataEntity) => ({
 export const vehiculoDelete = () => ({
   type: typeCollection.deleted,
 });
+
+export const vehiculoStartInit = () => ({
+  type: typeCollection.init,
+});

@@ -7,7 +7,11 @@ import { VehiculoModal } from './VehiculoModal';
 import { AddNewItem } from '../ui/AddNewItem';
 import { Paginate } from '../ui/Paginate';
 
-import { vehiculoSetActive, vehiculoStartLoading } from '../../redux/actions/vehiculos';
+import {
+  vehiculoSetActive,
+  vehiculoStartInit,
+  vehiculoStartLoading,
+} from '../../redux/actions/vehiculos';
 const initialState = { page: 1, limit: 10 };
 
 export const VehiculoScreen = () => {
@@ -16,6 +20,10 @@ export const VehiculoScreen = () => {
   const { collections: lstVehiculos, totalPages } = useSelector(
     (state) => state.collection
   );
+
+  useEffect(() => {
+    dispatch(vehiculoStartInit());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(vehiculoStartLoading(stPage.page, stPage.limit));

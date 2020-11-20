@@ -6,9 +6,9 @@ import { useForm } from '../../hooks/useForm';
 import { startRegister } from '../../redux/actions/auth';
 
 const initialForm = {
-  rname: 'pedro',
-  remail: 'pedroobando@hotmail.com',
-  rpassword: '123456',
+  rname: '',
+  remail: '',
+  rpassword: '',
 };
 
 export const RegisterScreen = () => {

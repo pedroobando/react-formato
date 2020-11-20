@@ -1,11 +1,12 @@
 import React from 'react';
 import { useForm } from '../../hooks/useForm';
+import Swal from 'sweetalert2';
 // import { startLogin } from '../../redux/actions/auth';
 
 import { Link } from 'react-router-dom';
 
 const initialForm = {
-  email: 'pedroobando@hotmail.com',
+  email: '',
 };
 
 export const RecoveryScreen = () => {
@@ -14,7 +15,12 @@ export const RecoveryScreen = () => {
 
   const handleSubmit = (hevent) => {
     hevent.preventDefault();
-    // dispatch(startRegister(rname, remail, rpassword));
+    Swal.fire({
+      title: `Acción no desarrollada .!`,
+      text:
+        'Lamentablemente esta accion, no ha sido desarrollado aun. - Por favor comunicate con el administrador o desarrollador de la aplicacion.',
+      icon: 'info',
+    });
   };
 
   return (

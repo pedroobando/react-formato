@@ -8,7 +8,11 @@ import { Paginate } from '../ui/Paginate';
 
 import { uiOpenModal } from '../../redux/actions/ui';
 
-import { personaSetActive, personaStartLoading, personaStartInit } from '../../redux/actions/personas';
+import {
+  personaSetActive,
+  personaStartLoading,
+  personaStartInit,
+} from '../../redux/actions/personas';
 
 const initialState = { page: 1, limit: 10 };
 
@@ -20,8 +24,8 @@ export const PersonaScreen = () => {
   );
 
   useEffect(() => {
-    dispatch(personaStartInit())
-  }, [dispatch])
+    dispatch(personaStartInit());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(personaStartLoading(stPage.page, stPage.limit));

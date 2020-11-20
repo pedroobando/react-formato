@@ -35,7 +35,6 @@ export const UsuarioScreen = ({ history }) => {
   const handleClickEvent = (event) => {
     dispatch(listaDptoStartLoading());
     dispatch(usuarioSetActive(event.currentTarget.id));
-    // handleOpenModal();
     history.push('/datos/usuario/edit');
   };
 

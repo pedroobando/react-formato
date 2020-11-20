@@ -6,21 +6,18 @@ import { useForm } from '../../hooks/useForm';
 import { startLogin } from '../../redux/actions/auth';
 
 const initialForm = {
-  lemail: 'pedroobando@hotmail.com',
-  lpassword: '123456',
+  lemail: '',
+  lpassword: '',
 };
 
 export const LoginScreen = () => {
   const dispatch = useDispatch();
   const [formValues, handleInputChange] = useForm(initialForm);
   const { lpassword, lemail } = formValues;
-  // document.title = 'Login';
 
   const handleSubmit = (hevent) => {
     hevent.preventDefault();
     dispatch(startLogin(lemail, lpassword));
-
-    // history.replace('/salida');
   };
 
   return (
