@@ -40,17 +40,17 @@ export const ticketSalida = ({
   // doc.setLineWidth(0.5);
 
   doc.line(left, topHead + 36, 595, topHead + 36);
-  doc.setFontSize(10);
+  doc.setFontSize(9);
 
   doc.text(`NOMBRE: ${solicitante.nombre.toUpperCase()}`, left + 10, topContext + 15);
-  doc.text(`CEDULA ID: ${solicitante.dni.toUpperCase()}`, left + 300, topContext + 15);
+  doc.text(`CEDULA ID: ${solicitante.dni.toUpperCase()}`, left + 350, topContext + 15);
 
   doc.text(
-    `VEHICULO O TRANSPORTE: ${transporte.marca.toUpperCase()}`,
+    `VEHICULO O TRANSPORTE: ${transporte.marca.toUpperCase()} ${transporte.modelo.toUpperCase()} ${transporte.color.toUpperCase()}`,
     left + 10,
-    topContext + 15
+    topContext + 30
   );
-  doc.text(`CEDULA ID: ${solicitante.dni.toUpperCase()}`, left + 300, topContext + 15);
+  doc.text(`PLACA: ${transporte.placa.toUpperCase()}`, left + 350, topContext + 30);
 
   // doc.text("J-31104331-4", 80, 30, { align: "center" });
 

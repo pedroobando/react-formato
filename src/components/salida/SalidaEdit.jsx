@@ -413,7 +413,7 @@ export const SalidaEdit = ({ history, location }) => {
                 className="btn btn-outline-secondary px-4 ml-2"
                 type="button"
                 onClick={handleImpOrdSalida}>
-                imprimir Ord.
+                Imprimir
               </button>
             )}
           </div>

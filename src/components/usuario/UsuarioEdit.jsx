@@ -143,10 +143,7 @@ export const UsuarioEdit = ({ history }) => {
       dispatch(usuarioStartAddNew(formValues));
     }
     handleModalClose();
-    // dispatch(listaDptoClear());
-    // dispatch(usuarioClearActive());
-    // history.goBack();
-  };
+   };
 
   const selectOptionDefault = (lista, itemId) => {
     let retIndex = -1;
@@ -155,10 +152,8 @@ export const UsuarioEdit = ({ history }) => {
     return retIndex;
   };
 
-  if (slcDepartamentos.length <= 0 || (departamento.id === '' && active !== null))
+  if (slcDepartamentos.length <= 0)
     return <h5>loading...</h5>;
-
-  // console.log(departamento.id);
 
   return (
     <div className="card border-primary w-100 mb-3 my-4">
