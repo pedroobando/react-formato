@@ -3,7 +3,7 @@ import { typeSalida } from '../types/types';
 import { fetchConToken } from '../../helpers/fetch';
 
 export const salidaStartLoading = async (page = 1, limit = 10, seccion) => {
-  let retVal = { ok: false };
+  let retVal = { ok: false, data:[],totalPages:0 };
   try {
     const resp = await fetchConToken(
       `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1&seccion=${seccion}`
