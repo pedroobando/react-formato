@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import Select from 'react-select';
 
+import { ticketSalida } from '../../reports/tickets/ticketSalida';
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import {
   salidaLoadNroOrden,
@@ -173,6 +174,10 @@ export const SalidaEdit = ({ history, location }) => {
     }
 
     return alertForm;
+  };
+  const handleImpOrdSalida = () => {
+    console.log(formValues);
+    ticketSalida({ numerosec: formValues.numerosec, fecha: formValues.fechaemision });
   };
 
   const handleDelete = () => {
@@ -399,9 +404,19 @@ export const SalidaEdit = ({ history, location }) => {
       <form className="card-body" onSubmit={handleSubmit}>
         {tabMaterial()}
         <div className="d-flex justify-content-between px-2">
-          <button className="btn btn-success px-4" type="submit">
-            Aceptar
-          </button>
+          <div>
+            <button className="btn btn-success px-4" type="submit">
+              Aceptar
+            </button>
+            {nroOrden !== 'nuevo' && (
+              <button
+                className="btn btn-outline-secondary px-4 ml-2"
+                type="button"
+                onClick={handleImpOrdSalida}>
+                imprimir Ord.
+              </button>
+            )}
+          </div>
 
           <div>
             <button
