@@ -31,8 +31,8 @@ const initialForm = {
   id: '',
   nombre: '',
   abreviacion: '',
-  nrosalida: 1,
-  activo: false,
+  nrosalida: 0,
+  activo: true,
 };
 
 Modal.setAppElement('#root');
@@ -176,8 +176,8 @@ export const DptoModal = ({ listIndex }) => {
           <div className="form-label-group">
             <input
               type="number"
-              min="1"
-              max="9999"
+              min="0"
+              max="99999"
               inputMode="numeric"
               id="inputNroSalida"
               className="form-control"

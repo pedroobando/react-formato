@@ -57,7 +57,7 @@ export const collectionReducer = (state = initialState, action) => {
         activePage: action.payload.activePage,
       };
 
-    case typeCollection.logout:
+    case typeCollection.init:
       return {
         ...initialState,
       };

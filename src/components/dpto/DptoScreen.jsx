@@ -9,6 +9,7 @@ import { Paginate } from '../ui/Paginate';
 
 import {
   departamentoSetActive,
+  departamentoStartInit,
   departamentoStartLoading,
 } from '../../redux/actions/departamentos';
 
@@ -20,6 +21,10 @@ export const DptoScreen = () => {
   const { collections: lstDepartamentos, totalPages } = useSelector(
     (state) => state.collection
   );
+
+  useEffect(() => {
+    dispatch(departamentoStartInit())
+  }, [dispatch])
 
   useEffect(() => {
     dispatch(departamentoStartLoading(stPage.page, stPage.limit));

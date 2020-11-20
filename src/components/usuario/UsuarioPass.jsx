@@ -6,11 +6,7 @@ import Swal from 'sweetalert2';
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import {
   usuarioChangePass,
-  usuarioClearActive,
-  // usuarioStartAddNew,
-  // usuarioStartUpdate,
   usuarioStartLoad,
-  usuarioStartUpdate,
 } from '../../redux/actions/usuarios';
 
 const initialForm = {

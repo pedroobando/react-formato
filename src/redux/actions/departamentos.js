@@ -112,3 +112,7 @@ export const departamentoUpdated = (dataEntity) => ({
 export const departamentoDelete = () => ({
   type: typeCollection.deleted,
 });
+
+export const departamentoStartInit = () => ({
+  type: typeCollection.init,
+});

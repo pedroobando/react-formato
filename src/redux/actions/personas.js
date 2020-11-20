@@ -135,3 +135,7 @@ export const personaSetActive = (event) => ({
 export const personaClearActive = () => ({
   type: typeCollection.clearActive,
 });
+
+export const personaStartInit = () => ({
+  type: typeCollection.init,
+});

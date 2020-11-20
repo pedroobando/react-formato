@@ -23,6 +23,7 @@ export const typeCollection = {
   updated: '[collection] Updated',
   deleted: '[collection] Deleted',
   loaded: '[collection] Loaded',
+  init: '[collection] Clear Collections',
 };
 
 export const typeListas = {
