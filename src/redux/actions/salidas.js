@@ -3,7 +3,7 @@ import { typeSalida } from '../types/types';
 import { fetchConToken } from '../../helpers/fetch';
 
 export const salidaStartLoading = async (page = 1, limit = 10, seccion) => {
-  let retVal = { ok: false, data:[],totalPages:0 };
+  let retVal = { ok: false, data: [], totalPages: 0 };
   try {
     const resp = await fetchConToken(
       `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1&seccion=${seccion}`
@@ -31,8 +31,6 @@ export const salidaLoadNroOrden = async (nroOrden) => {
     } else {
       Swal.fire('favor verificar', body.data.message, 'warning');
     }
-    // return retVal;
-    console.log('salidaLoadNroOrden');
   } catch (error) {
     console.log(error);
   }
@@ -79,8 +77,6 @@ export const listaSalidaComboLoading = async (page = 1, limit = 100) => {
         label: `${item.placa} - ${item.marca} ${item.modelo}`,
       })),
     };
-
-    console.log('listaSalidaComboLoading2');
   } catch (error) {
     console.log(error);
   }

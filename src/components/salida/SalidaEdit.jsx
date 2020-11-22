@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
 // import { useParams } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 import Select from 'react-select';
 
-import { ticketSalida } from '../../reports/tickets/ticketSalida';
+import { formatoOrdenSalida } from '../../reports/tickets/ticketSalida';
 import { htmlAlertMessage } from '../../helpers/htmlAlertMessage';
 import {
   salidaLoadNroOrden,
@@ -177,7 +178,15 @@ export const SalidaEdit = ({ history, location }) => {
   };
   const handleImpOrdSalida = () => {
     console.log(formValues);
-    ticketSalida({ numerosec: formValues.numerosec, fecha: formValues.fechaemision });
+    formatoOrdenSalida({
+      numerosec: formValues.numerosec,
+      fecha: moment(formValues.fechaemision).calendar(),
+      material: formValues.material,
+      motivo: formValues.motivo,
+      destino: formValues.destino,
+      comentario: formValues.comentario,
+      copia: 'ADMINISTRACION',
+    });
   };
 
   const handleDelete = () => {
