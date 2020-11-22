@@ -143,7 +143,7 @@ export const UsuarioEdit = ({ history }) => {
       dispatch(usuarioStartAddNew(formValues));
     }
     handleModalClose();
-   };
+  };
 
   const selectOptionDefault = (lista, itemId) => {
     let retIndex = -1;
@@ -152,8 +152,8 @@ export const UsuarioEdit = ({ history }) => {
     return retIndex;
   };
 
-  if (slcDepartamentos.length <= 0)
-    return <h5>loading...</h5>;
+  // if (slcDepartamentos.length <= 0)
+  //   return <h5>loading...</h5>;
 
   return (
     <div className="card border-primary w-100 mb-3 my-4">

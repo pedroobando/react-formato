@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 // import { useParams } from 'react-router-dom';
@@ -56,13 +56,14 @@ const initialStateCombos = {
 
 export const SalidaEdit = ({ history, location }) => {
   const dispatch = useDispatch();
+  const { name } = useSelector((state) => state.auth);
+
   const nroOrden = location.pathname.slice('/salida/'.length);
-  // const { nroOrden } = location.pathname;
   const isMountedlst = useRef(false);
 
   const [slcCombos, setSlcCombos] = useState(initialStateCombos);
 
-  const { slcPersonas, slcVehiculos, slcAprobAdm, slcAprobSeg } = slcCombos;
+  const { slcPersonas, slcVehiculos, slcAprobAdm, slcAprobSeg, slcDepartams } = slcCombos;
 
   const [formValues, setFormValues] = useState(initialForm);
   const {
@@ -76,6 +77,7 @@ export const SalidaEdit = ({ history, location }) => {
     aprobadoradm,
     aprobadorseg,
     comentario,
+    departamento,
   } = formValues;
 
   useEffect(() => {
@@ -96,6 +98,7 @@ export const SalidaEdit = ({ history, location }) => {
           slcVehiculos: retVal.vehiculos,
           slcAprobAdm: retVal.aprobAdms,
           slcAprobSeg: retVal.aprobSegs,
+          slcDepartams: retVal.departamentos,
         });
       }
     });
@@ -177,15 +180,34 @@ export const SalidaEdit = ({ history, location }) => {
     return alertForm;
   };
   const handleImpOrdSalida = () => {
-    console.log(formValues);
+    moment.locale();
+
+    const solicitanteUD = slcPersonas.find((option2) => option2.value === solicitante.id);
+    const transporteUD = slcVehiculos.find((option2) => option2.value === transporte.id);
+    const aprobadorAdmUD = slcAprobAdm.find(
+      (option2) => option2.value === aprobadoradm.id
+    );
+    const aprobadorSegUD = slcAprobSeg.find(
+      (option2) => option2.value === aprobadorseg.id
+    );
+
+    const departamentoUD = slcDepartams.find(
+      (option2) => option2.value === departamento.id
+    );
+
     formatoOrdenSalida({
       numerosec: formValues.numerosec,
-      fecha: moment(formValues.fechaemision).calendar(),
+      fecha: moment(formValues.fechaemision).format('ll'),
       material: formValues.material,
       motivo: formValues.motivo,
       destino: formValues.destino,
       comentario: formValues.comentario,
-      copia: 'ADMINISTRACION',
+      solicitante: solicitanteUD,
+      transporte: transporteUD,
+      aprobadoradm: aprobadorAdmUD,
+      aprobadorseg: aprobadorSegUD,
+      usuario: { nombre: name, dni: '-' },
+      departamento: departamentoUD,
     });
   };
 
@@ -219,8 +241,6 @@ export const SalidaEdit = ({ history, location }) => {
       });
       return;
     }
-
-    // console.log(formValues);
 
     if (nroOrden === 'nuevo') {
       dispatch(salidaStartAddNew(formValues));

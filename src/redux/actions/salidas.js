@@ -53,28 +53,49 @@ export const listaSalidaComboLoading = async (page = 1, limit = 100) => {
       `vehiculo?page=${page}&limit=${limit}&sort=nombre&activo=true`
     );
 
+    const resp5 = await fetchConToken(
+      `departamento?page=${page}&limit=${limit}&sort=nombre&activo=true`
+    );
+
     const body1 = await resp1.json();
     const body2 = await resp2.json();
     const body3 = await resp3.json();
     const body4 = await resp4.json();
+    const body5 = await resp5.json();
 
     retVal = {
       ok: true,
       personas: body1.data.map((item) => ({
         value: item.id,
         label: `${item.nombre} - ${item.dni}`,
+        nombre: item.nombre,
+        telefono: item.telefono,
+        dni: item.dni,
       })),
       aprobAdms: body2.data.map((item) => ({
         value: item.id,
         label: `${item.nombre} - ${item.dni}`,
+        nombre: item.nombre,
+        dni: item.dni,
       })),
       aprobSegs: body3.data.map((item) => ({
         value: item.id,
         label: `${item.nombre} - ${item.dni}`,
+        nombre: item.nombre,
+        dni: item.dni,
       })),
       vehiculos: body4.data.map((item) => ({
         value: item.id,
         label: `${item.placa} - ${item.marca} ${item.modelo}`,
+        placa: item.placa,
+        marca: item.marca,
+        modelo: item.modelo,
+        color: item.color,
+      })),
+      departamentos: body5.data.map((item) => ({
+        value: item.id,
+        label: `${item.nombre}`,
+        nombre: item.nombre,
       })),
     };
   } catch (error) {
@@ -161,15 +182,6 @@ export const salidaStartDelete = (dataEntity) => {
     }
   };
 };
-
-// const eventLoaded = (entities) => ({
-//   type: typeSalida.loaded,
-//   payload: {
-//     data: entities.data,
-//     totalPages: entities.totalPages,
-//     activePage: entities.currentPage,
-//   },
-// });
 
 export const salidaAddNew = (dataEntity) => ({
   type: typeSalida.addNew,

@@ -60,7 +60,7 @@ export const listaSalidaComboLoading = (page = 1, limit = 100) => {
         dispatch(eventLoadedAprobAdm(bodyAdm));
         dispatch(eventLoadedAprobSeg(bodySeg));
         dispatch(eventLoadedVehiculo(bodyVeh));
-        console.log('listaSalidaComboLoading');
+        // console.log('listaSalidaComboLoading');
       } else {
         return [];
       }
@@ -88,7 +88,7 @@ export const listaSalidaComboLoading2 = (page = 1, limit = 100) => {
         retval[2].json().then((bodySeg) => dispatch(eventLoadedAprobSeg(bodySeg)));
         retval[3].json().then((bodyVeh) => dispatch(eventLoadedVehiculo(bodyVeh)));
       });
-      console.log('listaSalidaComboLoading2');
+      // console.log('listaSalidaComboLoading2');
       // dispatch(eventLoadedDpto({ ok: true, data: [] }));
     } catch (error) {
       console.log(error);
@@ -251,7 +251,10 @@ const eventLoadedVehiculo = (entities) => ({
   payload: {
     lst: entities.data.map((item) => ({
       id: item.id,
-      name: `${item.placa} - ${item.modelo} ${item.color}`,
+      name: `${item.placa} -  ${item.modelo} ${item.color}`,
+      marca: item.marca,
+      modelo: item.modelo,
+      placa: item.placa,
     })),
     slc: entities.data.map((item) => ({
       value: item.id,

@@ -80,20 +80,20 @@ export const personaStartDelete = (dataEntity) => {
   };
 };
 
-export const personaStartLoad = (personaId = '') => {
-  return async () => {
-    try {
-      const resp = await fetchConToken(`persona/${personaId}`);
-      const body = await resp.json();
-      return body;
-      // console.log(body);
-      // if (body.ok) {
-      //   return body;
-      // } else {body}
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const personaOneLoad = async (personaId = '') => {
+  try {
+    const resp = await fetchConToken(`persona/${personaId}`);
+    const body = await resp.json();
+    return body;
+    // console.log(body);
+    // if (body.ok) {
+    //   return body;
+    // } else {body}
+  } catch (error) {
+    console.log(error);
+    return { ok: false, data: undefined };
+  }
+  // return async () => {};
 };
 
 export const personaStartFaker = (quantity) => {
