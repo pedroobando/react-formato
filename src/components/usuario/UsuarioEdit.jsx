@@ -25,6 +25,7 @@ const initialForm = {
     nombre: '',
   },
   activo: true,
+  administrador: false,
 };
 
 export const UsuarioEdit = ({ history }) => {
@@ -36,7 +37,16 @@ export const UsuarioEdit = ({ history }) => {
   const { slcDepartamentos } = useSelector((state) => state.listas);
 
   const [formValues, setFormValues] = useState(initialForm);
-  const { name, fullname, email, password, password2, departamento, activo } = formValues;
+  const {
+    name,
+    fullname,
+    email,
+    password,
+    password2,
+    departamento,
+    activo,
+    administrador,
+  } = formValues;
 
   useEffect(() => {
     if (active !== null) {
@@ -65,7 +75,6 @@ export const UsuarioEdit = ({ history }) => {
   };
 
   const handleModalClose = () => {
-    // dispatch(usuarioClearActive);
     dispatch(listaDptoClear());
     dispatch(usuarioClearActive());
     history.goBack();
@@ -145,16 +154,6 @@ export const UsuarioEdit = ({ history }) => {
     handleModalClose();
   };
 
-  const selectOptionDefault = (lista, itemId) => {
-    let retIndex = -1;
-    if (itemId.trim().length >= 1)
-      retIndex = lista.findIndex((item) => item.value === itemId);
-    return retIndex;
-  };
-
-  // if (slcDepartamentos.length <= 0)
-  //   return <h5>loading...</h5>;
-
   return (
     <div className="card border-primary w-100 mb-3 my-4">
       <div className="card-header h5 text-mute text-uppercase">
@@ -212,11 +211,9 @@ export const UsuarioEdit = ({ history }) => {
           onChange={handleChange}
           isClearable={true}
           isSearchable={true}
-          defaultValue={
-            slcDepartamentos[selectOptionDefault(slcDepartamentos, departamento.id)]
-          }
           options={slcDepartamentos}
           name="departamento"
+          value={slcDepartamentos.filter((option2) => option2.value === departamento.id)}
         />
 
         {!active && (
@@ -260,6 +257,18 @@ export const UsuarioEdit = ({ history }) => {
               onChange={handleInputChange}
             />{' '}
             Activo
+          </label>
+        </div>
+
+        <div className="checkbox mb-3">
+          <label>
+            <input
+              type="checkbox"
+              name="administrador"
+              checked={administrador}
+              onChange={handleInputChange}
+            />{' '}
+            Super Usuario
           </label>
         </div>
 

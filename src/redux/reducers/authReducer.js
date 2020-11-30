@@ -5,6 +5,7 @@ const inititalState = {
   uid: null,
   name: null,
   seccion: null,
+  isAdmin: false,
 };
 
 export const authReducer = (state = inititalState, action) => {
