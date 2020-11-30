@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
+import { SalidaSearch } from './SalidaSearch';
 import { SalidaItem } from './SalidaItem';
 
 import { salidaStartLoading } from '../../redux/actions/salidas';
 
-import { AddNewItem } from '../ui/AddNewItem';
 import { Paginate } from '../ui/Paginate';
 
 const initialStatePage = { page: 1, limit: 20, totalPages: 0 };
@@ -44,12 +44,35 @@ export const SalidaScreen = ({ history }) => {
     setStPage({ ...stPage, page: event.selected + 1 });
   };
 
+  const handleSumitSearch = (e, sMaterial) => {
+    // console.log(e, sMaterial);
+    e.preventDefault();
+    salidaStartLoading(stPage.page, 20, seccion, sMaterial).then((retCollects) => {
+      if (isMountedList.current) {
+        setLstOrdSalidas({
+          data: [...retCollects.data],
+          totalPages: retCollects.totalPages,
+        });
+      }
+    });
+    // console.log('Buscar');
+  };
+
   return (
     <React.Fragment>
       <div className="row my-1">
+        <SalidaSearch
+          handleNewOrden={handleOpenModal}
+          handleSearchOrden={handleSumitSearch}
+        />
         {lstOrdSalidas.data &&
           lstOrdSalidas.data.map((item) => (
-            <SalidaItem key={item.id} ordsalida={item} onClickEvent={handleClickEvent} />
+            <SalidaItem
+              key={item.id}
+              ordsalida={item}
+              onClickEvent={handleClickEvent}
+              onDblClickEvent={handleClickEvent}
+            />
           ))}
         {lstOrdSalidas.totalPages >= 2 && (
           <span className="mt-2">
@@ -60,7 +83,6 @@ export const SalidaScreen = ({ history }) => {
           </span>
         )}
       </div>
-      <AddNewItem handleOpenModal={handleOpenModal} />
     </React.Fragment>
   );
 };

@@ -117,25 +117,25 @@ const formato = (
 
   doc.setDrawColor(0);
   doc.setFillColor(255, 255, 255);
-  doc.roundedRect(left, topHead, 580, 310, 3, 3, 'FD'); //  Black square with rounded corners
+  doc.roundedRect(left, topHead, 580, 340, 3, 3, 'FD'); //  Black square with rounded corners
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
 
-  doc.text('GRASACA GRASAS SAN CARLOS C.A.', left + 75, topHead + 15, {
+  doc.text('GRASACA GRASAS SAN CARLOS C.A.', left + 75, topHead + 20, {
     align: 'center',
   });
-  doc.text('J-31104331-4', left + 75, topHead + 30, { align: 'center' });
+  doc.text('J-31104331-4', left + 75, topHead + 35, { align: 'center' });
 
-  doc.text(`Nro. GUIA: ${numerosec}`, left + 460, topHead + 15, { align: 'left' });
-  doc.text(`FECHA: ${fecha}`, left + 460, topHead + 30, { align: 'left' });
+  doc.text(`Nro. GUIA: ${numerosec}`, left + 460, topHead + 20, { align: 'left' });
+  doc.text(`FECHA: ${fecha}`, left + 460, topHead + 35, { align: 'left' });
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.text(
     'AUTORIZACION DE SALIDA DE MATERIALES Y EQUIPOS DE PLANTA',
     300,
-    topHead + 15,
+    topHead + 22,
     {
       align: 'center',
       maxWidth: 260,
@@ -143,7 +143,7 @@ const formato = (
   );
   // doc.setLineWidth(0.5);
 
-  doc.line(left, topHead + 36, 595, topHead + 36);
+  doc.line(left, topHead + 50, 595, topHead + 50);
   doc.setFontSize(9);
 
   topContext += 20;
@@ -167,7 +167,7 @@ const formato = (
     maxWidth: 560,
   });
 
-  topContext += 30;
+  topContext += 40;
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.text(`MOTIVO DE SALIDA: ${motivo.toUpperCase()}`, left + 10, topContext, {
@@ -181,7 +181,7 @@ const formato = (
     maxWidth: 220,
   });
 
-  topContext += 40;
+  topContext += 50;
   doc.text(`COMENTARIO: ${comentario.toUpperCase()}`, left + 10, topContext, {
     align: 'left',
     maxWidth: 560,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { relativeTime } from '../../helpers/relativeTime';
 
-export const SalidaItem = ({ ordsalida, onClickEvent }) => {
+export const SalidaItem = ({ ordsalida, onDblClickEvent }) => {
   const {
     id,
     numerosec,
@@ -41,7 +41,8 @@ export const SalidaItem = ({ ordsalida, onClickEvent }) => {
     <div
       id={id}
       className="list-group-item list-group-item-action"
-      onClick={onClickEvent}>
+      // onClick={onClickEvent}
+      onDoubleClick={onDblClickEvent}>
       <div className="d-flex w-100 justify-content-between">
         <div className="d-flex flex-column">
           <h5 className="mb-1 text-uppercase font-weight-bolder">{material}</h5>

@@ -6,18 +6,18 @@ import { useForm } from '../../hooks/useForm';
 import { startLogin } from '../../redux/actions/auth';
 
 const initialForm = {
-  lemail: '',
+  lname: '',
   lpassword: '',
 };
 
 export const LoginScreen = () => {
   const dispatch = useDispatch();
   const [formValues, handleInputChange] = useForm(initialForm);
-  const { lpassword, lemail } = formValues;
+  const { lpassword, lname } = formValues;
 
   const handleSubmit = (hevent) => {
     hevent.preventDefault();
-    dispatch(startLogin(lemail, lpassword));
+    dispatch(startLogin(lname, lpassword));
   };
 
   return (
@@ -29,7 +29,7 @@ export const LoginScreen = () => {
         </div>
 
         <div className="form-label-group">
-          <input
+          {/* <input
             type="email"
             id="inputEmail"
             name="lemail"
@@ -38,8 +38,18 @@ export const LoginScreen = () => {
             placeholder="Email address"
             onChange={handleInputChange}
             required
+          /> */}
+          <input
+            type="text"
+            id="inputName"
+            name="lname"
+            value={lname}
+            className="form-control"
+            placeholder="Nombre usuario"
+            onChange={handleInputChange}
+            required
           />
-          <label htmlFor="inputEmail">Direccion de correo</label>
+          <label htmlFor="inputName">Nombre usuario</label>
         </div>
 
         <div className="form-label-group">

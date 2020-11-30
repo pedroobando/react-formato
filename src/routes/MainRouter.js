@@ -16,7 +16,7 @@ export const MainRouter = () => {
   return (
     <>
       <NavbarTop />
-      <div className="container-xl">
+      <div className="container-lg">
         <Switch>
           <Route exact path="/salida" component={SalidaScreen} />
           <Route exact path="/salida/:nroOrden" component={SalidaEdit} />

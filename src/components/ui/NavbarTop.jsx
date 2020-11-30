@@ -13,7 +13,6 @@ export const NavbarTop = () => {
   const handleLogOut = () => {
     dispatch(startLogout());
     history.replace('/auth/login');
-    // console.log('logout');
   };
 
   return (

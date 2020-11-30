@@ -3,9 +3,9 @@ import { typesAuth } from '../types/types';
 
 import Swal from 'sweetalert2';
 
-export const startLogin = (email, password) => {
+export const startLogin = (username, password) => {
   return async (dispath) => {
-    const resp = await fetchSinToken('auth', { email, password }, 'POST');
+    const resp = await fetchSinToken('auth', { name: username, password }, 'POST');
     const body = await resp.json();
 
     // console.log(body);

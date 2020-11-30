@@ -2,11 +2,16 @@ import Swal from 'sweetalert2';
 import { typeSalida } from '../types/types';
 import { fetchConToken } from '../../helpers/fetch';
 
-export const salidaStartLoading = async (page = 1, limit = 10, seccion) => {
+export const salidaStartLoading = async (
+  page = 1,
+  limit = 10,
+  seccion,
+  material = ''
+) => {
   let retVal = { ok: false, data: [], totalPages: 0 };
   try {
     const resp = await fetchConToken(
-      `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1&seccion=${seccion}`
+      `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1&seccion=${seccion}&material=${material}`
     );
     const body = await resp.json();
     // console.log(body);
@@ -18,6 +23,23 @@ export const salidaStartLoading = async (page = 1, limit = 10, seccion) => {
   }
   return retVal;
 };
+
+// export const salidaStartSearch = async (page = 1, limit = 10, seccion, search) => {
+//   let retVal = { ok: false, data: [], totalPages: 0 };
+//   try {
+//     const resp = await fetchConToken(
+//       `ordsalida?page=${page}&limit=${limit}&sort=fechaemision&sorttype=-1&seccion=${seccion}&material=${search}`
+//     );
+//     const body = await resp.json();
+//     // console.log(body);
+//     if (body.ok && body.data.length >= 1) {
+//       retVal = body;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   return retVal;
+// };
 
 export const salidaLoadNroOrden = async (nroOrden) => {
   let retVal = {};
