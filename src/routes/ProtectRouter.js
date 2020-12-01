@@ -6,6 +6,7 @@ export const PrivateRouter = ({
   isAuthenticated,
   notAuthenticatedRedirectTo = '/login',
   component: Component,
+
   ...rest
 }) => {
   return (

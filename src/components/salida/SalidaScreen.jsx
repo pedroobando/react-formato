@@ -45,7 +45,6 @@ export const SalidaScreen = ({ history }) => {
   };
 
   const handleSumitSearch = (e, sMaterial) => {
-    // console.log(e, sMaterial);
     e.preventDefault();
     salidaStartLoading(stPage.page, 20, seccion, sMaterial).then((retCollects) => {
       if (isMountedList.current) {
@@ -55,7 +54,6 @@ export const SalidaScreen = ({ history }) => {
         });
       }
     });
-    // console.log('Buscar');
   };
 
   return (

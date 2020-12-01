@@ -42,6 +42,10 @@ export const UsuarioScreen = ({ history }) => {
     setStPage({ ...stPage, page: event.selected + 1 });
   };
 
+  // if (!isAdmin) {
+  //   return <div></div>;
+  // }
+
   return (
     <React.Fragment>
       <div className="row mt-1">

@@ -9,10 +9,22 @@ export const NavbarTop = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { name } = useSelector((state) => state.auth);
+  const { isAdmin } = useSelector((state) => state.auth);
 
   const handleLogOut = () => {
     dispatch(startLogout());
     history.replace('/auth/login');
+  };
+
+  const isAdministrador = () => {
+    return (
+      <div>
+        <NavDropdown.Divider />
+        <NavDropdown.Item as={Link} to="/datos/usuario">
+          Usuarios
+        </NavDropdown.Item>
+      </div>
+    );
   };
 
   return (
@@ -36,10 +48,7 @@ export const NavbarTop = () => {
             <NavDropdown.Item as={Link} to="/datos/vehiculo">
               Vehiculos
             </NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item as={Link} to="/datos/usuario">
-              Usuarios
-            </NavDropdown.Item>
+            {isAdmin && isAdministrador()}
           </NavDropdown>
         </Nav>
         <Nav>

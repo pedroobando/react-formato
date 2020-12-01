@@ -5,7 +5,7 @@ const inititalState = {
   uid: null,
   name: null,
   seccion: null,
-  isAdmin: false,
+  isAdmin: true,
 };
 
 export const authReducer = (state = inititalState, action) => {
@@ -24,6 +24,7 @@ export const authReducer = (state = inititalState, action) => {
         name: null,
         uid: null,
         seccion: null,
+        isAdmin: false,
       };
 
     case typesAuth.authLogout:
@@ -33,6 +34,7 @@ export const authReducer = (state = inititalState, action) => {
         name: null,
         uid: null,
         seccion: null,
+        isAdmin: false,
       };
 
     default:

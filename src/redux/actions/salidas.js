@@ -18,6 +18,10 @@ export const salidaStartLoading = async (
     if (body.ok && body.data.length >= 1) {
       retVal = body;
     }
+
+    if (!body.ok && body.data.message === 'Token not Valid') {
+      console.error('toke no valido');
+    }
   } catch (error) {
     console.log(error);
   }

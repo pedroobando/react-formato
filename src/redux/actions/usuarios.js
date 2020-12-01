@@ -64,7 +64,7 @@ export const usuarioStartUpdate = (dataEntity) => {
       // const { id } = dataEntity.departamento;
       // dataEntity.departamento = id;
 
-      console.log(dataEntity);
+      // console.log(dataEntity);
       const { uid, name } = getState().auth;
       // console.log(dataEntity);
       const resp = await fetchConToken(

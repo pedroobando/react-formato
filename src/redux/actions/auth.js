@@ -19,6 +19,7 @@ export const startLogin = (username, password) => {
           uid: body.data.uid,
           name: body.data.name,
           seccion: body.data.seccion,
+          isAdmin: body.data.isAdmin,
         })
       );
     } else {
@@ -48,7 +49,12 @@ export const startRegister = (name, email, password) => {
       localStorage.setItem('token-init-date', new Date().getTime());
       // const { uid, name } = body.data;
       dispath(
-        login({ uid: body.data.uid, name: body.data.name, seccion: body.data.seccion })
+        login({
+          uid: body.data.uid,
+          name: body.data.name,
+          seccion: body.data.seccion,
+          isAdmin: body.data.isAdmin,
+        })
       );
     } else {
       Swal.fire({
@@ -78,7 +84,12 @@ export const startCheckin = () => {
       localStorage.setItem('token', body.data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
       dispath(
-        login({ uid: body.data.uid, name: body.data.name, seccion: body.data.seccion })
+        login({
+          uid: body.data.uid,
+          name: body.data.name,
+          seccion: body.data.seccion,
+          isAdmin: body.data.isAdmin,
+        })
       );
     } else {
       // Swal.fire({
