@@ -13,6 +13,8 @@ export const startLogin = (username, password) => {
     if (body.ok) {
       localStorage.setItem('token', body.data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
+      localStorage.setItem('seccion', body.data.seccion);
+      localStorage.setItem('admin', body.data.isAdmin);
       // const { uid, name } = body.data;
       dispath(
         login({
@@ -37,7 +39,7 @@ export const startRegister = (name, email, password) => {
   return async (dispath) => {
     const resp = await fetchSinToken(
       'auth/new',
-      { name, fullname: name, email, password },
+      { name, fullname: name, email, password, administrador: true },
       'POST'
     );
     const body = await resp.json();
@@ -52,8 +54,7 @@ export const startRegister = (name, email, password) => {
         login({
           uid: body.data.uid,
           name: body.data.name,
-          seccion: body.data.seccion,
-          isAdmin: body.data.isAdmin,
+          isAdmin: true,
         })
       );
     } else {
@@ -69,8 +70,6 @@ export const startRegister = (name, email, password) => {
 export const startLogout = () => {
   return async (dispath) => {
     localStorage.clear();
-    // localStorage.removeItem('token');
-    // localStorage.removeItem('token-init-date');
     dispath(logout());
   };
 };
@@ -83,12 +82,15 @@ export const startCheckin = () => {
     if (body.ok) {
       localStorage.setItem('token', body.data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
+      const lseccion = localStorage.getItem('seccion');
+      const lisAdmin = localStorage.getItem('admin');
+
       dispath(
         login({
           uid: body.data.uid,
           name: body.data.name,
-          seccion: body.data.seccion,
-          isAdmin: body.data.isAdmin,
+          seccion: lseccion,
+          isAdmin: lisAdmin,
         })
       );
     } else {
