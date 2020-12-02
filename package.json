@@ -1,8 +1,12 @@
 {
   "name": "react-salidas",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "private": true,
+  "author": {
+    "name": "Pedro Obando",
+    "email": "pedroobando@hotmail.com"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@testing-library/jest-dom": "^4.2.4",
