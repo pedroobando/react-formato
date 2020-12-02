@@ -5,9 +5,6 @@ COPY package.json ./
 RUN yarn
 COPY . ./
 RUN yarn run build
-# RUN npm install
-# COPY . .
-# RUN npm run build
 
 #STEP 2 CREATE NGINX SERVER
 FROM nginx:1.19.5-alpine as prod-nginx
