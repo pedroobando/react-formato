@@ -83,7 +83,7 @@ export const startCheckin = () => {
       localStorage.setItem('token', body.data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
       const lseccion = localStorage.getItem('seccion');
-      const lisAdmin = localStorage.getItem('admin');
+      const lisAdmin = localStorage.getItem('admin') == 'true';
 
       dispath(
         login({

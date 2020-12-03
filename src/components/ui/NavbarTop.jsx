@@ -16,17 +16,28 @@ export const NavbarTop = () => {
     history.replace('/auth/login');
   };
 
-  const isAdministrador = () => {
+  const MenuUsuario = () => {
     return (
-      <div>
+      <React.Fragment>
         <NavDropdown.Divider />
         <NavDropdown.Item as={Link} to="/datos/usuario">
           Usuarios
         </NavDropdown.Item>
-      </div>
+      </React.Fragment>
     );
   };
 
+  const MenuDepartamento = () => {
+    return (
+      <React.Fragment>
+        <NavDropdown.Item as={Link} to="/datos/departamento">
+          Departamento
+        </NavDropdown.Item>
+      </React.Fragment>
+    );
+  };
+
+  console.log(isAdmin === 'false');
   return (
     <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Navbar.Brand as={Link} to="/">
@@ -39,16 +50,14 @@ export const NavbarTop = () => {
             Salidas
           </Nav.Link>
           <NavDropdown title="Datos" id="collasible-nav-dropdown">
-            <NavDropdown.Item as={Link} to="/datos/departamento">
-              Departamento
-            </NavDropdown.Item>
+            {isAdmin && MenuDepartamento()}
             <NavDropdown.Item as={Link} to="/datos/persona">
               Personas
             </NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/datos/vehiculo">
               Vehiculos
             </NavDropdown.Item>
-            {isAdmin && isAdministrador()}
+            {isAdmin && MenuUsuario()}
           </NavDropdown>
         </Nav>
         <Nav>
