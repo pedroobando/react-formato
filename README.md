@@ -6,6 +6,13 @@ Aplicacion frontend de creacion de tickes de salida de materiales o equipos, lle
 
 El backend de esta apps, es [apisalidas](https://github.com/pedroobando/apisalidas)
 
+## Produccion
+
+```bash
+# cambiar las rutas del archivo
+  .env.production
+```
+
 ## Guia Docker
 
 ```bash
@@ -16,7 +23,7 @@ El backend de esta apps, es [apisalidas](https://github.com/pedroobando/apisalid
 # puerto_expuesto: puerto_interno
 # -it: modo interactivo
 # -d: modo deployment
-  $ docker run --name frontappsalida -it -d --restart always -p 8080:80 reactsalida
+  $ docker run --name frontendsalida -it -d --restart always -p 8081:80 reactsalida
 
 # Guida de node Docker
   https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
